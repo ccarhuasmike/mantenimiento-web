@@ -1,0 +1,11 @@
+.mat-drawer-container {
+  background-color: transparent !important;
+}
+
+.info-color {
+  color: #156185
+}
+
+.info-color-danger {
+  color: red
+}

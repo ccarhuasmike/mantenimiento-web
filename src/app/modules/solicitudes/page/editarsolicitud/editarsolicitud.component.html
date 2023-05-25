@@ -1,0 +1,1833 @@
+﻿<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">edit</i></div>
+            <!--            <h4 class="card-title">SOLICITUD DE TRABAJO</h4>-->
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
+                  [class.active]="progressRef.isStarted"></mat-progress-bar>
+                <mat-drawer-container class="example-container">
+                  <mat-drawer #drawer [mode]="mode.value" class="example-sidenav" position="end" style="width: 32%;">
+                    <div *ngIf="isLoadingAdjuntosGenerales" class="spinner-container">
+                      <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <div class="container-fluid" style="padding: 12px;">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="page" style="    background: #fbfbfb;">
+                            <div class="timeline">
+                              <div class="timeline__group">
+                                <!--                <span class="timeline__year time" aria-hidden="true">2008</span>-->
+                                <div class="timeline__cards">
+                                  <div class="timeline__card card"
+                                    *ngFor="let itemAdjuntoCloud of listAdjuntosGenerales; let i = index">
+                                    <div class="container-fluid">
+                                      <div class="form-horizontal">
+                                        <div class="row">
+                                          <div class="col-xs-12 col-sm-2">
+                                            <span style="width: 40px;height: 40px;" [ngClass]="{
+                              'icon-txt': itemAdjuntoCloud.NombreExterno.split('.').pop() === 'txt' ,
+                              'icon-ppt': itemAdjuntoCloud.NombreExterno.split('.').pop() === 'ppt' ,
+                              'icon-git': itemAdjuntoCloud.NombreExterno.split('.').pop() === 'git' ,
+                              'icon-pdf': itemAdjuntoCloud.NombreExterno.split('.').pop() === 'pdf' ,
+                              'icon-excel' : itemAdjuntoCloud.NombreExterno.split('.').pop() === 'xlsx',
+                              'icon-img' : itemAdjuntoCloud.NombreExterno.split('.').pop() === 'png' || itemAdjuntoCloud.NombreExterno.split('.').pop() === 'jpeg' || itemAdjuntoCloud.NombreExterno.split('.').pop() === 'jpg'
+                              }"></span>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-9">
+                                            <h6 style="font-size: 12.5px;">{{itemAdjuntoCloud.NombreExterno}}</h6>
+                                            <div class="row">
+                                              <!--                                              <div class="col-sm-6">-->
+                                              <!--                                                <p style="font-size: 12.5px;">{{itemAdjuntoCloud.NombreUsuario}}</p>-->
+                                              <!--                                              </div>-->
+                                              <div class="col-sm-6">
+                                                <p style="font-size: 12.5px;">{{itemAdjuntoCloud.FechaRegistro | date:
+                                                  'dd/MM/yyyy HH:mm'}}</p>
+                                              </div>
+                                              <div class="col-sm-6">
+                                                <p style="font-size: 12.5px;"> {{ formatBytes(itemAdjuntoCloud.Tamanio)
+                                                  }}</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-1">
+                                            <mat-menu #appMenu="matMenu">
+                                              <button (click)="downloadImage(itemAdjuntoCloud)" style="font-size: 12px;"
+                                                mat-menu-item>
+                                                <mat-icon style="font-size: 15px; margin:5px 0 0 0;">file_download
+                                                </mat-icon>
+                                                Descargar
+                                              </button>
+                                              <button (click)="deleteImageGenerales(itemAdjuntoCloud)"
+                                                style="font-size: 12px;" mat-menu-item>
+                                                <mat-icon style="font-size: 15px; margin:5px 0 0 0;">delete</mat-icon>
+                                                Eliminar
+                                              </button>
+                                            </mat-menu>
+                                            <a style="cursor:pointer;color: #979797;" mat-icon-button
+                                              [matMenuTriggerFor]="appMenu">
+                                              <mat-icon>more_vert</mat-icon>
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!--              <div class="timeline__group">-->
+                              <!--                <span class="timeline__year time" aria-hidden="true">2014</span>-->
+                              <!--                <div class="timeline__cards">-->
+                              <!--                  <div class="timeline__card card">-->
+                              <!--                    <header class="card__header">-->
+                              <!--                      <time class="time" datetime="2008-07-14">-->
+                              <!--                        <span class="time__day">14</span>-->
+                              <!--                        <span class="time__month">Jul</span>-->
+                              <!--                      </time>-->
+                              <!--                    </header>-->
+                              <!--                    <div class="card__content">-->
+                              <!--                      <p>Travels to France, Italy, Spain, and Peru. After completing fashion editorial in Lima,-->
+                              <!--                        prolongs stay to make portraits of local people in a daylight studio</p>-->
+                              <!--                    </div>-->
+                              <!--                  </div>-->
+                              <!--                </div>-->
+                              <!--              </div>-->
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </mat-drawer>
+                  <mat-drawer-content style="overflow: hidden;">
+                    <div class="container-fluid" style="padding: 12px;">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <mat-accordion class="example-headers-align" multi>
+                            <mat-expansion-panel [expanded]="true">
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  SOLICITUD DE TRABAJO
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                  <div class="container-fluid">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <h5><strong style="font-weight: 580;">{{datosSiniestro.Codigo}}</strong></h5>
+                                      </div>
+                                      <div class="offset-md-1 col-md-5">
+                                        <h5 class="text-lg-end"><strong style="font-weight: 580;">
+                                            {{datosSiniestro.Estado}} </strong> <span
+                                            *ngIf="datosSiniestro.SubEstado!==''" class="text-lg-end"
+                                            style="color:red;font-size: 12px;font-weight: 400;">
+                                            {{(datosSiniestro.SubEstado)}}</span>
+                                        </h5>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <div class="row">
+                                <div class="col-md-12" *ngIf="contentLoaded">
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAtender"
+                                    (click)="btnAtenderSolicitud_onClick()" mat-raised-button>
+                                    <mat-icon>headset_mic</mat-icon>
+                                    Atender
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnRechazoAsignacionSolicitud"
+                                    mat-raised-button>
+                                    <mat-icon>back_hand</mat-icon>
+                                    Rechazar Asignación
+                                  </button>
+                                  <!-- <button class="btn btn-primary" (click)="btnResturarEstadoSolicitud_Click()"  mat-raised-button>
+                                    <mat-icon>do_not_disturb_on</mat-icon>
+                                    Restaurar Estado
+                                  </button>
+                                  <button class="btn btn-primary" (click)="btnCambiarTipoSolicitud_Click()"  mat-raised-button>
+                                    <mat-icon>do_not_disturb_on</mat-icon>
+                                    Cambiar Tipo Solicitud
+                                  </button> 
+                                  <button class="btn btn-primary" (click)="btnAnularSolicitud_Click()"  mat-raised-button>
+                                    <mat-icon>do_not_disturb_on</mat-icon>
+                                    Anular Solicitud
+                                  </button>-->
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarRequerimiento"
+                                    mat-raised-button (click)="btnAprobarRequerimiento_Click()">
+                                    <mat-icon>done</mat-icon>
+                                    Aprobar Requerimiento
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarRequerimiento"
+                                    mat-raised-button (click)="btnRechazarRequerimiento_onClick()">
+                                    <mat-icon>close</mat-icon>
+                                    Rechazar Requerimiento
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarPresupuesto"
+                                    mat-raised-button (click)="btnAprobarPresupuesto_onClick()">
+                                    <mat-icon>done</mat-icon>
+                                    Aprobar Presupuesto
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnRevisarPresupuesto" mat-raised-button
+                                    (click)="btnRevisarPresupuesto_onClick()">
+                                    Revisar Presupuesto
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarPresupuesto"
+                                    mat-raised-button (click)="btnRechazarPresupuesto_onClick()">
+                                    <mat-icon>close</mat-icon>
+                                    Rechazar Presupuesto
+                                  </button>
+                                  <button class="btn btn-primary"
+                                    *ngIf="datosAcciones.mostrarSolicitarAprobacionPresupuesto" mat-raised-button
+                                    (click)="btnSolicitarPresupuesto_onClick()">
+                                    Solicitar Aprobación del
+                                    Presupuesto
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnRegistroSolicitud" mat-raised-button>Enviar
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnGrabarSolicitudEnFranqueo"
+                                    mat-raised-button>
+                                    <mat-icon>save</mat-icon>
+                                    Guardar
+                                  </button>
+                                  <button class="btn btn-primary" (click)="btnFranquearRequerimiento_Click()"
+                                    *ngIf="datosAcciones.mostrarFranquear" mat-raised-button>
+                                    <mat-icon>co_present</mat-icon>
+                                    Franquear
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarDarConformidad"
+                                    (click)="btnDarConformidad_Click()" mat-raised-button>Dar
+                                    Conformidad
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnReasignarInspector" mat-raised-button>
+                                    Reasignar
+                                    supervisor cliente
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnActualizarSubEstadoUnidadMantenimiento"
+                                    mat-raised-button color="primary">Actualizar subEstado
+                                  </button>
+                                  <button class="btn btn-primary" (click)="btnEnviarAprobarTarifado_Click()"
+                                    *ngIf="datosAcciones.mostrarEnviarAprobarTarifado" mat-raised-button>
+                                    Enviar Aprobar Tarifado
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarTarifado"
+                                    (click)="btnAprobarTarifado_Click()" mat-raised-button>Aprobar
+                                    Tarifado
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarAprobarTarifado"
+                                    (click)="btnRechazarTarifado_Click()" mat-raised-button>Rechazar
+                                    Tarifado
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnSolicitarFranqueo"
+                                    mat-raised-button>Solicitar
+                                    Franqueo
+                                  </button>
+
+                                  <button *ngIf="datosAcciones.mostrarLlegadaASitio" (click)="btnLlegadaASitio()"
+                                    matTooltip="Llegada a Sitio" mat-raised-button class="btn btn-primary">
+                                    <mat-icon>hourglass_empty</mat-icon> Llegada a Sitio
+                                  </button>
+                                  <button *ngIf="datosAcciones.SolicitarParadaReloj" (click)="btnSolicitarParadaReloj()"
+                                    matTooltip="Solicitar Parada de Reloj" mat-raised-button class="btn btn-primary">
+                                    <mat-icon>schedule</mat-icon> Solicitar Parada de Reloj
+                                  </button>
+                                  <button *ngIf="datosAcciones.mostrarAprobarRechazarParadaReloj"
+                                    (click)="btnAprobarParadaReloj()" matTooltip="Aprobar Parada de Reloj"
+                                    mat-raised-button class="btn btn-primary">
+                                    <mat-icon>alarm_on</mat-icon>Aprobar Parada de Reloj
+                                  </button>
+                                  <button *ngIf="datosAcciones.mostrarAprobarRechazarParadaReloj"
+                                    (click)="btnRechazarParadaReloj()" matTooltip="Rechazar Parada de Reloj"
+                                    mat-raised-button class="btn btn-primary">
+                                    <mat-icon>alarm_off</mat-icon>Rechazar Parada de Reloj
+                                  </button>
+                                  <button *ngIf="datosAcciones.ReactivarParadaReloj" (click)="btnReactivarParadaReloj()"
+                                    matTooltip="Reactivar Parada de Reloj" mat-raised-button class="btn btn-primary">
+                                    <mat-icon>more_time</mat-icon>Reactivar Parada de Reloj
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="datosAcciones.mostrarEnviarProveedor"
+                                    mat-raised-button (click)="btnEnvioProveedor_onClick()">
+                                    <mat-icon>send</mat-icon>
+                                    Enviar Proveedor
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnRechazarTrabajoSolicitud" mat-raised-button>
+                                    Rechazar
+                                    Trabajo
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnAceptarRechazoSolicitud" mat-raised-button>
+                                    Aceptar
+                                    Rechazo Asignación
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="btnCancelarRechazoSolicitud" mat-raised-button>
+                                    Cancelar
+                                    Rechazo Asignación
+                                  </button>
+                                  <button class="btn btn-primary" *ngIf="imbEnviarFacturacion" mat-raised-button
+                                    (click)="imbEnviarFacturacion_Click()">
+                                    <mat-icon>send</mat-icon>
+                                    Enviar a Facturación
+                                  </button>
+                                  <button class="btn btn-primary" mat-raised-button (click)="Cancelar()">
+                                    <mat-icon>block</mat-icon>
+                                    Cancelar
+                                  </button>
+                                  <button class="btn btn-primary" mat-raised-button
+                                    (click)="drawer.toggle() ; btnAdjuntos_Click()">
+                                    <mat-icon>attach_file</mat-icon>
+                                    Adjuntos
+                                  </button>
+                                </div>
+                                <ngx-skeleton-loader class="col-md-12" *ngIf="!contentLoaded" count="1"
+                                  appearance="line" animation="progress" [theme]="{                                          
+                              height: '50px',
+                              'border-radius': 2
+                              }">
+                                </ngx-skeleton-loader>
+
+                              </div>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="matexpansionpaneldatosgenerales">
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  Datos Generales
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+
+                              <fieldset class="form-group  p-3">
+                                <legend class="w-auto px-2">DATOS GENERALES</legend>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Cliente</mat-label>
+                                      <input matInput placeholder="Cliente" readonly="readonly"
+                                        [(ngModel)]="datosSiniestro.Cliente">
+                                    </mat-form-field>
+
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Solicitante</mat-label>
+                                      <input matInput placeholder="Cod.Sol.Ext" readonly="readonly"
+                                        [(ngModel)]="datosSiniestro.Solicitante">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Fec. Registro</mat-label>
+                                      <input matInput placeholder="Fec. Registro" readonly="readonly"
+                                        [(ngModel)]="lblFechaRegistro">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+
+
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Inmueble - Edificio - Nivel - Area</mat-label>
+                                      <input matInput placeholder="Inmueble" readonly="readonly"
+                                        [(ngModel)]="datosSiniestro.Ubicacion">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Teléfono contacto</mat-label>
+                                      <input matInput placeholder="Teléfono contacto"
+                                        [(ngModel)]="datosSiniestro.TelefonoContacto">
+                                    </mat-form-field>
+
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Referencia contacto</mat-label>
+                                      <input matInput placeholder="Referencia contacto"
+                                        [(ngModel)]="datosSiniestro.ReferenciaContacto">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                </div>
+                                <div class="row">
+
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> CeCo</mat-label>
+                                      <input matInput placeholder="Inmueble" readonly="readonly">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                      <mat-label> Asociado a OT</mat-label>
+                                      <input matInput placeholder="Asociado a OT" readonly="readonly"
+                                        [(ngModel)]="datosSiniestro.codigoOT">
+                                    </mat-form-field>
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                      animation="progress" [theme]="{                                          
+                                       height: '50px',
+                                      'border-radius': 2
+                                    }">
+                                    </ngx-skeleton-loader>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-4" *ngIf="datosSiniestro.esFlujoRequerimiento && contentLoaded">
+                                    <mat-form-field appearance="outline">
+                                      <mat-label> Aprobador(es) Requerimiento:</mat-label>
+                                      <textarea matInput placeholder="Nivel" readonly="readonly"
+                                        [(ngModel)]="AprobadoresRequerimientos"></textarea>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4" *ngIf="contentLoaded">
+                                    <mat-form-field appearance="outline">
+                                      <mat-label> Cod. Ext</mat-label>
+                                      <input matInput placeholder="Cod. Ext" readonly="readonly">
+                                    </mat-form-field>
+                                  </div>
+
+                                  <ngx-skeleton-loader class="col-md-8" *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                    height: '50px',
+                                    'border-radius': 2
+                                    }">
+                                  </ngx-skeleton-loader>
+                                </div>
+                              </fieldset>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  Datos Adicionales
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <div class="row">
+                                <div (mouseover)='over()' (mouseout)='out()'
+                                  [ngClass]="{'col-lg-1 col-md-6 ' : flagminimizeDatosAdicionales == true, 'col-lg-2 col-md-6 col-lg-2-personalizado' : flagminimizeDatosAdicionales == false}">
+                                  <ul class="nav nav-pills nav-pills-rose nav-pills-icons flex-column " role="tablist">
+                                    <li class="nav-item">
+                                      <a *ngIf="contentLoaded" class="nav-link active" data-toggle="tab"
+                                        href="#linkDatosGenerales" role="tablist">
+                                        <i class="material-icons">dashboard</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Datos Generales</p>
+                                      </a>
+                                      <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                        animation="progress" [theme]="{                                          
+                                      height: '120px',
+                                      'border-radius': 2
+                                      }">
+                                      </ngx-skeleton-loader>
+                                    </li>
+                                    <li class="nav-item"
+                                      *ngIf="datosAcciones.mostrarSeccionPresupuesto && datosSiniestro.presupuesto!==null">
+                                      <a class="nav-link" data-toggle="tab" href="#linkPresupuesto" role="tablist">
+                                        <i class="material-icons">note_alt</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Presupuesto</p>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item" *ngIf="datosAcciones.mostrarSeccionTarifados">
+                                      <a class="nav-link" data-toggle="tab" href="#linkTarifados"
+                                        (click)="click_tabTarifados()" role="tablist">
+                                        <i class="material-icons">attach_money</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Tarifados</p>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item" *ngIf="datosAcciones.mostrarSeccionGastos">
+                                      <a class="nav-link" data-toggle="tab" href="#linkGastos"
+                                        (click)="click_tabGastos()" role="tablist">
+                                        <i class="material-icons">payments</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Gastos </p>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item"
+                                      *ngIf="datosAcciones.mostrarSeccionReporteTecnico  && datosSiniestro.reporteTecnico!==null">
+                                      <a class="nav-link" data-toggle="tab" href="#linkReporteTecnico" role="tablist">
+                                        <i class="material-icons">receipt_long</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Reporte Tecnico</p>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item" *ngIf="datosAcciones.mostrarSeccionEquipos">
+                                      <a class="nav-link" data-toggle="tab" href="#linkEquipo" role="tablist">
+                                        <i class="material-icons">receipt_long</i>
+                                        <p
+                                          [ngStyle]="{'display': (flagminimizeDatosAdicionales == true) ? 'none' : 'block'}">
+                                          Equipos</p>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div
+                                  [ngClass]="{'col-lg-9 ' : flagminimizeDatosAdicionales == true, 'col-lg-8 col-lg-8-personalizado ' : flagminimizeDatosAdicionales == false}"
+                                  style="box-shadow: 0 18px 65px 0 rgb(0 0 2 / 12%);">
+                                  <div class="navbar-minimize">
+                                    <a *ngIf="contentLoaded" href="javascript:void(0);"
+                                      (click)="minimizeDatosAdicionales()"
+                                      class="btn btn-just-icon btn-white btn-fab btn-round">
+                                      <i
+                                        class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                                      <i
+                                        class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+                                    </a>
+
+                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" animation="progress-dark"
+                                      appearance="circle">
+                                    </ngx-skeleton-loader>
+
+                                  </div>
+                                  <div class="tab-content">
+                                    <div class="tab-pane active" id="linkDatosGenerales">
+                                      <fieldset class="form-group  p-4">
+                                        <legend class="w-auto px-2">DATOS GENERALES</legend>
+                                        <div class="row">
+
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                              <mat-label> Tipo</mat-label>
+                                              <input matInput placeholder="Tipo" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.TipoSolicitud">
+                                            </mat-form-field>
+                                            <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                              animation="progress" [theme]="{                                          
+                                             height: '50px',
+                                            'border-radius': 2
+                                          }">
+                                            </ngx-skeleton-loader>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                              <mat-label> Grupo / Unidad Mantenimiento</mat-label>
+                                              <input matInput readonly="readonly"
+                                                placeholder="Grupo / Unidad Mantenimiento"
+                                                [(ngModel)]="datosSiniestro.GrupoUnidadMantenimiento">
+                                            </mat-form-field>
+                                            <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                              animation="progress" [theme]="{                                          
+                                              height: '50px',
+                                              'border-radius': 2
+                                              }">
+                                            </ngx-skeleton-loader>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                              <mat-label> Clasificación de Problema</mat-label>
+                                              <input matInput readonly="readonly"
+                                                placeholder="Clasificación de Problema"
+                                                [(ngModel)]="datosSiniestro.ClasificacionProblema">
+                                            </mat-form-field>
+                                            <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                              animation="progress" [theme]="{                                          
+                                              height: '50px',
+                                              'border-radius': 2
+                                              }">
+                                            </ngx-skeleton-loader>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12"
+                                            *ngIf="datosSiniestro.Proveedor!==null &&  contentLoaded">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label>Proveedor</mat-label>
+                                              <input matInput placeholder="Proveedor" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.Proveedor">
+                                            </mat-form-field>
+                                          </div>
+                                          <ngx-skeleton-loader class="col-md-12" *ngIf="!contentLoaded" count="1"
+                                            appearance="line" animation="progress" [theme]="{                                          
+                                              height: '50px',
+                                              'border-radius': 2
+                                              }">
+                                          </ngx-skeleton-loader>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline" *ngIf="contentLoaded">
+                                              <mat-label> Descripción Detallada:</mat-label>
+                                              <textarea matInput placeholder="Descripción Detallada" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.DescripcionDetallada"></textarea>
+                                            </mat-form-field>
+
+                                            <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" appearance="line"
+                                              animation="progress" [theme]="{                                          
+                                            height: '75px',
+                                            'border-radius': 2
+                                            }">
+                                            </ngx-skeleton-loader>
+
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6"
+                                            *ngIf="datosSiniestro.esFlujoRequerimiento  && datosSiniestro.MontoConciliadoRequerimiento !=null">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Monto Conciliado:</mat-label>
+                                              <input matInput type="number" placeholder="Monto Conciliado"
+                                                readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.MontoConciliadoRequerimiento">
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-6"
+                                            *ngIf="datosSiniestro.esFlujoRequerimiento  && datosSiniestro.PlazoEjecucionRequerimiento !=null">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Plazo Estimado de Término:</mat-label>
+                                              <input matInput type="number" placeholder="Plazo Estimado de Término"
+                                                readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.PlazoEjecucionRequerimiento">
+                                              <span matSuffix>Dias</span>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="tab-pane content-fadeIn" id="linkPresupuesto"
+                                      *ngIf="datosAcciones.mostrarSeccionPresupuesto && datosSiniestro.presupuesto!==null">
+                                      <fieldset class="form-group  p-4">
+                                        <legend class="w-auto px-2">PRESUPUESTO</legend>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label>Elaborador</mat-label>
+                                              <input matInput placeholder="Elaborador" readonly="readonly"
+                                                [(ngModel)]='datosSiniestro.presupuesto.InspectorElaboradorPresupuesto'>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Monto Total</mat-label>
+                                              <input matInput type="number" placeholder="Monto Total"
+                                                readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.presupuesto.MontoPresupuesto">
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label>Moneda</mat-label>
+                                              <input matInput placeholder="Moneda" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.presupuesto.MonedaPresupuesto">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Proveedor Recomendado</mat-label>
+                                              <input matInput placeholder="Ambiente" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.presupuesto.ProveedorPresupuesto">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Indicaciones</mat-label>
+                                              <input matInput placeholder="Ambiente" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.presupuesto.PresupuestoIndicaciones">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row" *ngIf="AprobadoresPresupuesto!==''">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Aprob.de Presupuesto</mat-label>
+                                              <textarea readonly="readonly" matInput placeholder="Aprob.de Presupuesto"
+                                                [(ngModel)]="AprobadoresPresupuesto"></textarea>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <div class="example-container mat-elevation-z8">
+                                              <mat-table #table [dataSource]="dataSourceAdjuntoPresupuesto">
+                                                <ng-container matColumnDef="menu" stickyEnd>
+                                                  <mat-header-cell [ngClass]="'w-50'" *matHeaderCellDef
+                                                    class="mat-column-menu">
+                                                  </mat-header-cell>
+                                                  <mat-cell [ngClass]="'w-50'" class="mat-column-menu"
+                                                    *matCellDef="let row; let i=index;">
+                                                    <mat-menu #appMenu="matMenu">
+                                                      <button (click)="btnDescargarAdjuntoPresupuesto(row)"
+                                                        style="font-size: 12px;" mat-menu-item>
+                                                        <mat-icon style="font-size: 15px; margin:5px 0 0 0;">
+                                                          file_download
+                                                        </mat-icon>
+                                                        Descargar
+                                                      </button>
+                                                      <button (click)="btnEliminarAdjuntoPresupuesto(row)"
+                                                        style="font-size: 12px;" mat-menu-item>
+                                                        <mat-icon style="font-size: 15px; margin:5px 0 0 0;">
+                                                          delete
+                                                        </mat-icon>
+                                                        Eliminar
+                                                      </button>
+                                                      <!--          <button (click)="openDialogAnular(row)" style="font-size: 12px;" mat-menu-item><mat-icon style="font-size: 15px; margin:5px 0 0 0;">clear</mat-icon> Anular oferta</button>-->
+                                                    </mat-menu>
+                                                    <a style="cursor:pointer;color: #979797;" mat-icon-button
+                                                      [matMenuTriggerFor]="appMenu">
+                                                      <mat-icon>more_vert</mat-icon>
+                                                    </a>
+                                                  </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="NombreExterno">
+                                                  <mat-header-cell mat-header-cell *matHeaderCellDef> Nombre Archivo
+                                                  </mat-header-cell>
+                                                  <mat-cell mat-cell *matCellDef="let element">
+                                                    {{element.NombreExterno}}
+                                                  </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Tipo">
+                                                  <mat-header-cell mat-header-cell *matHeaderCellDef> Tipo
+                                                  </mat-header-cell>
+                                                  <mat-cell mat-cell *matCellDef="let element">
+                                                    <span style="width: 40px;height: 40px;" [ngClass]="{
+                                                      'icon-pdf': element.NombreExterno.split('.').pop() === 'pdf' ,
+                                                      'icon-excel' : element.NombreExterno.split('.').pop() === 'xlsx',
+                                                      'icon-img' : element.NombreExterno.split('.').pop() === 'png' || element.NombreExterno.split('.').pop() === 'jpeg' || element.NombreExterno.split('.').pop() === 'jpg'
+                                                      }" class=""></span>
+                                                  </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="NombreUsuario">
+                                                  <mat-header-cell mat-header-cell *matHeaderCellDef> Usuario
+                                                  </mat-header-cell>
+                                                  <mat-cell mat-cell *matCellDef="let element">
+                                                    {{element.NombreUsuario}} </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="FechaRegistro">
+                                                  <mat-header-cell mat-header-cell *matHeaderCellDef> Fecha Carga
+                                                  </mat-header-cell>
+                                                  <mat-cell mat-cell *matCellDef="let element">
+                                                    {{element.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}} </mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="displayedColumnsPresupuesto">
+                                                </mat-header-row>
+                                                <mat-row *matRowDef="let row; columns: displayedColumnsPresupuesto;">
+                                                </mat-row>
+                                                <tr class="mat-row no-data-row" *matNoDataRow>
+                                                  <td class="mat-cell" colspan="4">No se encontraron registro.</td>
+                                                </tr>
+                                              </mat-table>
+                                              <mat-paginator #paginatorPresupuesto [pageSize]="5"
+                                                [pageSizeOptions]="[5, 10, 20]">
+                                              </mat-paginator>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="tab-pane content-fadeIn" id="linkTarifados"
+                                      *ngIf="datosAcciones.mostrarSeccionTarifados">
+                                      <fieldset class="form-group  p-4">
+                                        <legend class="w-auto px-2">TARIFADOS</legend>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-tab-group (selectedTabChange)="SelecteChangeTabGroupTarifados($event)">
+                                              <mat-tab label="Servicios">
+                                                <ng-template matTabContent>
+                                                  <br>
+                                                  <div class="form-horizontal">
+                                                    <div class="row">
+                                                      <div class="col-md-10">
+                                                        <mat-form-field appearance="outline">
+                                                          <mat-label> Variación +/-</mat-label>
+                                                          <input matInput type="number"
+                                                            [(ngModel)]="porcentajeVariacionServicio"
+                                                            placeholder="Variación +/-">
+                                                          <span matSuffix>%</span>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnAplicarPorcServicio()">
+                                                          <mat-icon>done</mat-icon>
+                                                          Aplicar
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="Cancelar()">
+                                                          <mat-icon>attach_money</mat-icon>
+                                                          DEL GASTO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioDelServicio()">
+                                                          <mat-icon>sell</mat-icon>
+                                                          DEL TARIFARIO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioServicio()">
+                                                          <mat-icon>add</mat-icon>
+                                                          NUEVO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEditarTarifarioServicio()">
+                                                          <mat-icon>edit</mat-icon>
+                                                          EDITAR
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEliminarTarifarioServicio()">
+                                                          <mat-icon>close</mat-icon>
+                                                          ELIMINAR
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <div class="example-container mat-elevation-z8">
+                                                          <mat-table #table [dataSource]="dataSourceTarifadosServicio">
+                                                            <ng-container matColumnDef="select">
+                                                              <mat-header-cell [ngClass]="'w-75'" mat-header-cell
+                                                                *matHeaderCellDef>
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (change)="$event ? masterToggleTarifadoServicio() : null"
+                                                                  [checked]="selectionTarifadoServicio.hasValue() && isAllSelectedTarifadoServicio()"
+                                                                  [indeterminate]="selectionTarifadoServicio.hasValue() && !isAllSelectedTarifadoServicio()">
+                                                                </mat-checkbox>
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell [ngClass]="'w-75'"
+                                                                *matCellDef="let row">
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (click)="$event.stopPropagation()"
+                                                                  (change)="$event ? selectionTarifadoServicio.toggle(row) : null"
+                                                                  [checked]="selectionTarifadoServicio.isSelected(row)">
+                                                                </mat-checkbox>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Codigo">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Codigo
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Codigo}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreItem">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Servicio
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreItem}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreUnidadMedida">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Unidad Medida
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreUnidadMedida}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreMoneda">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Moneda
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreMoneda}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="PrecioUnitario">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Precio Unit
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.PrecioUnitario}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Cantidad">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Cantidad
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Cantidad}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="MontoTotal">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Monto Total
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.MontoTotal}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Fija">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Fija
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Fija">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Var">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Var
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Variable">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Ind">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Ind
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Independiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Pen">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Pen
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Pendiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row
+                                                              *matHeaderRowDef="displayedColumnsTarifadosServicio">
+                                                            </mat-header-row>
+                                                            <mat-row
+                                                              *matRowDef="let row; columns: displayedColumnsTarifadosServicio;">
+                                                            </mat-row>
+                                                            <tr class="mat-row no-data-row" *matNoDataRow>
+                                                              <td class="mat-cell" colspan="4">No se encontraron
+                                                                registro.
+                                                              </td>
+                                                            </tr>
+                                                          </mat-table>
+                                                          <!--                    <div *ngIf="isLoading" class="spinner-container">-->
+                                                          <!--                      <mat-progress-spinner-->
+                                                          <!--                        [diameter]="50"-->
+                                                          <!--                        color="primary"-->
+                                                          <!--                        mode="indeterminate">-->
+                                                          <!--                      </mat-progress-spinner>-->
+                                                          <!--                    </div>-->
+                                                          <!--                                  <mat-paginator #paginatorPresupuesto-->
+                                                          <!--                                                 [pageSize]="5"-->
+                                                          <!--                                                 [pageSizeOptions]="[5, 10, 20]">-->
+                                                          <!--                                  </mat-paginator>-->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                  </div>
+                                                </ng-template>
+                                              </mat-tab>
+                                              <mat-tab label="Materiales">
+                                                <ng-template matTabContent>
+                                                  <br>
+                                                  <div class="form-horizontal">
+                                                    <div class="row">
+                                                      <div class="col-md-10">
+                                                        <mat-form-field appearance="outline">
+                                                          <mat-label> Variación +/-</mat-label>
+                                                          <input matInput type="number"
+                                                            [(ngModel)]="porcentajeVariacionMateriales"
+                                                            placeholder="Variación +/-">
+                                                          <span matSuffix>%</span>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnAplicarPorcMateriales()">
+                                                          <mat-icon>done</mat-icon>
+                                                          Aplicar
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="Cancelar()">
+                                                          <mat-icon>attach_money</mat-icon>
+                                                          DEL GASTO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioDelMateriales()">
+                                                          <mat-icon>sell</mat-icon>
+                                                          DEL TARIFARIO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioMateriales()">
+                                                          <mat-icon>add</mat-icon>
+                                                          NUEVO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEditarTarifarioMateriales()">
+                                                          <mat-icon>edit</mat-icon>
+                                                          EDITAR
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEliminarTarifarioMateriales()">
+                                                          <mat-icon>close</mat-icon>
+                                                          ELIMINAR
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <div class="example-container mat-elevation-z8">
+                                                          <mat-table #table
+                                                            [dataSource]="dataSourceTarifadosMateriales">
+                                                            <ng-container matColumnDef="select">
+                                                              <mat-header-cell [ngClass]="'w-75'" mat-header-cell
+                                                                *matHeaderCellDef>
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (change)="$event ? masterToggleTarifadoMateriales() : null"
+                                                                  [checked]="selectionTarifadoMateriales.hasValue() && isAllSelectedTarifadoMateriales()"
+                                                                  [indeterminate]="selectionTarifadoMateriales.hasValue() && !isAllSelectedTarifadoMateriales()">
+                                                                </mat-checkbox>
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell [ngClass]="'w-75'"
+                                                                *matCellDef="let row">
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (click)="$event.stopPropagation()"
+                                                                  (change)="$event ? selectionTarifadoMateriales.toggle(row) : null"
+                                                                  [checked]="selectionTarifadoMateriales.isSelected(row)">
+                                                                </mat-checkbox>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Codigo">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Codigo
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Codigo}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreItem">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Material
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreItem}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreUnidadMedida">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Unidad Medida
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreUnidadMedida}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreMoneda">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Moneda
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreMoneda}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="PrecioUnitario">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Precio Unit
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.PrecioUnitario}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Cantidad">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Cantidad
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Cantidad}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="MontoTotal">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Monto Total
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.MontoTotal}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Fija">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Fija
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Fija">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Var">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Var
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Variable">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Ind">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Ind
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Independiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Pen">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Pen
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Pendiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row
+                                                              *matHeaderRowDef="displayedColumnsTarifadosServicio">
+                                                            </mat-header-row>
+                                                            <mat-row
+                                                              *matRowDef="let row; columns: displayedColumnsTarifadosServicio;">
+                                                            </mat-row>
+                                                            <tr class="mat-row no-data-row" *matNoDataRow>
+                                                              <td class="mat-cell" colspan="4">No se encontraron
+                                                                registro.
+                                                              </td>
+                                                            </tr>
+                                                          </mat-table>
+                                                          <!--                    <div *ngIf="isLoading" class="spinner-container">-->
+                                                          <!--                      <mat-progress-spinner-->
+                                                          <!--                        [diameter]="50"-->
+                                                          <!--                        color="primary"-->
+                                                          <!--                        mode="indeterminate">-->
+                                                          <!--                      </mat-progress-spinner>-->
+                                                          <!--                    </div>-->
+                                                          <!--                                  <mat-paginator #paginatorPresupuesto-->
+                                                          <!--                                                 [pageSize]="5"-->
+                                                          <!--                                                 [pageSizeOptions]="[5, 10, 20]">-->
+                                                          <!--                                  </mat-paginator>-->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                  </div>
+                                                </ng-template>
+                                              </mat-tab>
+                                            </mat-tab-group>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="tab-pane content-fadeIn" id="linkGastos"
+                                      *ngIf="datosAcciones.mostrarSeccionGastos">
+                                      <fieldset class="form-group  p-4">
+                                        <legend class="w-auto px-2">GASTOS</legend>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-tab-group (selectedTabChange)="SelecteChangeTabGroupTarifados($event)">
+                                              <mat-tab label="Servicios">
+                                                <ng-template matTabContent>
+                                                  <br>
+                                                  <div class="form-horizontal">
+
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoGastosServicio()">
+                                                          <mat-icon>add</mat-icon>
+                                                          NUEVO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEditarGastosServicio()">
+                                                          <mat-icon>edit</mat-icon>
+                                                          EDITAR
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEliminarGastosServicio()">
+                                                          <mat-icon>close</mat-icon>
+                                                          ELIMINAR
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <div class="example-container mat-elevation-z8">
+                                                          <mat-table #table [dataSource]="dataSourceGatosServicio">
+                                                            <ng-container matColumnDef="select">
+                                                              <mat-header-cell [ngClass]="'w-75'" mat-header-cell
+                                                                *matHeaderCellDef>
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (change)="$event ? masterToggleGastosServicio() : null"
+                                                                  [checked]="selectionGastosServicio.hasValue() && isAllSelectedGastosServicio()"
+                                                                  [indeterminate]="selectionGastosServicio.hasValue() && !isAllSelectedGastosServicio()">
+                                                                </mat-checkbox>
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell [ngClass]="'w-75'"
+                                                                *matCellDef="let row">
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (click)="$event.stopPropagation()"
+                                                                  (change)="$event ? selectionGastosServicio.toggle(row) : null"
+                                                                  [checked]="selectionGastosServicio.isSelected(row)">
+                                                                </mat-checkbox>
+                                                              </mat-cell>
+                                                            </ng-container>
+
+                                                            <ng-container matColumnDef="NombreItem">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Servicio
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreItem === null ? 'Otros':
+                                                                element.NombreItem}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Cantidad">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Cant
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Cantidad}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreUnidadMedida">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Unidad
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreUnidadMedida}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreMoneda">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Moneda
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreMoneda}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="PrecioUnitario">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Precio Unit
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.PrecioUnitario}} </mat-cell>
+                                                            </ng-container>
+
+                                                            <ng-container matColumnDef="MontoTotal">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Monto Total
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.MontoTotal}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Documento">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Documento
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.SerieDocumento}} - {{element.NumeroDocumento}}
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Descripcion">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Descripcion Servicio
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Descripcion}} </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row
+                                                              *matHeaderRowDef="displayedColumnsGastosServicio">
+                                                            </mat-header-row>
+                                                            <mat-row
+                                                              *matRowDef="let row; columns: displayedColumnsGastosServicio;">
+                                                            </mat-row>
+                                                            <tr class="mat-row no-data-row" *matNoDataRow>
+                                                              <td class="mat-cell" colspan="4">No se encontraron
+                                                                registro.
+                                                              </td>
+                                                            </tr>
+                                                          </mat-table>
+                                                          <!--                    <div *ngIf="isLoading" class="spinner-container">-->
+                                                          <!--                      <mat-progress-spinner-->
+                                                          <!--                        [diameter]="50"-->
+                                                          <!--                        color="primary"-->
+                                                          <!--                        mode="indeterminate">-->
+                                                          <!--                      </mat-progress-spinner>-->
+                                                          <!--                    </div>-->
+                                                          <!--                                  <mat-paginator #paginatorPresupuesto-->
+                                                          <!--                                                 [pageSize]="5"-->
+                                                          <!--                                                 [pageSizeOptions]="[5, 10, 20]">-->
+                                                          <!--                                  </mat-paginator>-->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                  </div>
+                                                </ng-template>
+                                              </mat-tab>
+                                              <mat-tab label="Materiales">
+                                                <ng-template matTabContent>
+                                                  <br>
+                                                  <div class="form-horizontal">
+                                                    <div class="row">
+                                                      <div class="col-md-10">
+                                                        <mat-form-field appearance="outline">
+                                                          <mat-label> Variación +/-</mat-label>
+                                                          <input matInput type="number"
+                                                            [(ngModel)]="porcentajeVariacionMateriales"
+                                                            placeholder="Variación +/-">
+                                                          <span matSuffix>%</span>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnAplicarPorcMateriales()">
+                                                          <mat-icon>done</mat-icon>
+                                                          Aplicar
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="Cancelar()">
+                                                          <mat-icon>attach_money</mat-icon>
+                                                          DEL GASTO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioDelMateriales()">
+                                                          <mat-icon>sell</mat-icon>
+                                                          DEL TARIFARIO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnNuevoTarifarioMateriales()">
+                                                          <mat-icon>add</mat-icon>
+                                                          NUEVO
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEditarTarifarioMateriales()">
+                                                          <mat-icon>edit</mat-icon>
+                                                          EDITAR
+                                                        </button>
+                                                        <button class="btn btn-primary" mat-raised-button
+                                                          (click)="btnEliminarTarifarioMateriales()">
+                                                          <mat-icon>close</mat-icon>
+                                                          ELIMINAR
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                      <div class="col-md-12">
+                                                        <div class="example-container mat-elevation-z8">
+                                                          <mat-table #table
+                                                            [dataSource]="dataSourceTarifadosMateriales">
+                                                            <ng-container matColumnDef="select">
+                                                              <mat-header-cell [ngClass]="'w-75'" mat-header-cell
+                                                                *matHeaderCellDef>
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (change)="$event ? masterToggleTarifadoMateriales() : null"
+                                                                  [checked]="selectionTarifadoMateriales.hasValue() && isAllSelectedTarifadoMateriales()"
+                                                                  [indeterminate]="selectionTarifadoMateriales.hasValue() && !isAllSelectedTarifadoMateriales()">
+                                                                </mat-checkbox>
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell [ngClass]="'w-75'"
+                                                                *matCellDef="let row">
+                                                                <mat-checkbox [color]="'primary'"
+                                                                  (click)="$event.stopPropagation()"
+                                                                  (change)="$event ? selectionTarifadoMateriales.toggle(row) : null"
+                                                                  [checked]="selectionTarifadoMateriales.isSelected(row)">
+                                                                </mat-checkbox>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Codigo">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Codigo
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Codigo}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreItem">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Material
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreItem}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreUnidadMedida">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Unidad Medida
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreUnidadMedida}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="NombreMoneda">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Moneda
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.NombreMoneda}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="PrecioUnitario">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Precio Unit
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.PrecioUnitario}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Cantidad">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Cantidad
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.Cantidad}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="MontoTotal">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Monto Total
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                {{element.MontoTotal}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Fija">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Fija
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Fija">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Var">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Var
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Variable">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Ind">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Ind
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Independiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Pen">
+                                                              <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                                Pen
+                                                              </mat-header-cell>
+                                                              <mat-cell mat-cell *matCellDef="let element">
+                                                                <mat-radio-button [color]="'primary'"
+                                                                  [checked]="element.IdTipoBandejaFacturacion==etipobandejaFacturacion.Pendiente">
+                                                                </mat-radio-button>
+                                                              </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row
+                                                              *matHeaderRowDef="displayedColumnsTarifadosServicio">
+                                                            </mat-header-row>
+                                                            <mat-row
+                                                              *matRowDef="let row; columns: displayedColumnsTarifadosServicio;">
+                                                            </mat-row>
+                                                            <tr class="mat-row no-data-row" *matNoDataRow>
+                                                              <td class="mat-cell" colspan="4">No se encontraron
+                                                                registro.
+                                                              </td>
+                                                            </tr>
+                                                          </mat-table>
+                                                          <!--                    <div *ngIf="isLoading" class="spinner-container">-->
+                                                          <!--                      <mat-progress-spinner-->
+                                                          <!--                        [diameter]="50"-->
+                                                          <!--                        color="primary"-->
+                                                          <!--                        mode="indeterminate">-->
+                                                          <!--                      </mat-progress-spinner>-->
+                                                          <!--                    </div>-->
+                                                          <!--                                  <mat-paginator #paginatorPresupuesto-->
+                                                          <!--                                                 [pageSize]="5"-->
+                                                          <!--                                                 [pageSizeOptions]="[5, 10, 20]">-->
+                                                          <!--                                  </mat-paginator>-->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                  </div>
+                                                </ng-template>
+                                              </mat-tab>
+                                            </mat-tab-group>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="tab-pane content-fadeIn" id="linkReporteTecnico"
+                                      *ngIf="datosAcciones.mostrarSeccionReporteTecnico  && datosSiniestro.reporteTecnico!==null">
+                                      <fieldset class="form-group  p-3">
+                                        <legend class="w-auto px-2">REPORTE TECNICO</legend>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Técnicos:</mat-label>
+                                              <input matInput placeholder="Técnicos" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.reporteTecnico.TecnicoInforme">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Tipo de Averia:</mat-label>
+                                              <input matInput placeholder="Tipo de Averia" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.reporteTecnico.TipoAveria">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Tipo Solución:</mat-label>
+                                              <input matInput placeholder="Tipo Solución" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.reporteTecnico.TipoSolucion">
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Fecha de Atención:</mat-label>
+                                              <input matInput placeholder="Fecha de Atención" readonly="readonly"
+                                                [(ngModel)]="lblFechaHoraFinAtencion">
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-form-field appearance="outline">
+                                              <mat-label> Descripción Detallada:</mat-label>
+                                              <textarea matInput placeholder="Descripción Detallada" readonly="readonly"
+                                                [(ngModel)]="datosSiniestro.reporteTecnico.DescripcionSolucion"></textarea>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <mat-expansion-panel [expanded]="matexpansionpaneldatosgenerales">
+                                              <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                  Informes Adjuntos
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+
+                                                </mat-panel-description>
+                                              </mat-expansion-panel-header>
+                                              <!--<div class="row">
+                                                <div class="col-md-12">
+                                                  <ngx-dropzone (change)="ondropzoneReporteTecnico($event)"
+                                                    accept="image/jpeg,image/jpg,image/png,.pdf,.xlsx">
+                                                    <ngx-dropzone-label>Arrastrar y soltar un archivo
+                                                    </ngx-dropzone-label>
+                                                  </ngx-dropzone>
+                                                </div>
+                                              </div>-->
+                                              <br>
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="adjunto-table-container">
+                                                    <mat-table #table [dataSource]="dataSourceAdjuntoReporteTecnico">
+                                                      <ng-container matColumnDef="menu" stickyEnd>
+                                                        <mat-header-cell *matHeaderCellDef [ngClass]="'td-adjunto-72'">
+                                                        </mat-header-cell>
+                                                        <mat-cell [ngClass]="'td-adjunto-72'"
+                                                          *matCellDef="let element; let i=index;">
+                                                          <mat-menu #appMenu="matMenu">
+                                                            <button (click)="downloadImage(element)"
+                                                              style="font-size: 12px;" mat-menu-item>
+                                                              <mat-icon style="font-size: 15px; margin:5px 0 0 0;">
+                                                                file_download
+                                                              </mat-icon>
+                                                              Descargar
+                                                            </button>
+                                                            <button (click)="deleteImage(element)"
+                                                              style="font-size: 12px;" mat-menu-item>
+                                                              <mat-icon style="font-size: 15px; margin:5px 0 0 0;">
+                                                                delete
+                                                              </mat-icon>
+                                                              Eliminar
+                                                            </button>
+                                                          </mat-menu>
+                                                          <a style="cursor:pointer;color: #979797;" mat-icon-button
+                                                            [matMenuTriggerFor]="appMenu">
+                                                            <mat-icon>more_vert</mat-icon>
+                                                          </a>
+                                                        </mat-cell>
+                                                      </ng-container>
+                                                      <ng-container matColumnDef="NombreExterno">
+                                                        <mat-header-cell mat-header-cell *matHeaderCellDef> Nombre
+                                                          de Archivo
+                                                        </mat-header-cell>
+                                                        <mat-cell mat-cell *matCellDef="let element">
+                                                          {{element.NombreExterno}} </mat-cell>
+                                                      </ng-container>
+                                                      <ng-container matColumnDef="Tipo">
+                                                        <mat-header-cell [ngClass]="'w-10'" mat-header-cell
+                                                          *matHeaderCellDef> Tipo
+                                                        </mat-header-cell>
+                                                        <mat-cell [ngClass]="'w-10'" mat-cell *matCellDef="let element">
+                                                          <span style="width: 40px;height: 40px;" [ngClass]="{
+                        'icon-pdf': element.NombreExterno.split('.').pop() === 'pdf' ,
+                        'icon-excel' : element.NombreExterno.split('.').pop() === 'xlsx',
+                        'icon-img' : element.NombreExterno.split('.').pop() === 'png' || element.NombreExterno.split('.').pop() === 'jpeg' || element.NombreExterno.split('.').pop() === 'jpg'
+                        }" class=""></span>
+                                                        </mat-cell>
+                                                      </ng-container>
+                                                      <ng-container matColumnDef="NombreUsuario">
+                                                        <mat-header-cell mat-header-cell *matHeaderCellDef>
+                                                          Usuario
+                                                        </mat-header-cell>
+                                                        <mat-cell mat-cell *matCellDef="let element">
+                                                          {{element.NombreUsuario}} </mat-cell>
+                                                      </ng-container>
+                                                      <ng-container matColumnDef="FechaRegistro">
+                                                        <mat-header-cell mat-header-cell *matHeaderCellDef> Fecha
+                                                          Carga
+                                                        </mat-header-cell>
+                                                        <mat-cell mat-cell *matCellDef="let element">
+                                                          {{element.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}}
+                                                        </mat-cell>
+                                                      </ng-container>
+                                                      <mat-header-row
+                                                        *matHeaderRowDef="displayedColumnsAdjuntoReporteTecnico; sticky: true">
+                                                      </mat-header-row>
+                                                      <mat-row
+                                                        *matRowDef="let row; columns: displayedColumnsAdjuntoReporteTecnico;">
+                                                      </mat-row>
+                                                      <tr class="mat-row no-data-row" *matNoDataRow>
+                                                        <td class="mat-cell" colspan="4">No se encontraron
+                                                          registro.
+                                                        </td>
+                                                      </tr>
+                                                    </mat-table>
+                                                    <div *ngIf="isLoadingAdjuntoReporteTecnico"
+                                                      class="spinner-container">
+                                                      <mat-progress-spinner [diameter]="50" color="primary"
+                                                        mode="indeterminate">
+                                                      </mat-progress-spinner>
+                                                    </div>
+                                                    <mat-paginator #paginatorAdjuntoReporteTecnico [pageSize]="5"
+                                                      [pageSizeOptions]="[5, 10, 20]">
+                                                    </mat-paginator>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </mat-expansion-panel>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="tab-pane content-fadeIn" id="linkEquipo">
+                                      <fieldset class="form-group  p-3">
+                                        <legend class="w-auto px-2">EQUIPO</legend>
+                                        <div class="form-group row" *ngFor="let group of listEquipo">
+                                          <div class="col-md-3" *ngFor="let item of group">
+                                            <mat-card class="example-card">
+                                              <!--<mat-card-header>
+                                                <div mat-card-avatar class="example-header-image"></div>
+                                                <mat-card-title>Shiba Inu</mat-card-title>
+                                                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                                              </mat-card-header>-->
+                                              <img mat-card-image
+                                                src="./assets/img/TipoEquipo/{{item.Equipo.NombreImagen === '' ?  'Default.png': item.Equipo.NombreImagen}}"
+                                                alt="Photo of a Shiba Inu">
+                                              <mat-card-content>
+                                                <p>
+                                                  {{item.Equipo.Nombre}}
+                                                </p>
+                                              </mat-card-content>
+                                              <!--<mat-card-actions>
+                                                <button mat-button (click)="btnEliminarEquipo_onClick(item.IdEquipo)">
+                                                  <mat-icon>delete</mat-icon>
+                                                </button>
+                                              </mat-card-actions>
+                                            -->
+                                            </mat-card>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-2">
+                                  <div class="form-horizontal">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <mat-card class="example-card">
+                                          <mat-card-title-group *ngIf="contentLoaded">
+                                            <mat-card-title>Accesos Directos</mat-card-title>
+                                          </mat-card-title-group>
+                                          <mat-card-content *ngIf="contentLoaded">
+                                            <br>
+                                            <a href="javascript:void(0)" (click)="btnVerLogAccion_onClick()">Log de
+                                              Acciones</a>
+                                            <br>
+                                            <a href="javascript:void(0)"
+                                              *ngIf="datosAcciones.mostrarVerTiempos && contentLoaded"
+                                              (click)="btnVerTiempo_onClick()">Ver
+                                              Tiempos</a>
+                                          </mat-card-content>
+                                          <ngx-skeleton-loader *ngIf="!contentLoaded" count="3" appearance="line"
+                                            animation="progress" [theme]="{                                          
+                                                height: '20px',
+                                                'border-radius': 2
+                                                }">
+                                          </ngx-skeleton-loader>
+                                        </mat-card>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" *ngIf="datosSiniestro.FechaHoraEnvioProveedor!==null">
+                                      <div class="col-md-12">
+                                        <mat-card class="example-card">
+                                          <mat-card-title-group *ngIf="contentLoaded">
+                                            <mat-card-title>Fecha Envío a Proveedor</mat-card-title>
+                                          </mat-card-title-group>
+                                          <mat-card-content *ngIf="contentLoaded">
+                                            <p>
+                                              {{datosSiniestro.FechaHoraEnvioProveedor | date: 'dd/MM/yyyy HH:mm'}}
+                                            </p>
+                                          </mat-card-content>
+
+                                          <ngx-skeleton-loader *ngIf="!contentLoaded" count="2" appearance="line"
+                                            animation="progress" [theme]="{                                          
+                                            height: '20px',
+                                            'border-radius': 2
+                                            }">
+                                          </ngx-skeleton-loader>
+
+                                        </mat-card>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" *ngIf="datosSiniestro.FechaEstimadaAtencion!==null">
+                                      <div class="col-md-12">
+                                        <mat-card class="example-card">
+                                          <mat-card-title-group *ngIf="contentLoaded">
+                                            <mat-card-title>Fecha Estimada Atención</mat-card-title>
+                                          </mat-card-title-group>
+                                          <mat-card-content *ngIf="contentLoaded">
+                                            {{datosSiniestro.FechaEstimadaAtencion | date: 'dd/MM/yyyy HH:mm'}}
+                                          </mat-card-content>
+
+                                          <ngx-skeleton-loader *ngIf="!contentLoaded" count="2" appearance="line"
+                                            animation="progress" [theme]="{                                          
+                                            height: '20px',
+                                            'border-radius': 2
+                                            }">
+                                          </ngx-skeleton-loader>
+
+                                        </mat-card>
+                                      </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" *ngIf="datosSiniestro.Solicitante!==null">
+                                      <div class="col-md-12">
+                                        <mat-card class="example-card">
+                                          <mat-card-title-group *ngIf="contentLoaded">
+                                            <mat-card-title>Registrado por:</mat-card-title>
+                                          </mat-card-title-group>
+                                          <mat-card-content *ngIf="contentLoaded">
+                                            <br>
+                                            {{datosSiniestro.Solicitante}}
+                                          </mat-card-content>
+
+                                          <ngx-skeleton-loader *ngIf="!contentLoaded" count="2" appearance="line"
+                                            animation="progress" [theme]="{                                          
+                                            height: '20px',
+                                            'border-radius': 2
+                                            }">
+                                          </ngx-skeleton-loader>
+
+                                        </mat-card>
+                                      </div>
+                                    </div>
+                                    <br>
+                                  </div>
+                                </div>
+                              </div>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-drawer-content>
+                </mat-drawer-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<button mat-fab color="accent" *ngIf="datosAcciones.mostrarReloj" (click)="clickMenu()" class="menu-button">
+  <i class="material-icons">timer</i>
+</button>

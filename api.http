@@ -1,0 +1,8 @@
+### Send POST request with json body
+POST http://localhost:4950/Usuario/Encriptar
+Content-Type: application/json
+
+{
+  "Body": "{}",
+  "Token": "MIw3lILd1k4GwoAuelSGjwPVepY"
+}

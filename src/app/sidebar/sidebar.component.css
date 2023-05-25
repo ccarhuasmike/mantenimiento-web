@@ -1,0 +1,53 @@
+.user-skeleton{
+    width: 89%;
+    height: 9%;
+    margin: auto;
+    border-bottom: solid 1px #5e8aa8;
+
+}
+.photo-skeleton{
+    width: 30%;
+    float: left;
+    margin-top: 9px;
+    padding: 7px;
+}
+
+.user-info{
+    font-size: 18px;
+    padding: 5px;
+    font-weight: bold;
+}
+.user-info-skeleton{
+    width: 70%;
+    float: right;
+    margin-top: 16px;
+    padding: 7px;
+}
+
+
+
+.name-user{
+    font-size: 13px;
+    font-weight: bold;
+    color: #5e8aa8;
+    margin-top: 10px;
+}
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.33);
+   }
+    80%, 100% {
+        opacity: 0;
+   }
+}
+@keyframes pulse-dot {
+    0% {
+        transform: scale(0.8);
+   }
+    50% {
+        transform: scale(1);
+   }
+    100% {
+        transform: scale(0.8);
+   }
+}

@@ -1,0 +1,49 @@
+.mat-option {
+  line-height: 48px !important;
+  height: 48px !important;
+  padding: 0 16px !important;
+}
+
+.select-all{
+  margin: 5px 17px;
+}
+
+
+
+
+.files-list {
+  margin-top: 1.5rem;
+}
+.files-list .single-file {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  /*border: dashed 1px #979797;*/
+  box-shadow: 0px 1px 16px rgb(35 30 30 / 20%);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-grow: 1;
+}
+.files-list .single-file img.delete {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+.files-list .single-file .name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #353f4a;
+  margin: 0;
+}
+.files-list .single-file .size {
+  font-size: 12px;
+  font-weight: 500;
+  color: #a4a4a4;
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+.files-list .single-file .info {
+  width: 80%;
+}

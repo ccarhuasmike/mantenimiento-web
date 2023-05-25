@@ -1,0 +1,222 @@
+<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">calculate</i></div>
+            <h4 class="card-title">CALCULADORA</h4>
+          </div>
+          <div class="card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col">
+                  <fieldset class="form-group p-3">
+                    <legend class="w-auto px-2">Valores</legend>
+                    <form [formGroup]="emailForm" (ngSubmit)="onSubmit($event)" class="form-horizontal">
+                      <div formArrayName="datos">
+                        <div class="row" *ngFor="let email of getControls(); let i = index" [formGroupName]="i">
+                          <div class="col-md-1 col-form-label">
+                            <mat-icon aria-hidden="false"
+                                      matTooltip="Tiempo operativo registrado antes del evento reportado"
+                                      matTooltipPosition="above"
+                                      class="info-color"
+                                      aria-label="Example home icon" fontIcon="info"></mat-icon>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                              <input matInput type="number" formControlName="to" placeholder="To">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-1 col-form-label">
+                            <mat-icon aria-hidden="false"
+                                      matTooltip="Tiempo fuera de servicio que estuvo en activo después del evento reportado"
+                                      matTooltipPosition="above"
+                                      class="info-color"
+                                      aria-label="Example home icon" fontIcon="info"></mat-icon>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                              <input matInput type="number" formControlName="tes" placeholder="Tes">
+                            </mat-form-field>
+                          </div>
+                          <label class="col-md-2">
+                            <button mat-icon-button type="button" (click)="addEmailFormGroup()">
+                              <mat-icon aria-hidden="false"
+                                        matTooltip="Agregar"
+                                        matTooltipPosition="above"
+                                        class="info-color"
+                                        aria-label="Example home icon" fontIcon="add_circle"></mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="removeOrClearEmail(i)">
+                              <mat-icon aria-hidden="false"
+                                        matTooltip="Eliminar"
+                                        matTooltipPosition="above"
+                                        class="info-color-danger"
+                                        aria-label="Example home icon" fontIcon="delete"></mat-icon>
+                            </button>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 text-center">
+                          <button class="btn btn-primary px-3" mat-raised-button name="btn1" type="submit">
+                            R-Confiabilidad
+                          </button>
+                          <button class="btn btn-simple px-3" mat-raised-button type="submit" [hidden]="true">
+                            A-Disponibilidad
+                          </button>
+                          <button class="btn btn-simple px-3" mat-raised-button (click)="limpiar()" type="button"
+                                  [hidden]="true">
+                            M-Mantenibilidad
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </fieldset>
+                </div>
+                <div class="col">
+                  <fieldset class="form-group p-3">
+                    <legend class="w-auto px-2">Total de eventos: {{getPhonesFormControls().length}}</legend>
+                    <figure>
+                      <figcaption class="blockquote-footer">
+                        Total de días de operac. <strong style="font-weight: bold">{{total}}</strong>
+                      </figcaption>
+                      <figcaption class="blockquote-footer">
+                        Porcentaje de confiabilidad aceptable: <strong style="font-weight: bold">85%</strong>
+                      </figcaption>
+                    </figure>
+                    <div class="flex-item">
+                      <div style="display: block;">
+                        <canvas baseChart width="400" height="250"
+                                [data]="lineChart1Data"
+                                [options]="lineChart1Options"
+                                [type]="lineChartType"></canvas>
+                      </div>
+                    </div>
+                    <br>
+                    <mat-accordion class="example-headers-align" multi>
+                      <mat-expansion-panel [expanded]="false">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Confiabilidad
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-sidenav-container>
+                          <mat-sidenav-content>
+                            <div class="flex">
+                              <div class="flex-item">
+                                <fieldset class="p-3">
+                                  <legend class="w-auto px-2">Evaluación de la confiabilidad</legend>
+                                  <figure>
+                                    <figcaption class="blockquote-footer">
+                                      Valor de la confiabilidad para un valor t
+                                    </figcaption>
+                                  </figure>
+                                  <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                      <table class="table">
+                                        <tbody>
+                                        <tr>
+                                          <td>t dia(s)</td>
+                                          <td>
+                                            <mat-form-field class="example-full-width">
+                                              <input matInput type="number" [(ngModel)]="tdias">
+                                            </mat-form-field>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td>R (%)</td>
+                                          <td>{{this.r}}</td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                  </div>
+                                  <figure>
+                                    <figcaption class="blockquote-footer">
+                                      Probable Tiempo Promedio Operativo: <strong style="font-weight: bold">TPOp dia(s):
+                                      197.50</strong>
+                                    </figcaption>
+                                  </figure>
+                                </fieldset>
+                                <canvas baseChart width="auto" height="auto"
+                                        [data]="lineChartData"
+                                        [options]="lineChartOptions"
+                                        [type]="lineChartType"></canvas>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <canvas baseChart width="auto" height="auto"
+                                            [data]="confiabilidad1"
+                                            [options]="lineChartOptions"
+                                            [type]="lineChartType"></canvas>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <canvas baseChart width="auto" height="auto"
+                                            [data]="confiabilidad2"
+                                            [options]="lineChartOptions"
+                                            [type]="lineChartType"></canvas>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <canvas baseChart width="auto" height="auto"
+                                            [data]="confiabilidad3"
+                                            [options]="lineChartOptions"
+                                            [type]="lineChartType"></canvas>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <canvas baseChart width="auto" height="auto"
+                                            [data]="confiabilidad4"
+                                            [options]="lineChartOptions"
+                                            [type]="lineChartType"></canvas>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </mat-sidenav-content>
+                        </mat-sidenav-container>
+                      </mat-expansion-panel>
+                      <mat-expansion-panel [expanded]="false" [hidden]="true">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Mantenibilidad
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-sidenav-container>
+                          <mat-sidenav-content>
+                            contenido
+                          </mat-sidenav-content>
+                        </mat-sidenav-container>
+                      </mat-expansion-panel>
+                      <mat-expansion-panel [expanded]="false" [hidden]="true">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Disponibilidad
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-sidenav-container>
+                          <mat-sidenav-content>
+                            contenido
+                          </mat-sidenav-content>
+                        </mat-sidenav-container>
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

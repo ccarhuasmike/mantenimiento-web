@@ -1,0 +1,12 @@
+.fixed-plugin .badge {
+  display: inline-block !important;
+}
+
+@media print {
+
+  .fixed-plugin {
+   display: none !important;
+  }
+
+
+}

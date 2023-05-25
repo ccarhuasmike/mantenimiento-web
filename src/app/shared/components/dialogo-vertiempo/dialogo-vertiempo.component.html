@@ -1,0 +1,141 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> Tiempos de la Solicitud</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Estado de Solicitud
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-horizontal">
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="example-container mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSourceGenerales">
+                  <ng-container matColumnDef="actividad">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> Actividad / Acción</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.actividad}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="valor">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> Fecha y Hora</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.valor}} </mat-cell>
+                  </ng-container>
+    
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  <tr class="mat-row no-data-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No se encontraron registro.</td>
+                  </tr>
+                </mat-table>
+                <div *ngIf="isLoading" class="spinner-container">
+                  <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div>
+                <mat-paginator #paginatorGenerales [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Tiempo de Atención
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-horizontal">
+          <div class="form-group row">
+            <div class="col-md-12">
+              
+              <div class="example-container mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSourceTiempoAtencion">
+                  <ng-container matColumnDef="actividad">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> Tiempo</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.actividad}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="valor">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef>Duración</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.valor}} </mat-cell>
+                  </ng-container>
+    
+                  <mat-header-row *matHeaderRowDef="displayedColumnsTiempoAtencion"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsTiempoAtencion;"></mat-row>
+                  <tr class="mat-row no-data-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="2">No se encontraron registro.</td>
+                  </tr>
+                </mat-table>
+                <div *ngIf="isLoading" class="spinner-container">
+                  <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div>
+                <mat-paginator #paginatorTiempoAtencion [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Detalle Parada de Reloj
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="form-horizontal">
+          <div class="form-group row">
+            <div class="col-md-12">              
+              <div class="example-container mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSourceParadaReloj">
+                  <ng-container matColumnDef="fechaParada">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> Fecha Parada de Reloj</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.fechaParada}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="fechaReactivacion">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef>Fecha Reactivación</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.fechaReactivacion}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="parada">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef>Parada</mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let element"> {{element.parada}} </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumnsParadaReloj"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsParadaReloj;"></mat-row>
+                  <tr class="mat-row no-data-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="3">No se encontraron registro.</td>
+                  </tr>
+                </mat-table>
+                <div *ngIf="isLoading" class="spinner-container">
+                  <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                  </mat-progress-spinner>
+                </div>
+                <mat-paginator #paginatorParadaReloj [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+    <div class="form-horizontal">
+      <br>
+      <div class="form-group row">
+        <div class="col-md-12 text-right">
+          <button mat-button class="btn btn-info" (click)="cerrarDialogo()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

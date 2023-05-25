@@ -1,0 +1,477 @@
+/*.emoji-wrapper {
+  width: 100%;
+  text-align: center;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.emoji-wrapper:before,
+.emoji-wrapper:after{
+  content: "";
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+*/
+
+
+
+
+
+
+
+
+
+.emoji {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: .3s;
+}
+
+.emoji>svg {
+  margin: 15px 0;
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+}
+
+.mat-card-title {
+  font-size: 14px !important;
+  margin-bottom: 0px !important;
+}
+
+.mat-card-title-group {
+  background: #008333 !important;
+  color: white !important;
+  padding: 4px 6px !important;
+}
+
+.mat-tab-body-content {
+  height: 100%;
+  overflow: hidden !important;
+}
+
+
+
+.w-50 {
+  width: 50px !important;
+  flex: 0 0 10%;
+}
+
+.adjunto-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.nav-pills.nav-pills-icons .nav-item {
+  background: #efefef !important;
+}
+
+.menu-button {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1;
+}
+
+/*.mat-tab-header {*/
+/*  background: #156185c2;*/
+/*}*/
+/*.mat-tab-label{*/
+/*  background:#156185;*/
+/*  color: white;*/
+/*}*/
+/*.mat-tab-group.mat-primary .mat-ink-bar{*/
+/*  background: white;*/
+/*}*/
+
+
+.nav {
+  display: block !important;
+
+
+}
+
+.nav-pills .nav-item .nav-link {
+  min-width: auto !important;
+}
+
+/*
+.navtransition:hover {  
+  max-width: 16.66666667%;
+  z-index: 1;
+  transition-duration: .2s,.2s, .35s;
+  -webkit-transition-timing-function: linear,linear,ease;
+  transition-timing-function: linear,linear,ease;
+}*/
+/*
+.navtransition{
+  max-width: 16.66666667%;
+  -webkit-transition-property: top,bottom,width;
+  transition-property: top,bottom, width;
+  -webkit-transition-duration: .2s,.2s, .35s;
+  transition-duration: .2s,.2s, .35s;
+  -webkit-transition-timing-function: linear,linear,ease;
+  transition-timing-function: linear,linear,ease;
+  -webkit-overflow-scrolling: touch;
+}
+
+*/
+/*.col-lg-1{*/
+
+/*
+  -webkit-transition-duration: .2s,.2s, .35s;
+  transition-duration: .2s,.2s, .35s;
+  -webkit-transition-timing-function: linear,linear,ease;
+  transition-timing-function: linear,linear,ease;
+  -webkit-overflow-scrolling: touch;
+  */
+/*}*/
+/*
+.col-lg-2{
+  transition: all 500ms ease;
+}*/
+
+
+
+
+/*
+!!!!
+This pen is being refactored
+!!!!
+*/
+
+/*
+=====
+DEPENDENCES
+=====
+*/
+
+.r-title {
+  margin-top: var(--rTitleMarginTop, 0) !important;
+  margin-bottom: var(--rTitleMarginBottom, 0) !important;
+}
+
+
+p:not([class]) {
+  line-height: var(--cssTypographyLineHeight, 1.78);
+  margin-top: var(--cssTypographyBasicMargin, 1em);
+  margin-bottom: 0;
+}
+
+p:not([class]):first-child {
+  margin-top: 0;
+}
+
+/*
+  text component
+  */
+
+.text {
+  display: var(--textDisplay, inline-flex);
+  font-size: var(--textFontSize, 1rem);
+}
+
+/*
+  time component
+  */
+
+/*
+  core styles
+  */
+
+.time {
+  display: var(--timeDisplay, inline-flex);
+}
+
+/*
+  extensions
+  */
+
+.time__month {
+  margin-left: var(--timelineMounthMarginLeft, .25em);
+}
+
+/*
+  skin
+  */
+
+.time {
+  padding: var(--timePadding, .25rem 1.25rem .25rem);
+  background-color: var(--timeBackgroundColor, #f0f0f0);
+
+  font-size: var(--timeFontSize, .75rem);
+  font-weight: var(--timeFontWeight, 700);
+  text-transform: var(--timeTextTransform, uppercase);
+  color: var(--timeColor, currentColor);
+}
+
+/*
+  card component
+  */
+
+/*
+  core styles
+  */
+
+.card {
+  padding: var(--timelineCardPadding, 0.5rem 0.5rem 0.25rem);
+  border: 0 !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  color: #333333;
+  background: #fff;
+  width: auto !important;
+}
+
+.card__content {
+  margin-top: var(--cardContentMarginTop, .5rem);
+
+}
+
+/*
+  skin
+  */
+
+.card {
+  border-radius: var(--timelineCardBorderRadius, 2px);
+  border-left: var(--timelineCardBorderLeftWidth, 3px) solid var(--timelineCardBorderLeftColor, var(--uiTimelineMainColor)) !important;
+  box-shadow: var(--timelineCardBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24)) !important;
+  background-color: var(--timelineCardBackgroundColor, #fff);
+}
+
+/*
+  extensions
+  */
+
+.card__title {
+  --rTitleMarginTop: var(--cardTitleMarginTop, 1rem);
+  font-size: var(--cardTitleFontSize, 1.25rem);
+}
+
+/*
+  =====
+  CORE STYLES
+  =====
+  */
+
+.timeline {
+  display: var(--timelineDisplay, grid);
+  grid-row-gap: var(--timelineGroupsGap, 2rem);
+}
+
+/*
+  1. If timeline__year isn't displaed the gap between it and timeline__cards isn't displayed too
+  */
+
+.timeline__year {
+  margin-bottom: 1.25rem;
+  /* 1 */
+}
+
+.timeline__cards {
+  display: var(--timeloneCardsDisplay, grid);
+  grid-row-gap: var(--timeloneCardsGap, 1.5rem);
+}
+
+
+/*
+  =====
+  SKIN
+  =====
+  */
+
+.timeline {
+  --uiTimelineMainColor: var(--timelineMainColor, #222);
+  --uiTimelineSecondaryColor: var(--timelineSecondaryColor, #fff);
+
+  border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.timeline__year {
+  --timePadding: var(--timelineYearPadding, .5rem 1.5rem);
+  --timeColor: var(--uiTimelineSecondaryColor);
+  --timeBackgroundColor: var(--uiTimelineMainColor);
+  --timeFontWeight: var(--timelineYearFontWeight, 400);
+}
+
+.timeline__card {
+  position: relative;
+  margin-left: var(--timelineCardLineGap, 1rem);
+}
+
+/*
+  1. Stoping cut box shadow
+  */
+
+.timeline__cards {
+  overflow: hidden;
+  padding-top: .25rem;
+  /* 1 */
+  padding-bottom: .25rem;
+  /* 1 */
+}
+
+.timeline__card::before {
+  content: "";
+  width: 100%;
+  height: var(--timelineCardLineWidth, 2px);
+  background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+
+  position: absolute;
+  top: var(--timelineCardLineTop, 1rem);
+  left: -50%;
+  z-index: -1;
+}
+
+/*
+  =====
+  SETTINGS
+  =====
+  */
+/**/
+.timeline {
+  --timelineMainColor: #4557bb;
+}
+
+/*
+  =====
+  DEMO
+  =====
+  */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+  color: #222;
+
+  background-color: #f0f0f0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+.page {
+  max-width: 47rem;
+  padding: 1rem 1rem 0rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.substack {
+  border: 1px solid #EEE;
+  background-color: #fff;
+  width: 100%;
+  max-width: 480px;
+  height: 280px;
+  margin: 1rem auto;
+  ;
+}
+
+
+.linktr {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem;
+  text-align: center;
+}
+
+.linktr__goal {
+  background-color: rgb(209, 246, 255);
+  color: rgb(8, 49, 112);
+  box-shadow: rgb(8 49 112 / 24%) 0px 2px 8px 0px;
+  border-radius: 2rem;
+  padding: .75rem 1.5rem;
+}
+
+.r-link {
+  --uirLinkDisplay: var(--rLinkDisplay, inline-flex);
+  --uirLinkTextColor: var(--rLinkTextColor);
+  --uirLinkTextDecoration: var(--rLinkTextDecoration, none);
+
+  display: var(--uirLinkDisplay) !important;
+  color: var(--uirLinkTextColor) !important;
+  text-decoration: var(--uirLinkTextDecoration) !important;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+
+
+/*
+// Dispositivos X-Small (teléfonos verticales, menos de 576 px)
+// No hay consulta de medios para `xs` ya que este es el valor predeterminado en Bootstrap
+*/
+
+/*// Dispositivos pequeños (teléfonos horizontales, 576 px y más)*/
+@media (min-width: 570px) {
+  .img-timeline {
+    width: 100%;
+    height: 40%;
+  }
+
+}
+
+/*
+// Dispositivos medianos (tabletas, 768px y más)*/
+@media (min-width: 768px) {
+  .img-timeline {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/*// Dispositivos grandes (escritorios, 992 px y más)*/
+@media (min-width: 992px) {
+  .img-timeline {
+    width: 48px;
+    height: 48px;
+  }
+
+  .col-lg-2-personalizado {
+    flex: 0 0 13.666667% !important;
+    max-width: 13.666667% !important;
+  }
+  .col-lg-8-personalizado { 
+    flex: 0 0 69.66666633% !important;
+    max-width: 69.66666633% !important;
+  }
+}
+
+/*// Dispositivos X-Large (escritorios grandes, 1200 px y más)*/
+@media (min-width: 1200px) {
+  .img-timeline {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/*// Dispositivos XX-Largos (escritorios más grandes, 1400 px y más)*/
+@media (min-width: 1400px) {
+  .img-timeline {
+    width: 40px;
+    height: 40px;
+  }
+}

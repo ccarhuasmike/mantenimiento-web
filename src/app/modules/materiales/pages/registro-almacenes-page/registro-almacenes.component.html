@@ -1,0 +1,245 @@
+<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class=" row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+        <br></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">description</i></div>
+            <h4 class="card-title">Datos Almacén</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
+                                  [class.active]="progressRef.isStarted"></mat-progress-bar>
+                <mat-drawer-container class="example-container">
+                  <mat-drawer #drawer [mode]="mode.value" [opened]="isShowing" class="example-sidenav" position="end"
+                              style="width: 35%;">
+                    <br>
+                    <div class="container" *ngIf="flagContenedorAdjunto">
+                      <div>auxContainer</div>
+                      <!--para no afectar el form creado-->
+
+                    </div>
+
+                  </mat-drawer>
+                  <mat-drawer-content style="overflow: hidden;">
+                    <div class="container-fluid"
+                         style=" background: white; box-shadow: 0 21px 41px -13px rgb(0 0 0 / 18%);">
+                      <div class=" row">
+                        <form [formGroup]="datosBasicosFormGroup" (ngSubmit)='FinalizarRegistroSolicitud()'
+                              class="form-horizontal w-100 p-md-4 p-4">
+                          <div class="col-md-12">
+
+                            <fieldset class="form-group  p-3">
+                              <legend class="w-auto px-2">DATOS GENERALES</legend>
+                              <div class=" row">
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Nombre.</mat-label>
+                                    <input matInput placeholder="Ingrese descripción" required
+                                           formControlName="Nombre">
+
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+
+                                  <app-button-ubigeo (valueResponse)="recibirRespuestaUbigeo($event)"
+                                  ></app-button-ubigeo>
+
+                                </div>
+                                <!--<div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Ubigeo</mat-label>
+                                    <input matInput placeholder="Ingrese Ubigeo" required
+                                      formControlName="Ubigeo">
+                                    <mat-icon matSuffix>search</mat-icon>
+
+                                  </mat-form-field>
+                                </div>-->
+
+                              </div>
+                              <div class=" row">
+
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Dirección.</mat-label>
+                                    <input matInput placeholder="Ingrese Dirección" required
+                                           formControlName="Direccion">
+
+
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Provincia</mat-label>
+                                    <input matInput placeholder="Ingrese Provincia" required
+                                           formControlName="Provincia" name="Provincia">
+
+
+                                  </mat-form-field>
+                                </div>
+
+                              </div>
+                              <div class=" row">
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Código de Establecimiento.</mat-label>
+                                    <input matInput placeholder="Ingrese telefono" required
+                                           formControlName="CodigoEstablecimiento">
+
+
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Distrito</mat-label>
+                                    <input matInput placeholder="Ingrese Distrito" required
+                                           formControlName="Distrito">
+
+
+                                  </mat-form-field>
+                                </div>
+
+
+                              </div>
+
+                            </fieldset>
+
+                            <div class=" row">
+                              <div class="col-md-12 text-left">
+                                <button mat-raised-button class="btn btn-primary"
+                                        routerLink="/materiales/bandejaAlmacenes">
+                                  <mat-icon>canceled</mat-icon>
+                                  Cancelar
+                                  <!--{{this.clienteService._clienteSeleccionado}}-->
+                                </button>
+                                <button mat-raised-button [disabled]="isSubmitted" class="btn btn-primary">
+                                  <mat-icon *ngIf="!isSubmitted">send</mat-icon>
+                                  Enviar
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </mat-drawer-content>
+                </mat-drawer-container>
+                <h4>Clientes</h4>
+
+
+                <button-cliente (valueResponse)="recibiRespuestaCliente($event)"
+                                [value]="listClienteSeteado"></button-cliente>
+
+
+                <div class="table-container">
+                  <table mat-table [dataSource]="IdsClientes" class="table">
+                    <ng-container matColumnDef="Eliminar">
+                      <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Eliminar
+                      </mat-header-cell><!--Id-->
+                      <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                        <button mat-icon-button (click)="removeCliente(row.Id)">
+                          <mat-icon aria-hidden="false"
+                                    matTooltip="Eliminar"
+                                    matTooltipPosition="above"
+                                    class="info-color-danger"
+                                    aria-label="Example home icon" fontIcon="delete"></mat-icon>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="NroTributario">
+                      <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Nro de Doc. Tributario
+                      </mat-header-cell>
+                      <mat-cell class="table-column-150 text-justify-content" *matCellDef="let row">
+                        {{row.NumeroDocumento}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="RazonSocial">
+                      <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Razón Social
+                      </mat-header-cell>
+                      <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Nombre}}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="NombreCorto">
+                      <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Nombre Corto
+                      </mat-header-cell>
+                      <mat-cell class="table-column-200" *matCellDef="let row"> {{row.NombreCorto}}
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns" style="min-height:40px ;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                             [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                    <!--                </mat-table>-->
+                  </table>
+                  <div *ngIf="isLoading" class="spinner-container">
+                    <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                  </div>
+                </div>
+
+                <h4>Responsables</h4>
+                <button-responsable (valueResponse)="recibiRespuestaResponsable($event)" [arrayClient]="IdsClientes"
+                                    [value]="listResponsableSeteado"></button-responsable>
+                <div class="table-container">
+                  <table mat-table [dataSource]="listResponsable" class="table">
+                    <ng-container matColumnDef="Eliminar">
+                      <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Eliminar
+                      </mat-header-cell>
+                      <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                        <button mat-icon-button (click)="removeResponsable(row.id)">
+                          <mat-icon aria-hidden="false"
+                                    matTooltip="Eliminar"
+                                    matTooltipPosition="above"
+                                    class="info-color-danger"
+                                    aria-label="Example home icon" fontIcon="delete"></mat-icon>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Usuario">
+                      <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Usuario
+                      </mat-header-cell>
+                      <mat-cell class="table-column-150 text-justify-content" *matCellDef="let row">
+                        {{row.usuario}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Nombre">
+                      <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef mat-sort-header>
+                        Nombre
+                      </mat-header-cell>
+                      <mat-cell class="table-column-200" *matCellDef="let row"> {{row.nombre}}
+                      </mat-cell>
+                    </ng-container>
+
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns1" style="min-height:40px ;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns1; let i = index;"
+                             [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                    <!--                </mat-table>-->
+                  </table>
+                  <div *ngIf="isLoading" class="spinner-container">
+                    <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!--          <div class="card-footer"></div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

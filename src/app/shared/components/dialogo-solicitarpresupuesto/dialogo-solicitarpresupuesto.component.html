@@ -1,0 +1,150 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+
+
+  <div class="container-fluid">
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Elaborador</mat-label>
+                <input matInput aria-label="Elaborador" [matAutocomplete]="autoElaborador"
+                       [formControl]="elaboradorCtrl"
+                       formControlName="elaboradorCtrl" required>
+                <a href="javascript:void(0)" mat-button matSuffix mat-icon-button aria-label="Clear"
+                   (click)="searchElaborador()">
+                  <mat-icon>search</mat-icon>
+                </a>
+                <mat-autocomplete #autoElaborador="matAutocomplete" [displayWith]="displayFnNombreElaborador">
+                  <mat-option *ngFor="let state of filteredELEMENT_DATA_ELABORADOR | async" [value]="state">
+                    <img class="example-option-img" aria-hidden src="./assets/img/deepgrade_logo.png" height="25">
+                    <span style="margin-left: 12px;">{{state.Nombre}}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="datosBasicosFormGroup.get('elaboradorCtrl')?.hasError('required')">
+                  Es necesario el elaborador !
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label> Monto Total</mat-label>
+                <input matInput type="number" placeholder="Monto Total" formControlName="montoTotalCtrl">
+                <mat-error *ngIf="datosBasicosFormGroup.controls['montoTotalCtrl'].hasError('required')">
+                  Es necesario monto total !
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Moneda</mat-label>
+                <mat-select formControlName="monedaCtrl">
+                  <mat-option value="0">--SELECCIONE--</mat-option>
+                  <mat-option *ngFor="let item of listMoneda" [value]="item.Id">{{item.Nombre}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="datosBasicosFormGroup.controls['monedaCtrl'].hasError('required')">
+                  Es necesario la moneda !
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Proveedor Recomendado</mat-label>
+                <input matInput aria-label="Proveedor Recomendado" [matAutocomplete]="autoProveedor"
+                       [formControl]="proveedorCtrl"
+                       formControlName="proveedorCtrl" required>
+                <a href="javascript:void(0)" mat-button matSuffix mat-icon-button aria-label="Clear"
+                   (click)="searchProveedor()">
+                  <mat-icon>search</mat-icon>
+                </a>
+                <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnNombreProveedor">
+                  <mat-option *ngFor="let state of filteredELEMENT_DATA_PROVEEDOR | async" [value]="state">
+                    <img class="example-option-img" aria-hidden src="./assets/img/deepgrade_logo.png" height="25">
+                    <span style="margin-left: 12px;">{{state.Nombre}}</span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="datosBasicosFormGroup.get('proveedorCtrl')?.hasError('required')">
+                  Es necesario el proveedor Recomendado !
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label> Indicaciones</mat-label>
+                <textarea matInput placeholder="Indicaciones" formControlName="indicacionesCtrl"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class=" row">
+            <div class="col-md-12">
+              <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,.pdf,.xlsx">
+                <ngx-dropzone-label>Arrastrar y soltar un archivo</ngx-dropzone-label>
+              </ngx-dropzone>
+            </div>
+          </div>
+          <div class=" row">
+            <div class="col-md-12">
+              <div class="files-list">
+                <div class="single-file" *ngFor="let file of files; let i = index">
+                <span [ngClass]="{
+                'icon-pdf': file?.name.split('.').pop() === 'pdf' ,
+                'icon-excel' : file?.name.split('.').pop() === 'xlsx',
+                'icon-img' : file?.name.split('.').pop() === 'png' || file?.name.split('.').pop() === 'jpeg' || file?.name.split('.').pop() === 'jpg'
+                }" class=""></span>
+                  <div style="width: 72%;">
+                    <h4 class="name">
+                      {{ file?.name }}
+                    </h4>
+                    <p class="size">
+                      {{ formatBytes(file?.size) }}
+                    </p>
+                    <app-progress [progress]="file?.progress"></app-progress>
+                  </div>
+                  <!--<mat-icon matSuffix>file_download</mat-icon>-->
+                  <button mat-icon-button aria-label="" (click)="onRemove(i)">
+                    <mat-icon matSuffix>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button class="btn-personalizado" mat-raised-button color="accent">
+            <mat-icon>check</mat-icon>
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>

@@ -1,0 +1,336 @@
+<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+
+        <xng-breadcrumb></xng-breadcrumb>
+        <br />
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-md-12">
+        <mat-progress-bar *ngIf="value == 0 ? false : true" [value]="value" color="primary" class="progressbar"
+          [class.active]="progressRef.isStarted"></mat-progress-bar>
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">device_unknown</i>
+            </div>
+
+            <h4 class="card-title">BANDEJA DE SOLICITUD DE DISPOSITIVOS</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="matexpansionpanelfiltro" (opened)="matexpansionpanelfiltro = true"
+                    (closed)="matexpansionpanelfiltro = false">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title> Filtro Búsqueda </mat-panel-title>
+                      <mat-panel-description> </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="row">
+                      <div class="offset-md-1 col-md-6" style="text-align: right">
+                        <!--<button mat-raised-button class="btn btn-info" (click)="LimpiarControles()">
+                          <mat-icon>delete</mat-icon>
+                          Limpiar
+                        </button>-->
+                        <button (click)="loadDatos()" mat-raised-button class="btn btn-primary">
+                          <mat-icon>search</mat-icon>
+                          Buscar
+                        </button>
+                      </div>
+
+                    </div>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title> Resultado Búsqueda </mat-panel-title>
+                      <mat-panel-description> </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="form-group row">
+                      <mat-sidenav-container>
+                        <mat-sidenav-content>
+                          <div class="table-container">
+                            <table mat-table [dataSource]="dataSource" class="table">
+
+                              <ng-container matColumnDef="uuid">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header> Acciones
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+
+                                  <button mat-icon-button [matMenuTriggerFor]="mainMenu">
+                                    <mat-icon>more_vert</mat-icon>
+                                  </button>
+                                  <mat-menu #mainMenu="matMenu">
+                                    <button mat-menu-item (click)="rowControled(row)">Controlar</button>
+                                    <button mat-menu-item (click)="rowEdit(row)">Editar</button>
+                                  </mat-menu>
+                                </mat-cell>
+
+
+                              </ng-container>
+                              <ng-container matColumnDef="active_time">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  active_time
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <!--<a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
+                                    {{row.Codigo}}
+                                  </a>-->
+                                  {{ row.active_time }}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="id">
+                                <mat-header-cell class="table-column-230 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Id
+                                </mat-header-cell>
+                                <mat-cell class="table-column-230 " *matCellDef="let row">
+                                  {{ row.id }}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="icon">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Icono
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <img src="{{environment}}/{{ row.icon }}" alt="icon_tuya" width=50 height=50 />
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="product_id">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Id Producto
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130" *matCellDef="let row">
+                                  {{ row.product_id }}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="asset_id">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  asset_id
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.asset_id }}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="category">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Categoría
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.category }}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="category_name">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Nombre de Categoría
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 " *matCellDef="let row">
+                                  {{ row.category_name }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="create_time">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  create_time
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.create_time }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="gateway_id">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  gateway_id
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.gateway_id }}
+                                </mat-cell>
+                              </ng-container>
+
+
+                              <ng-container matColumnDef="ip">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  IP
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.ip }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="lat">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  lat
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.lat }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="local_key">
+                                <mat-header-cell class="table-column-230 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Llave Local
+                                </mat-header-cell>
+                                <mat-cell class="table-column-230 text-justify-content" *matCellDef="let row">
+                                  {{ row.local_key }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="lon">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  lon
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.lon }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="model">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  model
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.model }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="name">
+                                <mat-header-cell class="table-column-230 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Nombre
+                                </mat-header-cell>
+                                <mat-cell class="table-column-230 " *matCellDef="let row">
+                                  {{ row.name }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="online">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Online
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <span [ngClass]="{
+                                      'state-false': row.online === false,
+                                      'state-true': row.online === true
+                                    }">
+                                    {{ row.online?"online":"offline" }}</span>
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="product_name">
+                                <mat-header-cell class="table-column-230 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Nombre del Producto
+                                </mat-header-cell>
+                                <mat-cell class="table-column-230 " *matCellDef="let row">
+                                  {{ row.product_name }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="sub">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  sub
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.sub?"Si":"No" }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="time_zone">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  time_zone
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.time_zone }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="update_time">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  update_time
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.update_time }}
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="agregado">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Agregado a Edi
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  {{ row.agregado?"Si":"No" }}
+
+                                </mat-cell>
+                              </ng-container>
+                              <!--
+  
+  <ng-container matColumnDef="uuid">
+    <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+    mat-sort-header>
+    uuid
+  </mat-header-cell>
+  <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+    {{ row.uuid }}
+  </mat-cell>
+</ng-container>
+
+-->
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="
+                                  let row;
+                                  columns: displayedColumns;
+                                  let i = index
+                                " [ngClass]="i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                            </table>
+
+                            <div *ngIf="isLoading" class="spinner-container">
+                              <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                              </mat-progress-spinner>
+                            </div>
+                          </div>
+
+                          <div>
+                            <mat-paginator #paginator [length]="totalRegistros" (page)="pageChanged($event)"
+                              [pageSize]="itemsPerPage" [pageSizeOptions]="[10, 50, 100]">
+                            </mat-paginator>
+                          </div>
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet> </router-outlet>
+</div>

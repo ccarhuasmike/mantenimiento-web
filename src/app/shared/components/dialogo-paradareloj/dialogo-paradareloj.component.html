@@ -1,0 +1,76 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> Parada de Reloj</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+      <div class="form-group row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <input matInput [ngxMatDatetimePicker]="picker1" required
+                   placeholder="Seleccione Fecha de reactivación de reloj"
+                   formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
+            <mat-error *ngIf="datosBasicosFormGroup.get('date')?.hasError('required')">
+              Seleccione Fecha de reactivación de reloj
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Motivo</mat-label>
+            <mat-select formControlName="motivoCtrl" (selectionChange)="onSelectEventMotivo($event.value)">
+              <mat-option value="">
+                SELECCIONE
+              </mat-option>
+              <mat-option *ngFor="let tc of listMotivoParadaReloj" [value]="tc.Id">
+                {{tc.Nombre}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['motivoCtrl'].hasError('required')">
+              Este campo es obligatorio
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <ng-container *ngIf="flagMotivoOtros">
+        <div class="form-group row" >
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" >
+              <mat-label> Descripción de Motivo:</mat-label>
+              <textarea matInput placeholder="Descripción de Motivo" formControlName="descripcMotivoCtrl"
+              ></textarea>
+              <mat-error *ngIf="datosBasicosFormGroup.get('descripcMotivoCtrl')?.hasError('required')">
+                Este campo es obligatorio
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="form-group row">
+        <div class="col-md-12 text-right">
+          <button mat-raised-button class="btn btn-primary">
+            <mat-icon>check</mat-icon>
+            Aceptar
+          </button>
+          <button mat-raised-button class="btn btn-info" (click)="cerrarDialogo()">
+            <mat-icon>block</mat-icon>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+.destinatario_style{
+  margin-top: 240px;
+  margin-left:230px ;
+}
+.nombre_Style{
+  margin-top:9px;
+  margin-left:100px ;
+}
+
+.domicilioDestino_style{
+  margin-top:6px;
+  margin-left: 150px;
+}
+.ubigeoDestino_style {
+  margin-top: 6px;
+  min-width: 380px;
+}
+.domicilioPartida_style{
+  margin-top:6px;
+  margin-left: 150px;
+}
+.ubigeoPartida_style{
+  margin-top:6px;
+  min-width: 380px;
+}
+.fechaTraslado_style{
+font-size: 20px;
+ position:relative;
+  left: 250px;
+  margin-top:1px;
+}
+.listData_style{
+  margin-top: 368px;
+
+}
+.descripcion_style{
+  white-space: nowrap;
+  position: relative;
+  width:450px ;
+  text-transform: uppercase;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+.observacion_style{
+  white-space: nowrap;
+  position: relative;
+  width:150px ;
+  /*border:solid 2px black;*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+.documento_style{
+  width:120px;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.fiLe_style{
+ /*padding-bottom: 1.8px;*/
+  height: 26px;
+}
+
+.invoice{
+  height: 1500.519685px;
+}
+
+
+@media print {
+
+  app-fixedplugin {
+    display: none !important;
+  }
+
+
+}

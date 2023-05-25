@@ -1,0 +1,141 @@
+
+
+.fake_iphone_box {
+	/*fake_iphone_box*/
+	width: 100%;
+/*	height: 250px;*/
+	margin: 20px auto;
+}
+
+
+
+.screen_wrap {
+	position: relative;
+    box-shadow: inset 0 0 45px 8px rgba(0, 0, 0, 0.25), inset 0 4px 2px 2px rgba(255, 255, 255, 0.9), inset 0 -4px 2px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background: #ccd0d4;	
+	/* W3C */
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.screen_wrap .off_mode_cover {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .6);
+	z-index: 60;
+}
+
+.screen_wrap .top_wrap {
+	/*top_wrap*/
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.screen_wrap .bottom_wrap {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+
+
+.dashboard_wrap {
+	margin-top: 20px;
+}
+
+.dashboard_wrap .temp_tips_wrap p {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 100;
+}
+
+.dashboard_wrap .temp_wrap {
+	/*temp_wrap*/
+	position: relative;
+}
+
+.dashboard_wrap .temp_wrap .temp_bg_wrap {
+	/*temp_wrap,temp_bg_wrap*/
+	position: relative;
+}
+
+.dashboard_wrap .temp_wrap .temp_info_wrap {
+	/*temp_wrap,temp_info_wrap*/
+	position: absolute;
+	top: 50%;
+	height: 64px;
+	margin-top: -40px;
+	width: 100%;
+	line-height: 1;
+}
+
+.dashboard_wrap .temp_wrap .temp_info_wrap .temp_control_btn {
+	/*temp_wrap,temp_info_wrap,temp_control_btn*/
+	margin-top: 12px;
+	width: 40px;
+	height: 40px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 1px solid #fff;
+	line-height: 46px;
+	text-align: center;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.dashboard_wrap .temp_wrap .temp_info_wrap .temp_control_btn:active {
+	/*temp_wrap,temp_info_wrap,temp_control_btn*/
+	color: #4597df;
+	background-color: #fff;
+}
+
+.dashboard_wrap .temp_wrap .temp_info_wrap .temp {
+	/*temp_wrap,temp_info_wrap*/
+	font-size: 72px;
+	margin: 0;
+	font-weight: 100;
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+.dashboard_wrap .temp_wrap .temp_info_wrap .temp:after {
+	/*temp_wrap,temp_info_wrap*/
+	content: '\00B0';
+	position: absolute;
+	font-size: 42px;
+}
+
+
+
+.screen_wrap.off_mode .off_mode_cover {
+	/*off_mode_cover*/
+	display: block;
+}
+
+
+.screen_wrap.cold_mode .dashboard_wrap .temp_wrap .temp_info_wrap .temp_control_btn:active {
+	/*temp_wrap,temp_info_wrap,temp_control_btn*/
+	color: #4597df;
+}
+
+.content-ico-tuya{
+	margin:  auto;
+  padding: 10px;
+	display: flex;
+	background: #e3edf7;
+	height: 75px;
+	width: 75px;
+
+	border-radius: 8px;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+
+	transition: transform 0.5s;
+}

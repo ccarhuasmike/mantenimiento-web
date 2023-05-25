@@ -1,0 +1,302 @@
+<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class=" row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+        <br>
+      </div>
+    </div>
+
+
+
+    <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+      <mat-step [stepControl]="firstFormGroup">
+
+        <form [formGroup]="firstFormGroup" (ngSubmit)="finalizarUbigeo()">
+          <ng-template matStepLabel>paso 1</ng-template>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-rose card-header-icon">
+                  <div class="card-icon"><i class="material-icons">description</i></div>
+                  <h4 class="card-title">Registrar Dispositivo</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <mat-drawer-container class="example-container">
+                        <mat-drawer-content style="overflow: hidden;">
+                          <div class="container-fluid"
+                            style=" background: white; box-shadow: 0 21px 41px -13px rgb(0 0 0 / 18%);">
+                            <div class=" row">
+                              <!--
+                               <form [formGroup]="datosBasicosFormGroup" class="form-horizontal w-100 p-md-4 p-4">
+
+                             -->
+                              <div class="col-md-12">
+                                <fieldset class="form-group  p-3">
+                                  <legend class="w-auto px-2">Ubigeo</legend>
+                                  <div class=" row">
+                                    <div class="col-md-6">
+                                      <mat-form-field appearance="outline" style="padding: 0.5rem !important;">
+                                        <mat-label>Localización</mat-label>
+                                        <mat-select formControlName="localizacion"
+                                          (selectionChange)="onSelectLocalizacion($event.value)">
+                                          <mat-option *ngFor="let region of regiones" [value]="region">
+                                            {{region.viewValue}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Api key</mat-label>
+                                        <input matInput placeholder="Ingrese Api key" required formControlName="apiKey">
+
+
+                                      </mat-form-field>
+
+                                    </div>
+                                  </div>
+                                  <div class=" row">
+                                    <div class="col-md-6">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Token</mat-label>
+                                        <input matInput placeholder="Ingrese Token" required formControlName="token">
+
+
+                                      </mat-form-field>
+
+                                    </div>
+                                    <!--<div class="col-md-6">
+                                        <mat-form-field appearance="outline">
+                                          <mat-label>Nombre</mat-label>
+                                          <input matInput placeholder="Ingrese Nombre" required
+                                            formControlName="nombre">
+                                        </mat-form-field>
+
+                                      </div>-->
+                                  </div>
+                                </fieldset>
+                                <!-- <div class=" row">
+                                  <div class="col-md-12 text-left">
+                                    <button mat-raised-button [disabled]="isSubmitted" class="btn btn-primary">
+                                      <mat-icon *ngIf="!isSubmitted">send</mat-icon>
+                                      Enviar
+                                    </button>
+                                  </div>
+                                </div>-->
+                              </div>
+
+                              <!--</form>-->
+                            </div>
+                          </div>
+                        </mat-drawer-content>
+                      </mat-drawer-container>
+                    </div>
+                    <div class="col-md-4">
+                      <div id="map" style="height: 400px;margin-top: 0 !important;"></div>
+                      <!--<div class="card" style="width:  15rem;height: 20rem; margin: auto;margin-top: 2rem;">
+                        <div id="map" class="map" tabindex="0"></div>
+                      </div>-->
+                    </div>
+
+                  </div>
+                </div>
+                <!--          <div class="card-footer"></div>-->
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Configuración Inmuebles</ng-template>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <mat-progress-bar *ngIf="value == 0 ? false : true" [value]="value" color="primary"
+                    class="progressbar" [class.active]="progressRef.isStarted"></mat-progress-bar>
+                  <mat-drawer-container class="example-container">
+                    <mat-drawer-content style="overflow: hidden;">
+                      <div class="container-fluid"
+                        style=" background: white; box-shadow: 0 21px 41px -13px rgb(0 0 0 / 18%);">
+                        <div class=" row">
+                          <form [formGroup]="datosBasicosFormGroup" (ngSubmit)='FinalizarRegistroSolicitud()'
+                            class="form-horizontal w-100 p-md-4 p-4">
+                            <div class="col-md-12">
+                              <p *ngIf="!validateSelect" style="color:red">Es necesario seleccionar un Cliente!</p>
+                              <mat-form-field appearance="outline">
+                                <mat-label>Inmueble</mat-label>
+                                <input matInput [matAutocomplete]="inmuble" [formControl]="myControlInmueble"
+                                  formControlName="myControlInmueble" required>
+                                <button *ngIf="!datosBasicosFormGroup.get('myControlInmueble')?.valid" type="button"
+                                  mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchInmueble()">
+                                  <mat-icon>search</mat-icon>
+                                </button>
+                                <a *ngIf="datosBasicosFormGroup.get('myControlInmueble')?.valid"
+                                  href="javascript:void(0)" mat-button matSuffix mat-icon-button aria-label="Clear"
+                                  (click)="closeInmueble()">
+                                  <mat-icon>close</mat-icon>
+                                </a>
+                                <mat-autocomplete #inmuble="matAutocomplete">
+                                  <mat-option disabled>Por favor seleccione una opción</mat-option>
+                                  <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
+                                    <mat-spinner diameter="20"></mat-spinner>
+                                  </mat-option>
+                                  <mat-tree [dataSource]="dataSourceInmueble" [treeControl]="treeControlInmueble"
+                                    *ngIf="showDropDownInmueble">>
+                                    <!-- Esta es la plantilla de nodo de árbol para nodos de hoja -->
+                                    <mat-tree-node (click)="onLeafInmuebleNodeClick(node)" *matTreeNodeDef="let node"
+                                      matTreeNodePadding>
+                                      <!-- use un botón deshabilitado para proporcionar relleno para la hoja del árbol -->
+                                      <button mat-icon-button disabled></button>
+                                      {{node.label}}
+                                    </mat-tree-node>
+                                    <!-- This is the tree node template for expandable nodes -->
+                                    <mat-tree-node *matTreeNodeDef="let node;when: hasChildInmueble"
+                                      (click)="onLeafInmuebleNodeClick(node)" matTreeNodePadding>
+                                      <button mat-icon-button matTreeNodeToggle
+                                        [attr.aria-label]="'toggle ' + node.label">
+                                        <mat-icon class="mat-icon-rtl-mirror">
+                                          {{treeControlInmueble.isExpanded(node) ? 'expand_more' :
+                                          'chevron_right'}}
+                                        </mat-icon>
+                                      </button>
+                                      {{node.label}}
+                                    </mat-tree-node>
+                                  </mat-tree>
+
+                                </mat-autocomplete>
+                                <mat-error *ngIf="datosBasicosFormGroup.get('myControlInmueble')?.hasError('required')">
+                                  Es necesario el arbol de inmuebles!
+                                </mat-error>
+                              </mat-form-field>
+                              <!--<div class=" row">
+                                    <div class="col-md-12 text-left">
+
+                                      <button mat-raised-button [disabled]="isSubmitted" class="btn btn-primary">
+                                        <mat-icon *ngIf="!isSubmitted">send</mat-icon>
+                                        Enviar
+                                      </button>
+                                    </div>
+                                  </div>-->
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </mat-drawer-content>
+                  </mat-drawer-container>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div style="height: 1rem;margin: 1rem;">
+                        <p *ngIf="todo.length===0" style="line-height: 2rem;">ARRASTRAR AQUI</p>
+                      </div>
+                      <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
+                        [cdkDropListConnectedTo]="[doneList]" class="example-list auxClass"
+                        (cdkDropListDropped)="drop($event)">
+                        <div class="example-box " *ngFor="let item of todo" cdkDrag>
+                          <img src="{{environment}}/{{ item.icon }}" [alt]="item.name" width=50 height=50 />
+                          <div class="ml-2">
+                            {{item.name}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div style="height: 1rem;margin: 1rem;">
+                        <p style="line-height: 2rem;">DISPOSITIVOS</p>
+                      </div>
+                      <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="doneDispositive"
+                        [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)" class="example-list">
+                        <div class="shadow-md example-box" *ngFor="let item of doneDispositive" cdkDrag>
+                          <img src="{{environment}}/{{ item.icon }}" [alt]="item.name" width=50 height=50 />
+                          <div class="ml-2">
+                            {{item.name}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Resumen</ng-template>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card p-4">
+              <h4>UBIGEO</h4>
+              <div>
+                <p>Localización:<br>
+                  <span>
+                    Centro de datos de America del Este
+                  </span>
+                </p>
+              </div>
+              <div>
+                <p>Token:<br>
+                  #####%2% #####</p>
+              </div>
+              <div>
+                <p>Api Key:<br>
+                  #####%2% #####</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card p-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <h4>CONFIGURACIÓN INMUEBLE</h4>
+                  <div>
+                    <p>Inmueble:<br>
+                      AG ALTO TRUJILLO</p>
+                  </div>
+                  <div>
+                    <p>Edificio:<br>
+                      AG ALTO TRUJILLO
+                    </p>
+                  </div>
+                  <div>
+                    <p>Piso:<br>
+                      PISO 1</p>
+                  </div>
+                  <div>
+                    <p>Área:<br>
+                      ÁREA DE PLATAFORMA/OPERACIONES</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h4>DISPOSITIVOS</h4>
+
+                  <p>Total Configurado:<br>
+                    8</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary m-3">Registrar </button>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

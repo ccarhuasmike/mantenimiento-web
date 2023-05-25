@@ -1,0 +1,94 @@
+﻿<div fxFlex="1 0 100%" fxLayout="column" fxLayoutAlign="start stretch">
+
+  <div>
+    PAGE HEADER
+  </div>
+
+  <mat-sidenav-container fxFlex="0 1 auto">
+    <mat-sidenav-content>
+      <div class="mat-elevation-z8 m-12">
+        <div class="table-container">
+          <!-- <table mat-table [dataSource]="dataSource"> -->
+          <table mat-table [dataSource]="dataSource">
+            <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position" sticky>
+              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name" sticky>
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> Name </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="weight">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> Weight </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.weight}} </mat-cell>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> Symbol </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.symbol}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="test">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="test1">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test1 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test1}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test2">
+              <mat-header-cell *matHeaderCellDef> test2 </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.test2}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test3">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test3 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test3}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test4">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test4 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test4}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test5">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test5 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test5}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test6">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test6 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test6}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test7">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test7 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test7}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="test8">
+              <mat-header-cell *matHeaderCellDef class="table-column-100"> test8 </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-column-100"> {{element.test8}} </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </table>
+
+          <div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+                           [showFirstLastButtons]="true">
+            </mat-paginator>
+          </div>
+
+        </div>
+        <!-- end table container -->
+
+      </div>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>

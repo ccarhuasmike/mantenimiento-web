@@ -1,0 +1,18 @@
+<h4 mat-dialog-title class="dialog-headline">
+    <mat-toolbar role="toolbar" class="dialog-header">
+        <span>Fecha Estimada Atención</span>
+  
+        
+        <span class="fx-spacer"></span>
+        <button mat-icon-button (click)="cerrarDialogo()">
+            <mat-icon mat-list-icon>close</mat-icon>
+        </button>
+    </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+    <br>
+    <div class="container-fluid" >
+        <app-dialogo-countdown    [DataReloj]="dataReloj"></app-dialogo-countdown>  
+    </div>
+  
+</div>

@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <p style="font-weight: 600;
+    font-size: 18px;
+  "> {{fechaFin}}</p>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-md-12" style="height: 240px;margin-bottom: -40px;">
+    <circle-progress [maxPercent]="100" [percent]="progressDay" [radius]="20" [outerStrokeWidth]="1"
+      [innerStrokeWidth]="1" [space]="1" [responsive]="true" [outerStrokeColor]="'#FF9900'"
+      [innerStrokeColor]="'#ff99005e'" titleFontSize="6" unitsFontSize="8" [showSubtitle]="false" [animation]="false"
+      [startFromZero]="true" [title]="TitleDias" [showUnits]="false">
+    </circle-progress>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" style="height: 240px;margin-bottom: -40px;">
+    <circle-progress [maxPercent]="100" [percent]="progressHora" [radius]="20" [outerStrokeWidth]="1"
+      [innerStrokeWidth]="1" [space]="1" [responsive]="true" [outerStrokeColor]="'#ECEFCB'"
+      [innerStrokeColor]="'#e7e8ea'" titleFontSize="6" unitsFontSize="8" [showSubtitle]="false" [animation]="false"
+      [startFromZero]="true" [title]="TitleHora" [showUnits]="false">
+    </circle-progress>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" style="height: 240px;margin-bottom: -40px;">
+    <circle-progress [maxPercent]="100" [percent]="progressMin" [radius]="20" [outerStrokeWidth]="1"
+      [innerStrokeWidth]="1" [space]="1" [responsive]="true" [outerStrokeColor]="'#ACC742'"
+      [innerStrokeColor]="'#e7e8ea'" titleFontSize="6" unitsFontSize="8" [showSubtitle]="false" [animation]="false"
+      [startFromZero]="true" [title]="TitleMin" [showUnits]="false">
+    </circle-progress>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" style="height: 240px;margin-bottom: -40px;">
+    <circle-progress [maxPercent]="100" [percent]="progressSeg" [radius]="20" [outerStrokeWidth]="1"
+      [innerStrokeWidth]="1" [space]="1" [responsive]="true" [outerStrokeColor]="'#7995D5'"
+      [innerStrokeColor]="'#e7e8ea'" titleFontSize="6" unitsFontSize="8" [showSubtitle]="false" [animation]="false"
+      [startFromZero]="false" [title]="TitleSeg" [showUnits]="false">
+    </circle-progress>
+  </div>
+</div>

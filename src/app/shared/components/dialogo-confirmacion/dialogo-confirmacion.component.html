@@ -1,0 +1,35 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <div class="form-horizontal">
+      <div class="row">
+        <div class="col-md-12">
+          <p>{{data.mensaje}}</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button mat-raised-button class="btn btn-primary" (click)="confirmado()" >
+            <mat-icon>check</mat-icon>
+            Aceptar
+          </button>
+          <button mat-raised-button class="btn btn-info" (click)="cerrarDialogo()">
+            <mat-icon>block</mat-icon>
+            Cancelar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

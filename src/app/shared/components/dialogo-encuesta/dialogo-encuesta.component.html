@@ -1,0 +1,97 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h4 style="font-weight: 600;">Tus comentarios nos ayudan a mejorar.</h4>
+          
+          <p>Háganos saber acerca de su experiencia sobre el servicio!.</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-center body-emoji ">
+          <div class="rating">
+            <input type="radio" name="star" id="star4" (click)="updateSetting(3)">
+            <label for="star4">
+                <img src="./assets/img/emoji/muybueno.png" alt="">
+                <h4> Muy Bueno</h4>
+            </label>     
+            <input type="radio" name="star" id="star3"   (click)="updateSetting(2)">
+            <label for="star3">
+                <img src="./assets/img/emoji/bueno.png" alt="">
+                <h4> Bueno</h4>
+            </label>
+            <input type="radio" name="star" id="star2" (click)="updateSetting(1)">
+            <label for="star2">
+                <img src="./assets/img/emoji/malo.png" alt="">
+                <h4> Malo</h4>
+            </label>
+            <input type="radio" name="star" id="star1" (click)="updateSetting(0)">
+            <label for="star1">
+                <img src="./assets/img/emoji/muymalo.png" alt="">
+                <h4> Muy Malo</h4>
+            </label>       
+             <!--<h2 class="text"> Do you like this channel</h2>-->
+        </div>
+      
+        </div>
+      </div>
+      <div class="row" *ngIf="mostrarSelecionMotivo">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Motivo Calificación</mat-label>
+            <mat-select formControlName="motivoCalificacionCtrl">
+              <mat-option value="">Seleccione el motivo de su baja calificación</mat-option>
+              <mat-option value="1">Atención fuera del tiempo ofrecido</mat-option>
+              <mat-option value="2">Falla reincidente</mat-option>
+              <mat-option value="3">Mal acabado</mat-option>
+              <mat-option value="4">Orden y Limpieza</mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['motivoCalificacionCtrl'].hasError('required')">
+              Es necesario el motivo de calificación
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="row" *ngIf="mostrarSelecionMotivo">
+        <div class="col-md-4">
+          <mat-checkbox [color]="'primary'" formControlName="seleccionMotivoCalificacionCtrl" class="example-margin">
+            Considerar esta calificación como un reclamo
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label> Envianos tu comentario</mat-label>
+            <textarea matInput placeholder="Envianos tu comentario" formControlName="comentariosCtrl"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button class="btn-personalizado" mat-raised-button color="accent">
+            <mat-icon>check</mat-icon>
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>

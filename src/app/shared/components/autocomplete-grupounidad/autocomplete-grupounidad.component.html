@@ -1,0 +1,37 @@
+﻿<mat-form-field appearance="outline">
+  <mat-label>Grupo/Unidad</mat-label>
+  <input matInput [matAutocomplete]="grupomantenimiento" [(ngModel)]="NombreGrupoMantenimientoSeleccionado"
+         (keyup)=onKey($event)
+         >
+  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
+          (click)="searchGrupoUnidad('')">
+    <mat-icon>search</mat-icon>
+  </button>
+  <mat-autocomplete #grupomantenimiento="matAutocomplete">
+    <mat-option disabled>Por favor seleccione una opción</mat-option>
+    <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
+      <mat-spinner diameter="20"></mat-spinner>
+    </mat-option>
+    <mat-tree [dataSource]="dataSourceGrupoMantenimiento"
+              [treeControl]="treeControlGrupoMantenimiento"
+              *ngIf="showDropDownGrupoMantenimiento">>
+      <!-- Esta es la plantilla de nodo de árbol para nodos de hoja -->
+      <mat-tree-node (click)="onLeafGrupoUnidadNodeClick(node)" *matTreeNodeDef="let node"
+                     matTreeNodePadding>
+        <!-- use un botón deshabilitado para proporcionar relleno para la hoja del árbol -->
+        <button mat-icon-button disabled></button>
+        {{node.label}}
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChildGrupoMantenimiento" (click)="onLeafGrupoUnidadNodeClick(node)"  matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.label">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControlGrupoMantenimiento.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        {{node.label}}
+      </mat-tree-node>
+    </mat-tree>
+  </mat-autocomplete>
+</mat-form-field>

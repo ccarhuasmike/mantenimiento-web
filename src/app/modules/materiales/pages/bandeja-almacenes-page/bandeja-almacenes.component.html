@@ -1,0 +1,188 @@
+﻿<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+            <h4 class="card-title">BANDEJA DE ALMACENES</h4>
+          </div>
+          <div class="card-body">
+
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="matexpansionpanelfiltro" (opened)="matexpansionpanelfiltro = true"
+                    (closed)="matexpansionpanelfiltro = false">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Filtro Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <app-multiselectclient (valueResponse)="recibiRespuestaCliente($event)"
+                          [reset]="_filtro.IdsCliente" [value]="listClienteSeteado"></app-multiselectclient>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Almacén</mat-label>
+                          <input matInput placeholder="Ingrese Almacén" [(ngModel)]="_filtro.Almacen">
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Código de Establecimiento</mat-label>
+                          <input matInput placeholder="Ingrese Código de Establecimiento"
+                            [(ngModel)]="_filtro.CodigoEstablecimiento">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <!--      <mat-form-field appearance="outline">
+                          <mat-label>Estado:</mat-label>
+                          <input matInput placeholder="Ingrese Estado" [(ngModel)]="_filtro.Estado">
+                        </mat-form-field>-->
+
+                        <mat-form-field appearance="outline">
+                          <mat-select [(value)]="_filtro.Estado">
+
+                            <mat-option value="Activo">Activo</mat-option>
+                            <mat-option value="Inactivo">Inactivo</mat-option>
+
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!--
+                    <div class="row">
+                      <div class="col-md-4">
+                        <app-multiselectinspector (valueResponse)="recibiRespuestaInspector($event)"
+                          [value]="_filtro.IdsCliente" [reset]="_filtro.IdsInspector"></app-multiselectinspector>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Cod. Solic.</mat-label>
+                          <input matInput placeholder="Cod. Solic" [(ngModel)]="_filtro.Codigo">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <app-multiselecttiposolicitud (valueResponse)="recibiRespuestaTipoSolicitud($event)"
+                          [value]="_filtro.IdsCliente" [reset]="_filtro.IdsTipoSolicitud">
+                        </app-multiselecttiposolicitud>
+                      </div>
+                    </div>
+                 -->
+
+                    <div class="row ">
+                      <div class="col-md-12">
+                        <button (click)="loadDatos()" mat-raised-button class="btn btn-primary">
+                          <mat-icon>search</mat-icon>
+                          Buscar
+                        </button>
+                        <button mat-raised-button class="btn btn-info" (click)="LimpiarControles()">
+                          <mat-icon>delete</mat-icon>
+                          Limpiar
+                        </button>
+                        <button mat-raised-button class="btn btn-primary" routerLink="/materiales/registroAlmacen">
+                          Nuevo
+                          
+                        </button>
+                      </div>
+
+                    </div>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Resultado Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="form-group row ">
+                      <!--              <div fxFlex="1 0 100%" fxLayout="column" fxLayoutAlign="start stretch">-->
+                      <mat-sidenav-container>
+                        <mat-sidenav-content>
+                          <!--                    <div class="mat-elevation-z8 m-12">-->
+                          <div class="table-container ">
+                            <table mat-table [dataSource]="dataSource" class="table ">
+                              <ng-container matColumnDef="Codigo">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Código
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200 " *matCellDef="let row">
+                                  <a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
+                                    {{row.codigo}}
+                                  </a>
+                                </mat-cell>
+                              </ng-container>
+                            <ng-container matColumnDef="Almacen">
+                              <mat-header-cell class="table-column-350 " *matHeaderCellDef>
+                                Almacén
+                                </mat-header-cell>
+                                <mat-cell class="table-column-350 "
+                                  *matCellDef="let row; let i=index;">
+                                  {{row.almacen}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="CodigoEstablecimiento">
+                                <mat-header-cell class="table-column-200 " *matHeaderCellDef
+                                  mat-sort-header>Código Establecimiento
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.codigoEstablecimiento}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Ubigeo">
+                                <mat-header-cell class="table-column-400 text-left" *matHeaderCellDef mat-sort-header>Ubigeo
+                                </mat-header-cell>
+                                <mat-cell class="table-column-400" *matCellDef="let row"> {{row.ubigeo}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Estado">
+                                <mat-header-cell class="table-column-100 " *matHeaderCellDef mat-sort-header>Estado
+                                </mat-header-cell>
+                                <mat-cell class="table-column-100" *matCellDef="let row"> {{row.estado}}
+                                </mat-cell>
+                              </ng-container>
+
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                                [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                              <!--                </mat-table>-->
+                            </table>
+                            <div *ngIf="isLoading" class="spinner-container">
+                              <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                              </mat-progress-spinner>
+                            </div>
+                          </div>
+                          <div>
+                            <mat-paginator #paginator [length]="totalRegistros" (page)="pageChanged($event)"
+                              [pageSizeOptions]="[10]">
+                            </mat-paginator>
+                          </div>
+                          <!-- end table container -->
+                          <!--                    </div>-->
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+                      <!--              </div>-->
+                    </div>
+                  </mat-expansion-panel>
+
+                </mat-accordion>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

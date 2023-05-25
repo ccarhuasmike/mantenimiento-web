@@ -1,0 +1,236 @@
+﻿<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+            <h4 class="card-title">MIS SOLICITUDES</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="matexpansionpanelfiltro" (opened)="matexpansionpanelfiltro = true"
+                    (closed)="matexpansionpanelfiltro = false">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Filtro Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>                    
+                    <div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Cod. Solic.</mat-label>
+                          <input matInput placeholder="Cod. Solic" [(ngModel)]="_filtro.Codigo">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <app-multiselectsolicitante (valueResponse)="recibiRespuestaSolicitante($event)"
+                          [value]="_filtro.IdsCliente" [setDefault]="listSolicitanteSeteado"
+                          [reset]="_filtro.IdsSolicitante"></app-multiselectsolicitante>
+                      </div>     
+                      <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Agencia Origen.</mat-label>
+                          <input matInput placeholder="Cod. Solic" [(ngModel)]="_filtro.AgenciaOrigen">
+                        </mat-form-field>
+                      </div>           
+                    </div>
+                    <div class="row">
+                    
+                      <div class="col-md-4">
+
+                        <mat-form-field appearance="outline">
+                          <mat-label>Estados</mat-label>
+                          <mat-select [(ngModel)]="_filtro.IdEstado">
+                            <mat-option *ngFor="let item of listaEstado" [value]="item.Id">
+                              {{item.Nombre}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field appearance="outline">
+                          <mat-select placeholder="Estados" [formControl]="toppings" [(value)]="selectedEstados" multiple>
+                            <mat-option *ngFor="let item of listaEstado" [value]="item">{{item.Nombre}}</mat-option>
+                          </mat-select>
+                        </mat-form-field> -->
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Ingrese un rango de fechas</mat-label>
+                          <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Fecha de inicio" [(ngModel)]="_filtro.FechaRegDesde"
+                              datePickerFormat="DD/MM/YYYY">
+                            <input matEndDate placeholder="Fecha fin" [(ngModel)]="_filtro.FechaRegHasta"
+                              datePickerFormat="DD/MM/YYYY">
+                          </mat-date-range-input>
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">                        
+                        <section class="example-section">
+                          <mat-checkbox [color]="'primary'" class="example-margin"
+                            [checked]="_filtro.AplicaRequerimientosRechazados"
+                            (change)="onCheckedChangedMostrarAnulados($event)"> Mostrar anulados
+                          </mat-checkbox>                          
+                        </section>
+                      </div>
+                    </div>                
+                   
+                    <div class="row">
+                      <div class="offset-md-1 col-md-6" style="text-align: right;">
+                        <button mat-raised-button class="btn btn-info" (click)="LimpiarControles()">
+                          <mat-icon>delete</mat-icon>
+                          Limpiar
+                        </button>
+                        <button (click)="loadDatos()" mat-raised-button class="btn btn-primary">
+                          <mat-icon>search</mat-icon>
+                          Buscar
+                        </button>
+                      </div>
+                      <div class="col-md-5" style="text-align: right;">                        
+                        <button mat-raised-button class="btn btn-primary" routerLink="/solicitud/registrosolicitud">
+                          Nueva Ticket
+                        </button>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Resultado Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="form-group  row" [hidden]="dataSource?.length === 0">
+                      <button class="btn btn-primary" *ngIf="dataSource?.length > 0" (click)="btnResturarEstadoSolicitud_Click()" mat-raised-button>
+                        <mat-icon>do_not_disturb_on</mat-icon>
+                        Calificar
+                      </button>
+                    </div>
+                    <div class="form-group row">
+                      <mat-sidenav-container>
+                        <mat-sidenav-content>                          
+                          <div class="table-container">
+                            <table mat-table [dataSource]="dataSource" class="table">
+                              <ng-container matColumnDef="select">
+                                <mat-header-cell [ngClass]="'w-75'" mat-header-cell *matHeaderCellDef>
+                                  <mat-checkbox [color]="'primary'" (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                  </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell mat-cell [ngClass]="'w-75'" *matCellDef="let row">
+                                  <mat-checkbox [color]="'primary'" (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                  </mat-checkbox>
+                                </mat-cell>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="NroSolicitud">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Nro.Solicitud
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
+                                    {{row.Codigo}}
+                                  </a>
+                                </mat-cell>
+                              </ng-container>                           
+                              <ng-container matColumnDef="TipoServicio">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Tipo Servicio
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.TipoServicio}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Prioridad">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Prioridad
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Prioridad}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Solicitante">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Solicitante
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Solicitante}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Estado">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Estado
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Estado}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="FRegistro">
+                                <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef> F.Registro
+                                </mat-header-cell>
+                                <mat-cell class="table-column-150 text-justify-content"
+                                  *matCellDef="let row; let i=index;">
+                                  {{row.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="FEstimada">
+                                <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef> F.Estimada
+                                </mat-header-cell>
+                                <mat-cell class="table-column-150 text-justify-content"
+                                  *matCellDef="let row; let i=index;">
+                                  {{row.FechaEstimadaAtencion | date: 'dd/MM/yyyy HH:mm'}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="FEntrega">
+                                <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef> F.Entrega
+                                </mat-header-cell>
+                                <mat-cell class="table-column-150 text-justify-content"
+                                  *matCellDef="let row; let i=index;">
+                                  {{row.FechaDisponibilidad | date: 'dd/MM/yyyy HH:mm'}}</mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                                [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                              <tr class="mat-row no-data-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="9">No se encontraron registro.</td>
+                              </tr>
+                              <!--                </mat-table>-->
+                            </table>
+                            <div *ngIf="isLoading" class="spinner-container">
+                              <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                              </mat-progress-spinner>
+                            </div>
+                          </div>
+                          <div>
+                            <mat-paginator #paginator [hidden]="dataSource?.length === 0" [length]="totalRegistros"
+                              (page)="pageChanged($event)" [pageSize]="itemsPerPage" [pageSizeOptions]="[10, 50, 100]">
+                            </mat-paginator>
+                          </div>
+                          <!-- end table container -->
+                          <!--                    </div>-->
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+                      <!--              </div>-->
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

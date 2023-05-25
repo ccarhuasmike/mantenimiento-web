@@ -1,0 +1,9 @@
+//https://stackblitz.com/edit/angular-mat-table-scroll?file=app%2Ftable-basic-example.ts,app%2Ftable-basic-example.html,index.html,app%2Ftable-basic-example.scss
+// ayudante de ancho de columna de tabla para tablas mat
+@for $index from 0 through 400 {
+    $size: $index * 2;
+    .table-column-#{$size} {
+      min-width: #{$size}#{"px"};
+    }
+  }
+  

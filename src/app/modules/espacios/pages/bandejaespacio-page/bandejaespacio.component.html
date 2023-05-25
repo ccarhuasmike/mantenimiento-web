@@ -1,0 +1,291 @@
+﻿<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+            <h4 class="card-title">BANDEJA DE RESERVAS</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="matexpansionpanelfiltro" (opened)="matexpansionpanelfiltro = true"
+                    (closed)="matexpansionpanelfiltro = false">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Filtro Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="row">
+                      <div class="col-md-8">
+                        <fieldset class="form-group  p-3">
+                          <legend class="w-auto px-2">SEDE / LOCAL</legend>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Inmueble</mat-label>
+                                <mat-select [(ngModel)]="_filtro.IdInmueble"
+                                  (selectionChange)="onSelectEventInmueble($event.value)">
+                                  <mat-option *ngFor="let item of listInmueble" [value]="item.id">
+                                    {{item.nombre}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Ingrese un rango de fechas</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                  <input matStartDate placeholder="Fecha de inicio" (dateChange)="logMonth($event)"
+                                    [(ngModel)]="_filtro.FechaRegDesde" datePickerFormat="DD/MM/YYYY">
+                                  <input matEndDate placeholder="Fecha fin" [(ngModel)]="_filtro.FechaRegHasta"
+                                    datePickerFormat="DD/MM/YYYY">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                              </mat-form-field>
+
+                              <!--
+                                  <mat-form-field appearance="outline">
+                                    <input matInput [matDatepicker]="picker" [(ngModel)]="_filtro.FechaRegHasta"  (dateChange)="logMonth($event)" 
+                                      (click)="picker.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
+                                -->
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button (click)="loadDatos()" mat-raised-button class="btn btn-primary">
+                                <mat-icon>search</mat-icon>
+                                Buscar
+                              </button>
+                              <button mat-raised-button class="btn btn-info" (click)="LimpiarControles()">
+                                <mat-icon>delete</mat-icon>
+                                Limpiar
+                              </button>
+                              <button mat-raised-button class="btn btn-primary" routerLink="/espacios/regreserva">
+                                Nuevo Espacio
+                              </button>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col-md-4">
+
+                        <fieldset class="form-group  p-3">
+                          <legend class="w-auto px-2">Aforo del dia: {{_filtro.FechaRegDesde | date: 'dd/MM/yyyy'}}</legend>
+                          <div class="row" style="box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);padding: 8px 0px 0px 0px;">
+                            <div class="col-md-3">
+                              <div class="col-md-12 text-center">
+                                <mat-icon class="icon-sede-local">boy</mat-icon>
+                              </div>
+                              <div class="col-md-12 text-center">
+                                <p>{{aforoPorInmueble.aforoPersona}}</p>
+                              </div>
+
+                            </div>
+                            <div class="col-md-3">
+                              <div class="col-md-12 text-center">
+                                <mat-icon class="icon-sede-local">directions_car</mat-icon>
+                              </div>
+                              <div class="col-md-12 text-center">
+                                <p>{{aforoPorInmueble.aforoAuto}}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="col-md-12 text-center">
+                                <mat-icon class="icon-sede-local">motorcycle</mat-icon>
+                              </div>
+                              <div class="col-md-12 text-center">
+                                <p>{{aforoPorInmueble.aforoMoto}}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="col-md-12 text-center">
+                                <mat-icon style="color: green;" class="icon-sede-local">directions_bike</mat-icon>
+                              </div>
+                              <div class="col-md-12 text-center">
+                                <p>{{aforoPorInmueble.aforoBicicleta}}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                        </fieldset>
+
+                      </div>
+                    </div>
+
+
+                  </mat-expansion-panel>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Resultado Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="form-group row">
+                      <mat-sidenav-container>
+                        <mat-sidenav-content>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <button (click)="btnCancelarReserva()" mat-raised-button class="btn btn-warning">
+                                <mat-icon>block</mat-icon>
+                                Cancelar Reserva
+                              </button>
+                              <button mat-raised-button class="btn btn-info" (click)="btnCheckIn()">
+                                <mat-icon>done</mat-icon>
+                                CheckIn
+                              </button>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="table-container">
+                                <table mat-table [dataSource]="dataSource" class="table">
+                                  <ng-container matColumnDef="select">
+                                    <mat-header-cell class="table-column-50" mat-header-cell *matHeaderCellDef>
+                                      <mat-checkbox [color]="'primary'"
+                                        (change)="$event ? masterToggleTarifadoServicio() : null"
+                                        [checked]="selectionTarifadoServicio.hasValue() && isAllSelectedTarifadoServicio()"
+                                        [indeterminate]="selectionTarifadoServicio.hasValue() && !isAllSelectedTarifadoServicio()">
+                                      </mat-checkbox>
+                                    </mat-header-cell>
+                                    <mat-cell mat-cell class="table-column-50" *matCellDef="let row">
+                                      <mat-checkbox [color]="'primary'" (click)="$event.stopPropagation()"
+                                        (change)="$event ? selectionTarifadoServicio.toggle(row) : null"
+                                        [checked]="selectionTarifadoServicio.isSelected(row)">
+                                      </mat-checkbox>
+                                    </mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Solicitante">
+                                    <mat-header-cell class="table-column-250 text-justify-content" *matHeaderCellDef>
+                                      Solicitante
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-250 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      {{row.usuario}}</mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="FechaReserva">
+                                    <mat-header-cell class="table-column-180 text-justify-content" *matHeaderCellDef>
+                                      Fecha
+                                      Reserva
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-180 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      {{row.reservaIni | date: 'dd/MM/yyyy'}}</mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Horario">
+                                    <mat-header-cell class="table-column-180 text-justify-content" *matHeaderCellDef
+                                      mat-sort-header>Horario
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-180 text-justify-content" *matCellDef="let row">
+                                      {{ row.reservaIni | date:'HH:mm'}} - {{row.reservaFin | date:'HH:mm' }}
+                                    </mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="IncluyeEstacionamiento">
+                                    <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef>
+                                      Incluye Estacionamiento
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-150 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      {{row.placaAuto!=='' || row.placaMoto!=='' ? 'Si': 'No' }}
+                                    </mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="CheckIn">
+                                    <mat-header-cell class="table-column-100 text-justify-content" *matHeaderCellDef>
+                                      CheckIn
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-100 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      {{row.checking ==true ? 'Si': 'No'}}
+                                    </mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="estado">
+                                    <mat-header-cell class="table-column-100 text-justify-content" *matHeaderCellDef>
+                                      Estado
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-100 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      <span [ngClass]="{
+                                        'estado-registrado-espacio': row.estados === 'Registrado' ,
+                                        'estado-anulado-espacio': row.estados === 'Anulado' ,
+                                        'estado-cancelado-espacio': row.estados === 'Cancelado' ,
+                                        'estado-chequeado-espacio': row.estados === 'Chequeado'                                   
+                                        }">{{row.estados}}</span>
+
+                                    </mat-cell>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="QR">
+                                    <mat-header-cell class="table-column-260 text-justify-content" *matHeaderCellDef> QR
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-260 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+
+                                      <button mat-raised-button class="btn btn-info" (click)="btnPreviewQR(row)">
+                                        <mat-icon>qr_code</mat-icon>
+                                        Ver QR
+                                      </button>
+
+
+                                    </mat-cell>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Motivo">
+                                    <mat-header-cell class="table-column-350 text-justify-content" *matHeaderCellDef>
+                                      Motivo
+                                    </mat-header-cell>
+                                    <mat-cell class="table-column-350 text-justify-content"
+                                      *matCellDef="let row; let i=index;">
+                                      {{row.motivo}}
+                                    </mat-cell>
+                                  </ng-container>
+                                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                                    [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                                  <tr class="mat-row no-data-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="5">No se encontraron registro.</td>
+                                  </tr>
+                                </table>
+                                <div *ngIf="isLoading" class="spinner-container">
+                                  <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                                  </mat-progress-spinner>
+                                </div>
+                              </div>
+                              <div>
+                                <mat-paginator #paginator [length]="totalRegistros" (page)="pageChanged($event)"
+                                  [pageSizeOptions]="[10]">
+                                </mat-paginator>
+                              </div>
+                            </div>
+                          </div>
+
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

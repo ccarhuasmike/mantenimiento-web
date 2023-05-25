@@ -1,0 +1,53 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> Vista Previa QR</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <div class="form-horizontal">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h4 style="font-weight: 600;">Hola, esta es mi reserva </h4>
+          <p style="color: #00bcd4;"> {{ data.usuario }} </p>
+          <p style="color: red;">Estado: {{ data.estados}} </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <qrcode [qrdata]="data.guid" [width]="375" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p style="font-weight: 600;"> {{ data.inmueble}} </p>
+          <p style="color: #00bcd4;">Desde: {{ data.reservaIni | date:'dd/MM/yyyy HH:mm'}} </p>
+          <p style="color: #00bcd4;">Desde: {{ data.reservaFin | date:'dd/MM/yyyy HH:mm'}} </p>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <a href="javascript:void(0)" *ngIf="data.tieneAuto" class="btn btn-lg btn-just-icon btn-round"  
+            style=" background-color: #156185 !important;border-color: #156185;">
+            <mat-icon>directions_car</mat-icon>
+          </a>
+          <a href="javascript:void(0)" *ngIf="data.tieneMoto" class="btn btn-lg btn-just-icon btn-round"
+          style=" background-color: #156185 !important;border-color: #156185;">
+            <mat-icon>motorcycle</mat-icon>
+          </a>
+          <a href="javascript:void(0)" *ngIf="data.tieneBici" class="btn btn-lg btn-just-icon btn-round" 
+            style="background-color: rgb(60, 179, 60) !important; border-color: rgb(60, 179, 60);">
+            <mat-icon>directions_bike</mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

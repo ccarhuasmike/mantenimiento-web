@@ -1,0 +1,100 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label> Material</mat-label>
+            <input matInput type="text" placeholder="Material" formControlName="materialCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['materialCtrl'].hasError('required')">
+              Es necesario Material !
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Unidad</mat-label>
+            <mat-select formControlName="unidadCtrl">
+              <mat-option value="0">--SELECCIONE--</mat-option>
+              <mat-option *ngFor="let item of listUnidadMedida" [value]="item.Id">{{item.Nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['unidadCtrl'].hasError('required')">
+              Es necesario la Unidad !
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>      
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label> Precio Unit.</mat-label>
+            <input matInput type="number"  (keyup)="onKeyUpPrecioUnitario($event)" placeholder="Precio Unit" formControlName="preciounitarioCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['preciounitarioCtrl'].hasError('required')">
+              Es necesario precio Unit !
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Moneda</mat-label>
+            <mat-select formControlName="monedaCtrl">
+              <mat-option value="0">--SELECCIONE--</mat-option>
+              <mat-option *ngFor="let item of listMoneda" [value]="item.Id">{{item.Nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['monedaCtrl'].hasError('required')">
+              Es necesario la moneda !
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>   
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label> Cantidad.</mat-label>
+            <input matInput type="number" (keyup)="onKeyUpCantidad($event)"placeholder="Cantidad" formControlName="cantidadCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['cantidadCtrl'].hasError('required')">
+              Es necesario Cantidad !
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label> Precio Total.</mat-label>
+            <input matInput type="number" readonly="readonly" placeholder="Precio Total" formControlName="precioTotalCtrl">         
+          </mat-form-field>
+        </div>
+      </div>  
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label> Descripción del Servicio</mat-label>
+            <textarea matInput placeholder="Descripción del Servicio" formControlName="descripcionServicioCtrl"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button class="btn btn-primary" mat-raised-button color="accent">
+            <mat-icon>check</mat-icon>
+            Aceptar
+          </button>        
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>

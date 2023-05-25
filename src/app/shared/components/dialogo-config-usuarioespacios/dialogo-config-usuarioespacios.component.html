@@ -1,0 +1,154 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <p style="font-weight: 600;">Por favor completa los campos requeridos</p>
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="IdTipoPersonaCtrl">
+            <mat-radio-button [color]="'primary'" class="example-radio-button" *ngFor="let season of seasons"
+              [value]="season" (change)="radioChange($event)">
+              {{season.Nombre}}
+            </mat-radio-button>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['IdTipoPersonaCtrl'].hasError('required')">
+              Es necesario seleccionar
+            </mat-error>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Código Matrícula</mat-label>
+            <input matInput placeholder="Código Matrícula"   formControlName="codigoMatriculaCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['codigoMatriculaCtrl'].hasError('required')">
+              Es necesario código Matrícula
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombres</mat-label>
+            <input matInput placeholder="Nombres" formControlName="nombreCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['apePaternoCtrl'].hasError('required')">
+              Es necesario apellido paterno
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Ape. Paterno</mat-label>
+            <input matInput placeholder="Ape. Paterno" formControlName="apePaternoCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['apePaternoCtrl'].hasError('required')">
+              Es necesario apellido paterno
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Ape. Materno</mat-label>
+            <input matInput placeholder="Ape. Materno" formControlName="apeMaternoCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['apeMaternoCtrl'].hasError('required')">
+              Es necesario apellido materno
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select formControlName="tipoDocumentoCtrl">
+              <mat-option value="">--Seleccione--</mat-option>
+              <mat-option *ngFor="let item of listTipoDocumento" [value]="item.Id">
+                {{item.Nombre}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['tipoDocumentoCtrl'].hasError('required')">
+              Es necesario el tipo de documento
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Número Documento</mat-label>
+            <input matInput placeholder="Número Documento"  formControlName="nroDocumentoCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['nroDocumentoCtrl'].hasError('required')">
+              Es necesario el número de documento
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecciona la empresa en la que trabajas</mat-label>
+            <mat-select formControlName="empresaCtrl">
+              <mat-option value="">Selecciona la empresa en la que trabajas</mat-option>
+              <mat-option *ngFor="let item of listEmpresa" [value]="item.id">
+                {{item.razonSocial}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['empresaCtrl'].hasError('required')">
+              Es necesario empresa
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecciona el área Mibanco con la cual trabajas</mat-label>
+            <mat-select formControlName="areaCtrl">
+              <mat-option value="">Selecciona el área Mibanco con la cual trabajas</mat-option>
+              <mat-option *ngFor="let item of listAreaTrabajo" [value]="item.id">
+                {{item.nombre}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['areaCtrl'].hasError('required')">
+              Es necesario area con la cual trabajas
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput placeholder="Correo Electrónico" formControlName="emailCtrl">
+            <mat-error *ngIf="datosBasicosFormGroup.controls['emailCtrl'].hasError('required')">
+              Es necesario correo electrónico
+            </mat-error>
+            <mat-error *ngIf="datosBasicosFormGroup.controls['emailCtrl'].hasError('pattern')">
+              Correo electrónico ingresada no es valido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button class="btn-personalizado" mat-raised-button color="accent">
+            <mat-icon>check</mat-icon>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

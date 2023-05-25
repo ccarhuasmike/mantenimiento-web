@@ -1,0 +1,26 @@
+﻿p {
+  font-family: Lato;
+}
+.main_content {
+  width:100%;
+  /*height: calc(100vh - 140px);*/
+  height: calc(100vh - 60px);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background: #efeded8a;
+}
+.sidenav-container{
+  height: calc(100vh - 60px);
+}
+.footer{
+  background: #202020;
+  padding: 25px 10px;
+  overflow: hidden;
+}
+
+
+.custom-class-modal{
+  background-color: black !important;
+  /*         ba
+  ckground-color: black;add your styles */
+} 

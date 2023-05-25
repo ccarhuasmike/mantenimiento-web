@@ -1,0 +1,27 @@
+﻿<mat-form-field  appearance="outline">
+  <mat-label>Tipo Solic</mat-label>
+  <mat-chip-list #chipList class="mat-chip-list-wrapper">
+    <mat-chip *ngFor="let fruit of (clientSeleccionado.length<3 ? clientSeleccionado  : clientSeleccionado.slice(0,2)) ; let i = index"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(fruit)">
+<!--      <div *ngIf="i <=1">-->
+        {{fruit.Nombre}}
+<!--      </div>-->
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <span *ngIf="clientSeleccionado.length > 2" class="additional-selection">
+              (+{{clientSeleccionado.length - 2}} {{clientSeleccionado.length === 3 ? 'otro' : 'otros'}})
+            </span>
+
+<!--    <input-->
+<!--      [disabled]="true"-->
+<!--      [matChipInputFor]="chipList"-->
+<!--      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
+<!--      [matChipInputAddOnBlur]="addOnBlur"-->
+<!--      (matChipInputTokenEnd)="add($event)">-->
+
+  </mat-chip-list>
+  <mat-icon matSuffix (click)="search()">search</mat-icon>
+</mat-form-field>
+<!---->

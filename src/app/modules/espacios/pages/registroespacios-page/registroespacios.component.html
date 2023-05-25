@@ -1,0 +1,295 @@
+<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div  class="card-header card-header-green card-header-icon">
+            <div class="card-icon"><i class="material-icons">description</i></div>
+            <h4 class="card-title">REGISTRO DE RESERVAS</h4>
+          </div>
+          <div class="card-body">
+            <div class="container-fluid">
+              <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+                <div class="row">
+                  <div class="col-md-12">                    
+                    <div matTooltip="Para solicitar reserva es necesario aceptar los terminos y condiciones" style="display: inline-block;" [matTooltipDisabled]="disabledbtnSolicitarReserva">
+                      <button    class="btn btn-primary" mat-raised-button [disabled]="!disabledbtnSolicitarReserva">
+                        <mat-icon>save</mat-icon> Solicitar Reserva
+                      </button>
+                    </div>
+                    <a class="btn btn-info" href="javascript:void(0);" (click)="Cancelar()">
+                      <mat-icon>block</mat-icon>
+                      Cancelar
+                    </a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <fieldset class="form-group  p-3">
+                      <legend class="w-auto px-2">SEDE / LOCAL</legend>
+                      <div class=" row">
+                        <div class="col-sm-12 col-md-6 col-lg-5 col-xl-2">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Inmueble</mat-label>
+                                <mat-select formControlName="inmuebleCtrl"
+                                  (selectionChange)="onSelectEventInmueble($event.value)">
+                                  <mat-option *ngFor="let item of listInmueble" [value]="item">
+                                    {{item.nombre}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="datosBasicosFormGroup.controls['inmuebleCtrl'].hasError('required')">
+                                  Es necesario inmueble !
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12 text-center">
+                              <div style="margin: auto;
+                              margin: 0;
+                              padding: 78px 28px;
+                              box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);">
+                                <div class="form-group row">
+                                  <div class="col-md-4 text-right">
+                                    <mat-icon class="icon-sede-local">boy</mat-icon>
+                                  </div>
+                                  <div class="col-md-8 text-left">
+                                    <p>{{aforoPorInmueble.aforoPersona}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="col-md-4 text-right">
+                                    <mat-icon class="icon-sede-local">directions_car</mat-icon>
+                                  </div>
+                                  <div class="col-md-8 text-left">
+                                    <p>{{aforoPorInmueble.aforoAuto}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="col-md-4 text-right">
+                                    <mat-icon class="icon-sede-local">motorcycle</mat-icon>
+                                  </div>
+                                  <div class="col-md-8 text-left">
+                                    <p>{{aforoPorInmueble.aforoMoto}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="col-md-4 text-right">
+                                    <mat-icon style="color: rgb(60, 179, 60);" class="icon-sede-local">directions_bike</mat-icon>
+                                  </div>
+                                  <div class="col-md-8 text-left">
+                                    <p>{{aforoPorInmueble.aforoBicicleta}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-7 col-xl-4">
+                          <mat-card class="demo-inline-calendar-card" >
+                            <mat-calendar style="border: solid 1.5px #e8e2e2;" [startAt]="date" [(selected)]="selected" (selectedChange)="logMonth($event)"
+                              [minDate]="minDate" [maxDate]="maxDate">
+                            </mat-calendar>
+                          </mat-card>
+                        </div>
+                        <fieldset class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                          <legend class="w-auto px-2">AMBIENTE MI BANCO</legend>
+                          <div class="form-group row">
+                            <div class="col-md-12 clasgalery">
+                              <gallery id="mixedExample" thumbPosition="left" [itemTemplate]="itemTemplate"
+                                style="height: 390px;" imageSize="cover"></gallery>
+                              <ng-template #itemTemplate let-index="index" let-type="type" let-data="data"
+                                let-currIndex="currIndex">
+                                <span *ngIf="type === 'image' && index === currIndex" class="item-text" style="    background: #000000a1;
+                                  padding: 9px;">
+                                  {{data?.title}}
+                                </span>
+                              </ng-template>
+                            </div>
+                          </div>
+                        </fieldset>                       
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <fieldset class="form-group  p-3">
+                      <legend class="w-auto px-2">DATOS DE LA RESERVA</legend>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <mat-checkbox [color]="'primary'" (change)="onSelectEventTodoElDia($event)"
+                                class="example-margin">
+                                Reservar todo el día
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <br>
+                          <div class=" row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3" [style.pointer-events] = "disabledHoras ? 'none' : 'auto'"
+                            [style.opacity] = "disabledHoras ? .5 : 1">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Hora Inicio</mat-label>
+                                <mat-select formControlName="horaInicioCtrl">
+                                  <mat-option *ngFor="let item of listHora" [value]="item.id">
+                                    {{item.valor | date: 'HH:mm'}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="datosBasicosFormGroup.get('horaInicioCtrl')?.hasError('required')">
+                                  Es necesario hora inicio !
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 text-center">
+                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===60" [disabled]="disabledHoras"
+                                (click)="incrementarHora(60)">
+                                1 h
+                              </button>
+                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===120" [disabled]="disabledHoras"
+                                (click)="incrementarHora(120)">
+                                2 h
+                              </button>
+                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===240" [disabled]="disabledHoras"
+                                (click)="incrementarHora(240)">
+                                4 h
+                              </button>
+                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===360" [disabled]="disabledHoras"
+                                (click)="incrementarHora(360)">
+                                6 h
+                              </button>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3" [style.pointer-events] = "disabledHoras ? 'none' : 'auto'"
+                            [style.opacity] = "disabledHoras ? .5 : 1">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Hora Fin</mat-label>
+                                <mat-select formControlName="horaFinCtrl">
+                                  <mat-option *ngFor="let item of listHora" [value]="item.id">
+                                    {{item.valor | date: 'HH:mm'}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="datosBasicosFormGroup.get('horaFinCtrl')?.hasError('required')">
+                                  Es necesario hora fin !
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class=" row">
+                            <div class="col-md-12">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Motivo de reserva</mat-label>
+                                <mat-select formControlName="motivoReservaCtrl">
+                                  <mat-option *ngFor="let item of listMotivoReserva" [value]="item.Id">
+                                    {{item.Nombre}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error
+                                  *ngIf="datosBasicosFormGroup.controls['motivoReservaCtrl'].hasError('required')">
+                                  Es necesario motivo de reserva
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class=" row">
+                            <div class="col-md-12">
+                              <mat-checkbox [color]="'primary'" (change)="onChkChange($event)" class="example-margin" *ngIf="!datosEdi.Flagproveedor">
+                                Deseo solicitar espacio de estacionamiento
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 text-center" *ngIf="showIdIconPlacas">
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <a href="javascript:void(0)" [class.active-button-icon]="this.showPlacaAuto ===true && selectedLanguage==='auto'"
+                                class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaAuto()">
+                                <mat-icon>directions_car</mat-icon>
+                              </a>
+                            </div>
+                            <div class="col-md-8 text-left" *ngIf="showPlacaAuto">
+                              <mat-form-field appearance="outline">
+                                <mat-label> Número placa</mat-label>
+                                <input matInput placeholder=" Número placa" formControlName="numeroplaca" toUppercase>
+                                <mat-error *ngIf="datosBasicosFormGroup.controls['numeroplaca'].hasError('required')">
+                                  Es necesario la placa
+                                </mat-error>                                
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <a href="javascript:void(0)" [class.active-button-icon]="selectedLanguage==='moto'"
+                                class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaMoto()">
+                                <mat-icon>motorcycle</mat-icon>
+                              </a>
+
+                            </div>
+                            <div class="col-md-8 text-left" *ngIf="showPlacaMoto">
+                              <mat-form-field appearance="outline">
+                                <mat-label> Número placa</mat-label>
+                                <input matInput placeholder="Número placa" formControlName="numeroplaca" toUppercase>
+                                <mat-error *ngIf="datosBasicosFormGroup.controls['numeroplaca'].hasError('required')">
+                                  Es necesario la placa
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class=" row">
+                            <div class="col-md-4">
+                              <a href="javascript:void(0)" (click)="btnMostrarbicicleta()"
+                                [class.active-button-icon-bicicleta]="selectedLanguage==='bicicleta'"
+                                class="btn btn-lg btn-just-icon btn-round ">
+                                <mat-icon>directions_bike</mat-icon>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 text-center">    
+                          <div matTooltip="Para solicitar reserva es necesario aceptar los terminos y condiciones" style="display: inline-block;" [matTooltipDisabled]="disabledbtnSolicitarReserva">
+                            <button    class="btn btn-primary" mat-raised-button [disabled]="!disabledbtnSolicitarReserva">
+                              <mat-icon>save</mat-icon> Solicitar Reserva
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-checkbox [color]="'primary'" class="example-margin" *ngIf="!aforoPorInmueble.flagConformidadVacunas"
+                      (change)="onChkChangeAcepteTerminoCondiciones($event.checked)">
+                      Al hacer la reserva para el ingreso a las oficinas de Mibanco, doy conformidad que cumplo con
+                      todas
+                      las vacunaciones que las autoridades han definido como necesarias para mi ingreso, no presento
+                      síntomas sospechosos de Covid19 y doy conformidad que Mibanco pone a mi disposición elementos de
+                      protección personal como mascarillas, alcohol en gel y otros elementos, según la norma vigente.
+                    </mat-checkbox>
+                  </div>                  
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-checkbox [color]="'primary'" class="example-margin" *ngIf="!aforoPorInmueble.flagConformidadVacunas" formControlName="noVolverPreguntarCtrl">
+                      No volver a preguntar la  conformidad que cumplo con todas las vacunas.
+                    </mat-checkbox>
+                  </div>                  
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

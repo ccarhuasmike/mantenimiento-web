@@ -1,0 +1,95 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> Archivos Adjuntos</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <div class="form-horizontal">
+      <div class="form-group row">
+        <div class="col-md-12">
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-12">
+          <div class="example-table-container">
+            <mat-table #table [dataSource]="dataSource">
+              <ng-container matColumnDef="menu" stickyEnd>
+                <mat-header-cell *matHeaderCellDef [ngClass]="'w-72'"></mat-header-cell>
+                <mat-cell [ngClass]="'w-72'" *matCellDef="let element; let i=index;">
+                  <mat-menu #appMenu="matMenu">
+                    <button (click)="downloadImage(element)" style="font-size: 12px;" mat-menu-item>
+                      <mat-icon style="font-size: 15px; margin:5px 0 0 0;">file_download</mat-icon>
+                      Descargar
+                    </button>
+                    <button (click)="deleteImage(element)" style="font-size: 12px;" mat-menu-item>
+                      <mat-icon style="font-size: 15px; margin:5px 0 0 0;">delete</mat-icon>
+                      Eliminar
+                    </button>
+                  </mat-menu>
+                  <a style="cursor:pointer;color: #979797;" mat-icon-button [matMenuTriggerFor]="appMenu">
+                    <mat-icon>more_vert</mat-icon>
+                  </a>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="NombreExterno">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> Nombre de Archivo</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.NombreExterno}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="Tipo">
+                <mat-header-cell [ngClass]="'w-10'" mat-header-cell *matHeaderCellDef> Tipo</mat-header-cell>
+                <mat-cell [ngClass]="'w-10'" mat-cell *matCellDef="let element">
+                   <span style="width: 40px;height: 40px;" [ngClass]="{
+                'icon-pdf': element.NombreExterno.split('.').pop() === 'pdf' ,
+                'icon-excel' : element.NombreExterno.split('.').pop() === 'xlsx',
+                'icon-img' : element.NombreExterno.split('.').pop() === 'png' || element.NombreExterno.split('.').pop() === 'jpeg' || element.NombreExterno.split('.').pop() === 'jpg'
+                }" class=""></span>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="NombreUsuario">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> Usuario</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.NombreUsuario}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="FechaRegistro">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> Fecha Carga</mat-header-cell>
+                <mat-cell mat-cell
+                          *matCellDef="let element"> {{element.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}} </mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              <tr class="mat-row no-data-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No se encontraron registro.</td>
+              </tr>
+            </mat-table>
+            <div *ngIf="isLoading" class="spinner-container">
+              <mat-progress-spinner
+                [diameter]="50"
+                color="primary"
+                mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+          </div>
+          <mat-paginator #paginator
+                         [pageSize]="5"
+                         [pageSizeOptions]="[5, 10, 20]">
+          </mat-paginator>
+        </div>
+      </div>
+      <br>
+      <div class="form-group row">
+        <div class="col-md-12 text-right">
+          <button mat-raised-button class="btn btn-info" (click)="cerrarDialogo()">
+            <mat-icon>block</mat-icon>
+            Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

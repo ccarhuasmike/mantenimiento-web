@@ -1,0 +1,113 @@
+﻿<div class="main-content content-fadeIn">
+  <div class="container-fluid">
+    <div class=" row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">description</i></div>
+            <h4 class="card-title">SOLICITUD DE DISTRIBUCION</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        SOLICITUD DE DISTRIBUCION
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <div class="container-fluid">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <h5><strong style="font-weight: 580;">CodigoXXXXXX</strong></h5>
+                            </div>
+                            <div class="offset-md-1 col-md-5">
+                              <h5 class="text-lg-end"><strong style="font-weight: 580;">
+                                  Estado XXXXXX </strong>
+                              </h5>
+
+                            </div>
+                          </div>
+                        </div>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button class="btn btn-primary" mat-raised-button>
+                          <mat-icon>headset_mic</mat-icon>
+                          Atender
+                        </button>
+                        <button class="btn btn-primary" mat-raised-button>
+                          <mat-icon>back_hand</mat-icon>
+                          Rechazar Asignación
+                        </button>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="matexpansionpaneldatosgenerales">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Datos Generales
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <fieldset class="form-group  p-3">
+                      <legend class="w-auto px-2">DATOS GENERALES</legend>
+                      <div class=" row">
+                        <div class="col-md-3">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Solicitante</mat-label>
+                            <input matInput placeholder="Ingrese solicitante">                                    
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Fecha de Registro</mat-label>
+                            <input matInput placeholder="Ingrese solicitante">                                    
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Correo</mat-label>
+                            <input matInput placeholder="Ingrese correo electronico">
+                            <mat-icon matSuffix>mail</mat-icon>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class=" row">                              
+                        <div class="col-md-3">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Sede / Agencia</mat-label>
+                            <input matInput placeholder="Ingrese Sede / Agencia">                                    
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Telefono.</mat-label>
+                            <input matInput placeholder="Ingrese telefono">
+                            <mat-icon matSuffix>phone</mat-icon>
+                          </mat-form-field>
+                        </div>
+                      </div>                     
+                    </fieldset>
+                  </mat-expansion-panel>
+
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+          <!--          <div class="card-footer"></div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

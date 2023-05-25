@@ -1,0 +1,4 @@
+
+  ::ng-deep .message-wrapper {
+    display: none !important;
+}

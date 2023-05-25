@@ -1,0 +1,93 @@
+<div class="invoice">
+
+  <div class="invoice__header">
+
+    <div class="destinatario_style">{{DatosDestinatario}} </div>
+    <div class="nombre_Style">{{Nombre}}</div>
+    <div class="domicilioDestino_style">{{DomicilioDestino}}</div>
+    <div class="row">
+      <div class="col-6 ubigeoDestino_style">
+        <div class="row">
+          <div class="col-4">{{dataUbigeoDestino.distrito}}  </div>
+          <div class="col-4">{{dataUbigeoDestino.provincia}}  </div>
+          <div class="col-4"> {{dataUbigeoDestino.departamento}}</div>
+        </div>
+      </div>
+      <div class="col-6">
+      </div>
+
+    </div>
+
+    <div class="domicilioPartida_style">{{DomicilioPartida}}</div>
+    <div class="row">
+      <div class="col-6 ubigeoPartida_style">
+        <div class="row">
+          <div class="col-4">{{dataUbigeoPartida.distrito}}  </div>
+          <div class="col-4">{{dataUbigeoPartida.provincia}} </div>
+          <div class="col-4">{{dataUbigeoPartida.departamento}} </div>
+        </div>
+
+      </div>
+      <div class="col-6 fechaTraslado_style">
+        <div class="row">
+          <div class="col-6 textFecha">
+          {{  FechaInicioTraslado[0]}} &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{FechaInicioTraslado[1]}} &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{FechaInicioTraslado[2]}}
+          </div>
+          <div class="col-6"></div>
+        </div>
+
+        <!-- {{FechaInicioTraslado}}
+
+          DataListBody:any=[
+
+{
+Item: "monitor",
+Descripcion: "abv",
+Cantidad: "23",
+Unidad:"unidad",
+Documento: "xx  xx",
+Observaciones: "NUEVO"
+},
+{
+Item: "monitor2",
+Descripcion: "abv2",
+Cantidad: "23",
+Unidad:"unidad2",
+Documento: "xx  xx",
+Observaciones: "NUEVO2"
+},
+];
+        -->
+      </div>
+    </div>
+    <div class="listData_style">
+
+      <div class=" row fiLe_style" *ngFor="let data of DataListBody; let i = index">
+        <div class="col-6 row">
+          <div class="col-2 ">&nbsp;&nbsp;{{data.Item}}</div>
+          <div class="col-10 ">
+            <div class="descripcion_style">
+              &nbsp;&nbsp;{{data.Descripcion}}
+            </div>
+        </div>
+        </div>
+        <div class="col-6 row  ">
+          <div class="col-3 text-right">{{data.Cantidad}}</div>
+          <div class="col-2   text-right ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.Unidad}}</div>
+          <div class="col-3  "><div class="documento_style">&nbsp;{{data.Documento}}</div>&nbsp;</div>
+          <div class="col-4  ">
+            <div class="observacion_style">{{data.Observaciones}}</div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+    </div>
+  </div>
+
+
+

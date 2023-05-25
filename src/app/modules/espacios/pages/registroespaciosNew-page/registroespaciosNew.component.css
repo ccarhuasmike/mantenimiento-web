@@ -1,0 +1,118 @@
+.demo-inline-calendar-card {
+  width: 300px;
+}
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+.icon-sede-local {
+  /*height: 47px;
+  width: 47px;
+  font-size: 47px;*/
+}
+
+.icon-datos-reserva-placas {
+  height: 25px;
+  width: 25px;
+  font-size: 25px;
+}
+
+
+.v-divider {
+  margin-left: 20px;
+  margin-right: 20px;
+  height: auto;
+  border: 0;
+  border-left: 1px solid #cccccc;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  margin-top: 3px !important;
+}
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.container img {
+  width: 213px;
+  height: 213px;
+  object-fit: cover;
+  margin: 5px;
+  border-radius: 25px;
+
+}
+
+.g-overlay {
+  min-width: 300px;
+}
+
+gallery {
+  font-size: 16px;
+}
+
+img {
+  width: 150px;
+}
+
+.lightbox-example,
+.gallerize-example {
+  margin: 2em;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.imagen-card {
+  width: 100%;
+  border-radius: 40px;
+}
+
+
+.active-button-icon {
+
+  background-color: #156185 !important;
+  border-color: #156185;
+  font-weight: 700;
+}
+
+.active-button-icon-bicicleta {
+
+  background-color: rgb(60, 179, 60) !important;
+  border-color: rgb(60, 179, 60) ;
+  font-weight: 700;
+}
+
+
+
+
+.example-input-wrapper {
+  margin-bottom: 16px;
+}
+
+label {
+  margin-right: 4px;
+}
+
+
+.basic-container .mat-step-header .mat-step-icon-selected {
+  background-color: #6cb73a;
+  color: #fff;
+}
+
+.mat-step-header .mat-step-icon {
+    background-color: rgba(167, 35, 35, 0.54);
+    color: #fff;
+}
