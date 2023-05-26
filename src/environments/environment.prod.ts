@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   apiUrl: 'http://localhost:3001/api/1.0',  
-  apiEdiUrl: 'https://desaapi.sistemaedi.com.pe/webAPIEDI',
-  apiEdiUrlParking: 'https://desaapi.sistemaedi.com.pe/parking',
+  apiEdiUrl: 'https://api.sistemaedi.com.pe/webAPIEDI',
+  apiEdiUrlParking: 'https://api.sistemaedi.com.pe/parking',
   project: 'tgestiona',
   azureAccountName: "edidesastorage",
   azureContaineName: "edi",

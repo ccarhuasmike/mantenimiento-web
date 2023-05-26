@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------------
 // @ AUTH UTILITIES
 //
-// Methods are derivations of the Auth0 Angular-JWT helper service methods
+// Methods are derivations of the Auth0 Angular-JWT helper services methods
 // https://github.com/auth0/angular2-jwt
 // -----------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ export class AuthUtils {
    * @param offsetSeconds
    */
   static isTokenExpired(token: string, offsetSeconds?: number): boolean {
-    
+
     // Return if there is no token
     if (!token || token === '') {
       return true;

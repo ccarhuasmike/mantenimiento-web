@@ -15,19 +15,20 @@
           </div>
           <div class="card-body">
             <div class="container-fluid">
-
-
-              <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
-
-                <mat-stepper [linear]="true" #stepper>
+              <!-- <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'> -->
+                
+                <mat-stepper [linear]="false" #stepper>
                   <ng-template matStepperIcon="edit">
                     <mat-icon>check</mat-icon>
-                  </ng-template>
-                  
-                  <mat-step [stepControl]="primerFormGroup" state="phone">
+                  </ng-template>                  
+                  <mat-step [stepControl]="primerFormGroup">
                     <form [formGroup]="primerFormGroup">
-                      <ng-template style="font-size: xx-large;"  matStepLabel>
-                        Fecha de Coworking
+                      <ng-template style="font-size:xx-large; "  matStepLabel>
+                        <table> 
+                          <tr style="align-items: center;"><td><span class="material-icons md-52">calendar_month</span> </td></tr>
+                          <tr><td>Fecha de Coworking</td></tr>
+                        </table>                        
+                        
                       </ng-template>                      
                       <fieldset class="form-group  p-3">
                         <legend class="w-auto px-2">Fecha de Coworking</legend>
@@ -59,7 +60,7 @@
                                       {{item.valor | date: 'HH:mm'}}
                                     </mat-option>
                                   </mat-select>
-                                  <mat-error *ngIf="datosBasicosFormGroup.get('horaInicioCtrl')?.hasError('required')">
+                                  <mat-error *ngIf="primerFormGroup.get('horaInicioCtrl')?.hasError('required')">
                                     Es necesario hora inicio !
                                   </mat-error>
                                 </mat-form-field>
@@ -73,7 +74,7 @@
                                       {{item.valor | date: 'HH:mm'}}
                                     </mat-option>
                                   </mat-select>
-                                  <mat-error *ngIf="datosBasicosFormGroup.get('horaFinCtrl')?.hasError('required')">
+                                  <mat-error *ngIf="primerFormGroup.get('horaFinCtrl')?.hasError('required')">
                                     Es necesario hora fin !
                                   </mat-error>
                                 </mat-form-field>
@@ -86,7 +87,7 @@
                                   </mat-option>
                                 </mat-select>
                                 <mat-error
-                                  *ngIf="datosBasicosFormGroup.controls['motivoReservaCtrl'].hasError('required')">
+                                  *ngIf="primerFormGroup.controls['motivoReservaCtrl'].hasError('required')">
                                   Es necesario motivo de reserva
                                 </mat-error>
                               </mat-form-field>
@@ -95,7 +96,7 @@
                       </fieldset>
 
                       <div style="text-align: end;">                        
-                        <button    class="btn btn-warning" mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperNext>
+                        <button class="btn btn-warning" mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperNext>
                           siguiente
                           <mat-icon>arrow_right_alt</mat-icon> 
                         </button>
@@ -105,7 +106,12 @@
                   <mat-step [stepControl]="segundoFormGroup">
                     <form [formGroup]="segundoFormGroup">
                       
-                      <ng-template matStepLabel>Elegir inmueble y piso</ng-template>
+                      <ng-template matStepLabel>
+                        <table> 
+                          <tr style="align-items: center;"><td><span class="material-icons md-52">business</span> </td></tr>
+                          <tr><td>Elegir inmueble y piso</td></tr>
+                        </table>  
+                      </ng-template>
                       <fieldset class="form-group  p-3">
                         <legend class="w-auto px-2">Elegir inmueble y piso</legend>
                         <div class="row">
@@ -114,33 +120,32 @@
                             <mat-label>Inmueble</mat-label>
                             <mat-select formControlName="inmuebleCtrl"
                               (selectionChange)="onSelectEventInmueble($event.value)">
-                              <mat-option *ngFor="let item of listInmueble" [value]="item">
+                              <mat-option *ngFor="let item of listInmueble" [value]="item.id">
                                 {{item.nombre}}
                               </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="datosBasicosFormGroup.controls['inmuebleCtrl'].hasError('required')">
+                            <mat-error *ngIf="segundoFormGroup.controls['inmuebleCtrl'].hasError('required')">
                               Es necesario inmueble !
                             </mat-error>
                           </mat-form-field>
 
 
-                          <mat-selection-list #shoes [multiple]="false">
-                            <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe">
-                              {{shoe}}
+                          <mat-selection-list #pisos [multiple]="false">
+                            <mat-list-option *ngFor="let pi of listPisos" [value]="pi.nombre">
+                              {{pi.nombre}}
                             </mat-list-option>
                           </mat-selection-list>
                           
-                          <p>
-                            <!-- Option selected: {{shoes.selectedOptions.hasValue() ? shoes.selectedOptions.selected[0].value : 'None'}} -->
-                          </p>
+                          <!-- <p>
+                            Option selected: {{pisos.selectedOptions.hasValue() ? pisos.selectedOptions.selected[0].value : 'None'}}
+                          </p> -->
                         </div>
                         <div class="col-md-8">
                           <div class="form-group row">
                             <div class="col-md-12 clasgalery">
                               <gallery id="mixedExample" thumbPosition="left" [itemTemplate]="itemTemplate"
                                 style="height: 390px;" imageSize="cover"></gallery>
-                              <ng-template #itemTemplate let-index="index" let-type="type" let-data="data"
-                                let-currIndex="currIndex">
+                              <ng-template #itemTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
                                 <span *ngIf="type === 'image' && index === currIndex" class="item-text" style="    background: #000000a1;
                                   padding: 9px;">
                                   {{data?.title}}
@@ -163,322 +168,224 @@
                           <mat-icon>arrow_right_alt</mat-icon> 
                         </button>
                       </div>
-
+                    </form>
+                  </mat-step>
+                  <mat-step [stepControl]="terceroFormGroup">
+                    <form [formGroup]="terceroFormGroup">
                       
-                    </form>
-                  </mat-step>
+                      
+                      <ng-template matStepLabel>
+                        <table> 
+                          <tr style="align-items: center;"><td><span class="material-icons md-52">directions_car</span> </td></tr>
+                          <tr><td>Solicitar Parqueo Vehicular</td></tr>
+                        </table>
+                      </ng-template>
+                      
 
-                  <mat-step [stepControl]="cuartoFormGroup">
-                    <form [formGroup]="cuartoFormGroup">
-                      <ng-template matStepLabel>Solicitar Parqueo Vehicular</ng-template>
-                      <mat-form-field>
-                        <input matInput placeholder="Address" formControlName="cuartoCtrl" required>
-                      </mat-form-field>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button matStepperNext>Siguiente</button>
+                      <fieldset class="form-group  p-3">
+                        <legend class="w-auto px-2">Solicitar Parqueo Vehicular</legend>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h5><b><i>Necesitas parqueo vehicular?</i></b></h5>
+                            <mat-radio-group aria-label="Select an option" formControlName="selectParqueoVehicular" (change)="radioChangeParqueoVehicular($event)">
+                                <mat-radio-button color="primary" value="Sí" style="margin-left: 16px;">Sí</mat-radio-button>
+                                <mat-radio-button color="primary" value="No" style="margin-left: 16px;">No</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="col-md-12" >
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-7 text-center" *ngIf="showParqueoVehicular">
+                            <fieldset class="form-group  p-3">
+                                
+
+                                  <div class="row">
+                                    <div class="col-md-3">                                  
+                                      <a href="javascript:void(0)" [class.active-button-icon]="this.showPlacaAuto ===true && selectedLanguage==='auto'"
+                                        class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaAuto()">
+                                        <mat-icon>directions_car</mat-icon>
+                                        
+                                      </a>
+                                      <h6>Automóvil</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <a href="javascript:void(0)" [class.active-button-icon]="selectedLanguage==='moto'"
+                                        class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaMoto()">
+                                        <mat-icon>motorcycle</mat-icon>
+                                      </a>
+                                      <h6>Motocicleta</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <a href="javascript:void(0)" (click)="btnMostrarbicicleta()"
+                                        [class.active-button-icon-bicicleta]="selectedLanguage==='bicicleta'"
+                                        class="btn btn-lg btn-just-icon btn-round ">
+                                        <mat-icon>directions_bike</mat-icon>
+                                      </a>
+                                      <h6>Bicicleta</h6>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <h6>Ingrese el número de placa :</h6>
+                                      <mat-form-field appearance="outline">
+                                        <mat-label> Número placa</mat-label>
+                                        <input matInput placeholder="Número placa" formControlName="numeroplaca" toUppercase>
+                                        <mat-error *ngIf="terceroFormGroup.controls['numeroplaca'].hasError('required')">
+                                          Es necesario la placa
+                                        </mat-error>
+                                      </mat-form-field>
+                                    </div>
+                                   
+                                  </div>
+                                
+                            </fieldset>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <div style="text-align: end;">                                                
+                        <button class="btn btn-basic" back mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperPrevious>
+                          <mat-icon>arrow_back</mat-icon> 
+                          Atras                          
+                        </button>
+
+                        <button    class="btn btn-warning" mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperNext>
+                          siguiente
+                          <mat-icon>arrow_right_alt</mat-icon> 
+                        </button>
                       </div>
                     </form>
                   </mat-step>
-
                   <mat-step [stepControl]="cuartoFormGroup">
                     <form [formGroup]="cuartoFormGroup">
-                      <ng-template matStepLabel>Solicitar Parqueo Vehicular</ng-template>
-                      <mat-form-field>
-                        <input matInput placeholder="Address" formControlName="cuartoCtrl" required>
-                      </mat-form-field>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button matStepperNext>Siguiente</button>
+                          
+
+
+                      <ng-template matStepLabel>
+                        <table> 
+                          <tr style="align-items: center;"><td><span class="material-icons md-52">person_add</span> </td></tr>
+                          <tr><td>Ingrese los invitados</td></tr>
+                        </table>
+                      </ng-template>
+                      <fieldset class="form-group  p-3">
+                        <legend class="w-auto px-2">Ingrese los invitados</legend>
+
+                        <div class="row">
+                            <div class="col-md-12" class="col-sm-12 col-md-12 col-lg-7 col-xl-12">
+
+                            <mat-form-field class="example-chip-list" appearance="fill" >
+                              <mat-label>Personas que asistirán</mat-label>
+                                <mat-chip-list  #chipList aria-label="Fruit selection" formControlName="personsInvolucrados" >
+                                  <mat-chip
+                                  *ngFor="let p of Persons"
+                                  [selectable]="selectable"
+                                  [removable]="removable"
+                                  (removed)="remove(p)"
+                                  [value]="p.idPersona">
+                                  {{p.nombreCompleto}}
+                                  <button matChipRemove *ngIf="removable">
+                                      <mat-icon>cancel</mat-icon>
+                                  </button>
+                                  </mat-chip>
+                                  <input  #personInput  [formControl]="personCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                          (matChipInputTokenEnd)="add($event)" >
+                              </mat-chip-list>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedP($event)" >
+                                  <mat-option *ngFor="let fp of filteredPersons | async" [value]="fp.idPersona">
+                                  {{fp.nombreCompleto}}
+                                  </mat-option>
+                              </mat-autocomplete>                             
+                          </mat-form-field>
+
+                          </div> 
+                        </div> 
+
+
+                        <div class="row" style="height: 390px;" >
+                          <div class="col-md-10">
+                            <mat-form-field class="example-full-width">
+                              <mat-label>Ingrese los correos</mat-label>
+                              <textarea matInput placeholder="Ex. It makes me feel..."  cdkAutosizeMinRows="15" 
+                              cdkAutosizeMaxRows="15" formControlName="correosCtrl" rows="10"></textarea>
+                            </mat-form-field>
+                          </div> 
+
+                          <div class="col-md-2">
+                            <a class="btn btn-info" href="javascript:void(0);" (click)="procesarCorreos()">
+                              <mat-icon>resfresh</mat-icon>
+                              Obtener correos
+                            </a>
+                          </div> 
+                        </div> 
+                      </fieldset>
+                      <div style="text-align: end;">                                                
+                        <button class="btn btn-basic" back mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperPrevious>
+                          <mat-icon>arrow_back</mat-icon> 
+                          Atras                          
+                        </button>
+
+                        <button    class="btn btn-warning" mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperNext>
+                          siguiente
+                          <mat-icon>arrow_right_alt</mat-icon> 
+                        </button>
                       </div>
                     </form>
                   </mat-step>
+                  <mat-step [stepControl]="quintoFormGroup">
+                    <form [formGroup]="quintoFormGroup">
+                      
+                      
+                      <ng-template matStepLabel>
+                        <table> 
+                          <tr style="align-items: center;"><td><span class="material-icons md-52">meeting_room</span> </td></tr>
+                          <tr><td>Sala de reunión</td></tr>
+                        </table>
+                      </ng-template>
+                      
 
+                      <fieldset class="form-group  p-3">
+                        <legend class="w-auto px-2">Solicitar Sala de reunión</legend>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h5><b><i>Necesitas reservar sala de reunión?</i></b></h5>
+                            <mat-radio-group aria-label="Select an option" formControlName="selectSalaReunion" (change)="radioChangeSalaReunion($event)">
+                                <mat-radio-button color="primary" value="Sí" style="margin-left: 16px;">Sí</mat-radio-button>
+                                <mat-radio-button color="primary" value="No" style="margin-left: 16px;">No</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                          <div class="col-md-12" >
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center" *ngIf="showSalaReunion">
+                            <fieldset class="form-group  p-3">
+                                
 
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <h5>Búsqueda de sala para el <i><b>{{nombreInmueble}}</b></i> en el piso <i><b>{{pisos.selectedOptions.hasValue() ? pisos.selectedOptions.selected[0].value : 'None'}}</b></i></h5>
+                                    </div>
+                                    <div class="col-md-6">
 
-                  <mat-step>
-                    <ng-template matStepLabel>Done</ng-template>
-                    You are now done.
-                    <div>
-                      <button mat-button matStepperPrevious>Atrás</button>
-                      <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
-                    </div>
+                                    </div>
+                                  </div>
+                                
+                            </fieldset>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <div style="text-align: end;">                                                
+                        <button class="btn btn-basic" back mat-raised-button [disabled]="!disabledbtnSolicitarReserva" matStepperPrevious>
+                          <mat-icon>arrow_back</mat-icon> 
+                          Atras                          
+                        </button>
+
+                        <button    class="btn btn-primary" mat-raised-button (click)="solicitarReserva()">
+                          <mat-icon>send</mat-icon> Solicitar Reserva
+                        </button>
+                      </div>
+                    </form>
                   </mat-step>
 
                   <ng-template matStepperIcon="phone">
                     <mat-icon>call_end</mat-icon>
                   </ng-template>
                 </mat-stepper>
-                <!-- <div class="row"> 
-                  <div class="col-md-12">                    
-                    <div matTooltip="Para solicitar reserva es necesario aceptar los terminos y condiciones" style="display: inline-block;" [matTooltipDisabled]="disabledbtnSolicitarReserva">
-                      <button    class="btn btn-primary" mat-raised-button [disabled]="!disabledbtnSolicitarReserva">
-                        <mat-icon>save</mat-icon> Solicitar Reserva
-                      </button>
-                    </div>
-                    <a class="btn btn-info" href="javascript:void(0);" (click)="Cancelar()">
-                      <mat-icon>block</mat-icon>
-                      Cancelar
-                    </a>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <fieldset class="form-group  p-3">
-                      <legend class="w-auto px-2">SEDE / LOCAL</legend>
-                      <div class=" row">
-                        <div class="col-sm-12 col-md-6 col-lg-5 col-xl-2">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Inmueble</mat-label>
-                                <mat-select formControlName="inmuebleCtrl"
-                                  (selectionChange)="onSelectEventInmueble($event.value)">
-                                  <mat-option *ngFor="let item of listInmueble" [value]="item">
-                                    {{item.nombre}}
-                                  </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="datosBasicosFormGroup.controls['inmuebleCtrl'].hasError('required')">
-                                  Es necesario inmueble !
-                                </mat-error>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12 text-center">
-                              <div style="margin: auto;
-                              margin: 0;
-                              padding: 78px 28px;
-                              box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);">
-                                <div class="form-group row">
-                                  <div class="col-md-4 text-right">
-                                    <mat-icon class="icon-sede-local">boy</mat-icon>
-                                  </div>
-                                  <div class="col-md-8 text-left">
-                                    <p>{{aforoPorInmueble.aforoPersona}}</p>
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <div class="col-md-4 text-right">
-                                    <mat-icon class="icon-sede-local">directions_car</mat-icon>
-                                  </div>
-                                  <div class="col-md-8 text-left">
-                                    <p>{{aforoPorInmueble.aforoAuto}}</p>
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <div class="col-md-4 text-right">
-                                    <mat-icon class="icon-sede-local">motorcycle</mat-icon>
-                                  </div>
-                                  <div class="col-md-8 text-left">
-                                    <p>{{aforoPorInmueble.aforoMoto}}</p>
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <div class="col-md-4 text-right">
-                                    <mat-icon style="color: rgb(60, 179, 60);" class="icon-sede-local">directions_bike</mat-icon>
-                                  </div>
-                                  <div class="col-md-8 text-left">
-                                    <p>{{aforoPorInmueble.aforoBicicleta}}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-7 col-xl-4">
-                          <mat-card class="demo-inline-calendar-card" >
-                            <mat-calendar style="border: solid 1.5px #e8e2e2;" [startAt]="date" [(selected)]="selected" (selectedChange)="logMonth($event)"
-                              [minDate]="minDate" [maxDate]="maxDate">
-                            </mat-calendar>
-                          </mat-card>
-                        </div>
-                        <fieldset class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                          <legend class="w-auto px-2">AMBIENTE MI BANCO</legend>
-                          <div class="form-group row">
-                            <div class="col-md-12 clasgalery">
-                              <gallery id="mixedExample" thumbPosition="left" [itemTemplate]="itemTemplate"
-                                style="height: 390px;" imageSize="cover"></gallery>
-                              <ng-template #itemTemplate let-index="index" let-type="type" let-data="data"
-                                let-currIndex="currIndex">
-                                <span *ngIf="type === 'image' && index === currIndex" class="item-text" style="    background: #000000a1;
-                                  padding: 9px;">
-                                  {{data?.title}}
-                                </span>
-                              </ng-template>
-                            </div>
-                          </div>
-                        </fieldset>                       
-                      </div>
-                    </fieldset>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <fieldset class="form-group  p-3">
-                      <legend class="w-auto px-2">DATOS DE LA RESERVA</legend>
-                      <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <mat-checkbox [color]="'primary'" (change)="onSelectEventTodoElDia($event)"
-                                class="example-margin">
-                                Reservar todo el día
-                              </mat-checkbox>
-                            </div>
-                          </div>
-                          <br>
-                          <div class=" row">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3" [style.pointer-events] = "disabledHoras ? 'none' : 'auto'"
-                            [style.opacity] = "disabledHoras ? .5 : 1">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Hora Inicio</mat-label>
-                                <mat-select formControlName="horaInicioCtrl">
-                                  <mat-option *ngFor="let item of listHora" [value]="item.id">
-                                    {{item.valor | date: 'HH:mm'}}
-                                  </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="datosBasicosFormGroup.get('horaInicioCtrl')?.hasError('required')">
-                                  Es necesario hora inicio !
-                                </mat-error>
-                              </mat-form-field>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 text-center">
-                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===60" [disabled]="disabledHoras"
-                                (click)="incrementarHora(60)">
-                                1 h
-                              </button>
-                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===120" [disabled]="disabledHoras"
-                                (click)="incrementarHora(120)">
-                                2 h
-                              </button>
-                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===240" [disabled]="disabledHoras"
-                                (click)="incrementarHora(240)">
-                                4 h
-                              </button>
-                              <button type="button" class="btn btn-default" [class.active-button-icon]="selectHoras===360" [disabled]="disabledHoras"
-                                (click)="incrementarHora(360)">
-                                6 h
-                              </button>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3" [style.pointer-events] = "disabledHoras ? 'none' : 'auto'"
-                            [style.opacity] = "disabledHoras ? .5 : 1">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Hora Fin</mat-label>
-                                <mat-select formControlName="horaFinCtrl">
-                                  <mat-option *ngFor="let item of listHora" [value]="item.id">
-                                    {{item.valor | date: 'HH:mm'}}
-                                  </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="datosBasicosFormGroup.get('horaFinCtrl')?.hasError('required')">
-                                  Es necesario hora fin !
-                                </mat-error>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class=" row">
-                            <div class="col-md-12">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Motivo de reserva</mat-label>
-                                <mat-select formControlName="motivoReservaCtrl">
-                                  <mat-option *ngFor="let item of listMotivoReserva" [value]="item.Id">
-                                    {{item.Nombre}}
-                                  </mat-option>
-                                </mat-select>
-                                <mat-error
-                                  *ngIf="datosBasicosFormGroup.controls['motivoReservaCtrl'].hasError('required')">
-                                  Es necesario motivo de reserva
-                                </mat-error>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class=" row">
-                            <div class="col-md-12">
-                              <mat-checkbox [color]="'primary'" (change)="onChkChange($event)" class="example-margin" *ngIf="!datosEdi.Flagproveedor">
-                                Deseo solicitar espacio de estacionamiento
-                              </mat-checkbox>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 text-center" *ngIf="showIdIconPlacas">
-
-                          <div class="row">
-                            <div class="col-md-4">
-                              <a href="javascript:void(0)" [class.active-button-icon]="this.showPlacaAuto ===true && selectedLanguage==='auto'"
-                                class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaAuto()">
-                                <mat-icon>directions_car</mat-icon>
-                              </a>
-                            </div>
-                            <div class="col-md-8 text-left" *ngIf="showPlacaAuto">
-                              <mat-form-field appearance="outline">
-                                <mat-label> Número placa</mat-label>
-                                <input matInput placeholder=" Número placa" formControlName="numeroplaca" toUppercase>
-                                <mat-error *ngIf="datosBasicosFormGroup.controls['numeroplaca'].hasError('required')">
-                                  Es necesario la placa
-                                </mat-error>                                
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4">
-                              <a href="javascript:void(0)" [class.active-button-icon]="selectedLanguage==='moto'"
-                                class="btn btn-lg btn-just-icon btn-round" (click)="btnMostrarPlacaMoto()">
-                                <mat-icon>motorcycle</mat-icon>
-                              </a>
-
-                            </div>
-                            <div class="col-md-8 text-left" *ngIf="showPlacaMoto">
-                              <mat-form-field appearance="outline">
-                                <mat-label> Número placa</mat-label>
-                                <input matInput placeholder="Número placa" formControlName="numeroplaca" toUppercase>
-                                <mat-error *ngIf="datosBasicosFormGroup.controls['numeroplaca'].hasError('required')">
-                                  Es necesario la placa
-                                </mat-error>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class=" row">
-                            <div class="col-md-4">
-                              <a href="javascript:void(0)" (click)="btnMostrarbicicleta()"
-                                [class.active-button-icon-bicicleta]="selectedLanguage==='bicicleta'"
-                                class="btn btn-lg btn-just-icon btn-round ">
-                                <mat-icon>directions_bike</mat-icon>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 text-center">    
-                          <div matTooltip="Para solicitar reserva es necesario aceptar los terminos y condiciones" style="display: inline-block;" [matTooltipDisabled]="disabledbtnSolicitarReserva">
-                            <button    class="btn btn-primary" mat-raised-button [disabled]="!disabledbtnSolicitarReserva">
-                              <mat-icon>save</mat-icon> Solicitar Reserva
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-md-12">
-                    <mat-checkbox [color]="'primary'" class="example-margin" *ngIf="!aforoPorInmueble.flagConformidadVacunas"
-                      (change)="onChkChangeAcepteTerminoCondiciones($event.checked)">
-                      Al hacer la reserva para el ingreso a las oficinas de Mibanco, doy conformidad que cumplo con
-                      todas
-                      las vacunaciones que las autoridades han definido como necesarias para mi ingreso, no presento
-                      síntomas sospechosos de Covid19 y doy conformidad que Mibanco pone a mi disposición elementos de
-                      protección personal como mascarillas, alcohol en gel y otros elementos, según la norma vigente.
-                    </mat-checkbox>
-                  </div>                  
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <mat-checkbox [color]="'primary'" class="example-margin" *ngIf="!aforoPorInmueble.flagConformidadVacunas" formControlName="noVolverPreguntarCtrl">
-                      No volver a preguntar la  conformidad que cumplo con todas las vacunas.
-                    </mat-checkbox>
-                  </div>                  
-                </div> -->
-              </form>
+               
             </div>
           </div>
         </div>

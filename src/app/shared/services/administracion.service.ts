@@ -55,6 +55,9 @@ export class AdministracionService {
         });
     });
   }
+  subirArchivoAzureIndividual(form: any) {
+    return this.http.post(`${this.apiEdiUrl}/ADM/Adjunto/GuardarArchivoAdjuntoIndividualAzure`, form);
+  }
   async getEliminarAdjuntoCloud(nombreInterno: string): Promise<any> {
     var pnombreInterno = await this.utilsService.encriptar(nombreInterno);
     return new Promise((resolve, reject) => {
@@ -95,6 +98,9 @@ export class AdministracionService {
           error: (err) => reject(err),
         });
     });
+  }
+   actualizarIdRegistroAdjuntos(form: any) {
+    return this.http.post(`${this.apiEdiUrl}/ADM/Adjunto/ActualizarIdRegistroAdjuntos`, form);
   }
 }
 

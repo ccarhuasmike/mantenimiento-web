@@ -14,8 +14,8 @@ import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
 
 
 /*
-import { CookieService } from 'ngx-cookie-service';
-import { BootstrapNotifyBarService } from '@shared/services/bootstrap-notify.service';
+import { CookieService } from 'ngx-cookie-services';
+import { BootstrapNotifyBarService } from '@shared/services/bootstrap-notify.services';
 */
 @Component({
   selector: 'app-bandeja-configuracion-page',
@@ -79,7 +79,7 @@ export class BandejaConfiguracionPageComponent implements OnInit, OnDestroy {
 
 
       //let inputDate=this.datosBasicosFormGroup.get("FechaInicioTraslado")?.value
-      
+
           this.dialogo.open(DialogoDispositivoComponent, {
             maxWidth: '80vw',
             maxHeight: 'auto',
@@ -87,28 +87,28 @@ export class BandejaConfiguracionPageComponent implements OnInit, OnDestroy {
             width: '80%',
             disableClose: true,
             data:dispositive
-            
+
           })
             .afterClosed()
             .subscribe(async (confirmado: Boolean) => {
               if (confirmado) {
                 this.progressRef.start()
-           
-      
+
+
                 try {
                 //  let response = await this.printService.RegistroGuia(data)
 
-                  
+
 
                 this.progressRef.complete()
-      
+
                 } catch (err) {
-      
+
                   this.progressRef.complete()
                   console.log(err, "Error inesperado;")
                 }
-      
-      
+
+
                 /*{
                   "success": true,
                   "body": "Guía Registrado Correctamente",
@@ -118,17 +118,17 @@ export class BandejaConfiguracionPageComponent implements OnInit, OnDestroy {
                   "code": 200,
                   "message": null
                 }*/
-      
-      
+
+
               }
             });
-      
-  
-          
+
+
+
   }
 
   rowEdit(dispositive: any) {
-    window.alert("Editando dispositivo " + dispositive.name);
+    this.router.navigate([`iot/editarIot/${dispositive.id}`]);
 
 
 

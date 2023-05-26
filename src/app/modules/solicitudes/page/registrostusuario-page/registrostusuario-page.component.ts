@@ -667,6 +667,11 @@ export class RegistroSTusuarioPageComponent implements OnInit, OnDestroy {
 
 
           var IdsEquipo = this.listEquipo.length == 0 ? [] : this.listEquipo.map((x: any) => { return x.Id });
+          
+          var descripcionCorta =  this.datosBasicosFormGroup.value.descripcionDetalladaCtrl ==  null || this.datosBasicosFormGroup.value.descripcionDetalladaCtrl ==undefined || this.datosBasicosFormGroup.value.descripcionDetalladaCtrl =="" 
+            ? "": this.datosBasicosFormGroup.value.descripcionDetalladaCtrl.length>50 ? this.datosBasicosFormGroup.value.descripcionDetalladaCtrl.substr(0,50) : this.datosBasicosFormGroup.value.descripcionDetalladaCtrl;
+
+            
           var req_solicitud = {
             IdCliente: this.datosBasicosFormGroup.value.myControlCliente.id,
             IdSolicitante: this.datosBasicosFormGroup.value.myControlSolicitante.id,
@@ -683,7 +688,7 @@ export class RegistroSTusuarioPageComponent implements OnInit, OnDestroy {
             NombreAmbiente: "",
             IdGrupoMantenimiento: this.ControlGrupoMantenimientoSeleccionado.IdGrupoMantenimiento,
             IdUnidadMantenimiento: this.ControlGrupoMantenimientoSeleccionado.IdUnidadMantenimiento,
-            DescripcionCorta: this.datosBasicosFormGroup.value.descripcionDetalladaCtrl,
+            DescripcionCorta:  descripcionCorta,
             DescripcionDetallada: this.datosBasicosFormGroup.value.descripcionDetalladaCtrl,
             ListIdsEquipos: IdsEquipo,
             ListIdAprobadorRequerimiento: this.datosBasicosFormGroup.value.aprobadoresSolicitudCtrl,
@@ -693,7 +698,6 @@ export class RegistroSTusuarioPageComponent implements OnInit, OnDestroy {
           }
           var response = await this.solicitudesService.postGuardarSolicitud(req_solicitud);
           if (response) {
-            debugger;
             let msg = '';
             if (response.Codigo) {
               msg = response.Mensaje + '\n Tu ticket generado es el ' + response.Codigo;

@@ -187,7 +187,7 @@ export class BandejaEspaciosComponent implements OnInit, OnDestroy {
     
   }
   cargarSedeLocales() {
-    this.espaciosService.getObtenerInmuebles().then(async (respuesta) => {
+    this.espaciosService.getObtenerInmuebles(62).then(async (respuesta) => {
       this.listInmueble = respuesta;
       var existInmuebleAGCERESMATRIZ: any = this.listInmueble.find((x: any) => { return x.nombre === 'SEDE HATUN WASI' });
       /*Si en el listo de inmueble encontramos SEDE HATUN WASI seteamos por default el combo  */

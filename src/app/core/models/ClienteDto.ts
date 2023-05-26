@@ -3,6 +3,7 @@
   numeroDocumento:     string;
   nombre:             string;
   nombreCorto:       string;
+  ImagenLogoNombre:       string;
 }
 
 export interface ClientePorUsuarioDto {
@@ -10,6 +11,7 @@ export interface ClientePorUsuarioDto {
   NumeroDocumento:     string;
   Nombre:             string;
   NombreCorto:       string;
+  ImagenLogoNombre:       string;
 }
 
 

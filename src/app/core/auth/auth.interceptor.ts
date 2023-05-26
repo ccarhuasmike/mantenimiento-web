@@ -8,7 +8,7 @@ import {
 } from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
-//import {AuthService} from "../auth/auth.service";
+//import {AuthService} from "../auth/auth.services";
 import { AuthService } from '../../../../src/app/core/auth/auth.service';
 import {AuthUtils} from "../auth/auth.utils";
 import {environment} from "../../../environments/environment";
@@ -34,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-  
+
     if(this._authService.accessToken!==""){
       const isTokenExpired = AuthUtils.isTokenExpired(this._authService.accessToken);
       if (isTokenExpired) {

@@ -34,13 +34,13 @@
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "src/assets/css/demo.css",
-              "src/assets/scss/material-dashboard.scss" ,              
+              "src/assets/scss/material-dashboard.scss" ,
               "src/styles.css",
               "src/assets/scss/table-basic-example.scss",
               "src/assets/css/jquery-jvectormap-2.0.5.css"
-      
+
             ],
-            "scripts": [              
+            "scripts": [
               "src/assets/calculos.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
@@ -49,9 +49,10 @@
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/chartist/dist/chartist.js",
-              "node_modules/chart.js/dist/chart.js",
               "src/assets/script/jquery-jvectormap-2.0.5.min.js",
-              "src/assets/script/region.js"          
+              "src/assets/script/region.js"
+
+
             ]
           },
           "configurations": {
@@ -77,6 +78,26 @@
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -95,6 +116,9 @@
             },
             "development": {
               "browserTarget": "mantenimiento:build:development"
+            },
+            "local": {
+              "browserTarget": "mantenimiento:build:local"
             }
           },
           "defaultConfiguration": "development"
@@ -105,7 +129,6 @@
             "browserTarget": "mantenimiento:build"
           }
         },
-        
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

@@ -9,16 +9,9 @@ export const environment = {
   //apiEdiUrlParking: 'https://desaapi.sistemaedi.com.pe/parking',  
 
   //apiEdiUrl: 'https://qaapi.sistemaedi.com.pe/webAPIEDI',
-
-  //iot
-  apiEdiUrlParking: 'https://desaapi.sistemaedi.com.pe/parking',
-  apiEdiUrl: 'https://desaapi.sistemaedi.com.pe/webAPIEDI',
-  apiImageTuya:'https://images.tuyacn.com',
+  apiEdiUrlParking: 'https://api.sistemaedi.com.pe/parking',
+  apiEdiUrl: 'https://api.sistemaedi.com.pe/webAPIEDI',
   
-  //
-  
-  apiTuya:"http://localhost:8080",
-  apiDevTuya:"http://localhost:5214",
   //apiEdiUrl: 'http://localhost:4950', 
   //apiEdiUrlParking: 'https://localhost:7128',
   project: 'tgestiona',

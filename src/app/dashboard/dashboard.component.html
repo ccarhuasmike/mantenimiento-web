@@ -1,209 +1,92 @@
-<div class="main-content content-fadeIn">
+<div class="main-content">
   <div class="container-fluid">
+<!--    <div class="row" style="height: 25vh;">-->
+<!--      <div class="col-md-4">-->
+<!--        <div class="content-presenter">-->
+<!--          <h3 class="content-presenter_title">Gestione sus modulos</h3>-->
+<!--          <p class="content-presenter_subtitle">Hola Soporte obtenga información sobre los modulos disponibles.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-md-1">-->
+<!--        <div class="card content-striped" style="flex-basis: 8%;margin: 1rem">-->
+<!--          <span class="content-striped_x">+</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-md-7">-->
+<!--        <div class="row-vertical">-->
+<!--          <div class="card" [ngStyle]="{'background-color':x.color}" *ngFor="let x of modulosDisponibles">-->
+<!--            <div class="content-header">-->
+<!--              <span class="content-header_number"><ng-lottie width="40px" [options]="optionsCubo"></ng-lottie></span>-->
+<!--            </div>-->
+<!--            <div class="content-body">-->
+<!--              <p class="content-body_title">-->
+<!--                {{x.nombre}}</p>-->
+<!--              <span class="content-body_data">124 MB</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="row" style="height: 55vh;">-->
+<!--      <div class="col-md-4">-->
+<!--        <div class="content-module">-->
+<!--          <div class="content-module_header">-->
+<!--            <h1 class="content-module_title">Uso de los modulos en los ultimos 7 días</h1>-->
+<!--          </div>-->
+<!--          <ng-lottie width="250px" [options]="options" style="text-align: -webkit-center;"></ng-lottie>-->
+<!--          <div style="max-height: 200px;overflow-y: auto;padding: 10px">-->
+<!--            <table class="table table-striped table-hover table-sm table-bordered">-->
+<!--              <thead>-->
+<!--              <tr>-->
+<!--                <th scope="col"></th>-->
+<!--                <th scope="col">Modulo</th>-->
+<!--                <th scope="col">#Veces</th>-->
+<!--              </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--              <tr *ngFor="let x of usoModulos">-->
+<!--                <th scope="row">-->
+<!--                  <div class="data-left_content-color" [ngStyle]="{'background-color':x.color}"></div>-->
+<!--                </th>-->
+<!--                <td>{{x.nombre}}</td>-->
+<!--                <td>{{x.cantidad}}</td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-md-8">-->
+<!--        <div class="contentList">-->
 
-    <div class="row" style="height: 25vh;">
-      <div class="col-md-4">
-        <div class="content-presenter">
-          <h3 class="content-presenter_title">Gestione sus modulos</h3>
-          <p class="content-presenter_subtitle">Solicite el acceso a modulos disponibles</p>
+<!--          <div class="content-user">-->
+<!--            <h1 class="content-user_title">Ultimas acciones</h1>-->
+<!--            <i class="material-icons content-user_action">-->
+<!--              widgets-->
+<!--            </i>-->
+<!--          </div>-->
+<!--          <div style="padding: 10px;max-height: 400px;overflow-y: auto">-->
+<!--            <table class="table table-striped table-hover table-sm table-bordered">-->
+<!--              <thead>-->
+<!--              <tr>-->
+<!--                <th scope="col">Modulo</th>-->
+<!--                <th scope="col">Descripción</th>-->
+<!--                <th scope="col">Fecha</th>-->
+<!--              </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--              <tr *ngFor="let x of ultimasAcciones">-->
+<!--                <th scope="row">{{x.nombre}}</th>-->
+<!--                <td>{{x.descripcion}}</td>-->
+<!--                <td>{{fechadesde(x.fecha)}}</td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        </div>
-      </div>
-      <div class="col-md-8">
+<!--      </div>-->
 
-        <div class="row">
-          <div class="col-md-3">
-            <div class="content-striped">
-
-              <span class="content-striped_x">+</span>
-            </div>
-          </div>
-          <div class="col-md-3 ">
-            <div class="content-card" style="background-color:rgb(56, 100, 232) ;">
-              <div class="content-header">
-                <span class="content-header_number">01</span>
-                <span class="content-header_action">:</span>
-              </div>
-              <div class="content-body">
-                <!--
-               <div style="background-color: aliceblue;height: 50px;width: 50px;"></div>
-             -->
-                <div style="height: 25px;width: 25px;"> <i class="material-icons">widgets</i></div>
-                <p class="content-body_title"> Gestión de mantenimiento</p>
-                <span class="content-body_data">124 MB</span>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-md-3 ">
-            <div class="content-card" style="background-color:rgb(0, 69, 100) ;">
-              <div class="content-header">
-                <span class="content-header_number">01</span>
-                <span class="content-header_action">:</span>
-              </div>
-              <div class="content-body">
-                <!--
-               <div style="background-color: aliceblue;height: 50px;width: 50px;"></div>
-             -->
-                <div style="height: 25px;width: 25px;"> <i class="material-icons">widgets</i></div>
-                <p class="content-body_title"> Gestión de mantenimiento</p>
-                <span class="content-body_data">124 MB</span>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-md-3 ">
-            <div class="content-card" style="background-color:rgb(94, 0, 140) ;">
-              <div class="content-header">
-                <span class="content-header_number">01</span>
-                <span class="content-header_action">:</span>
-              </div>
-              <div class="content-body">
-                <!--
-               <div style="background-color: aliceblue;height: 50px;width: 50px;"></div>
-             -->
-                <div style="height: 25px;width: 25px;"> <i class="material-icons">widgets</i></div>
-                <p class="content-body_title"> Gestión de mantenimiento</p>
-                <span class="content-body_data">124 MB</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="row" style="height: 55vh;">
-
-
-      <div class="col-md-4">
-        <div class="content-module">
-          <div class="content-module_header">
-            <h3 class="content-module_title">Uso de modulos</h3>
-            <div class="content-module_action">
-
-              <span>:</span>
-            </div>
-          </div>
-          <div class="graphics">
-            <div style="height: 120px;width: 120px; "> <i class="material-icons" style="font-size: 120px;">widgets</i>
-            </div>
-
-          </div>
-          <div class="data">
-            <div class="data-left">
-              <div class="data-left_content">
-                <div class="data-left_content-color" style="   background-color: aquamarine;border-radius: 100%;">
-                </div>
-                <p class="data-left_content-percentage">Solicitud de trabajo 70%</p>
-              </div>
-              <div class="data-left_content">
-                <div class="data-left_content-color" style="   background-color: rgb(33, 36, 135);border-radius: 100%;">
-                </div>
-                <p class="data-left_content-percentage">Solicitud de trabajo 70%</p>
-              </div>
-            </div>
-            <div class="data-right">
-              <div>
-                <div class="data-left_content-color" style="   background-color: rgb(30, 30, 30);border-radius: 100%;">
-                </div>
-
-                <p class="data-rigth_content-txt">Images
-
-                </p><br>
-                <span class="data-right_content-gb">55 GB</span>
-
-              </div>
-              <div>
-                <div class="data-left_content-color" style="   background-color: rgb(255, 153, 0);border-radius: 100%;">
-                </div>
-                <p class="data-rigth_content-txt">Free
-
-                </p><br>
-                <span class="data-right_content-gb">315 GB</span>
-
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-      <div class="col-md-8">
-        <div class="contentList">
-
-          <div class="content-user">
-            <h3 class="content-user_title">Ultimos accesos</h3>
-
-            <i class="material-icons content-user_action">
-              widgets
-            </i>
-          </div>
-          <mat-divider style="width: 90%;margin: auto;"></mat-divider>
-
-          <div class="row content-user_list">
-            <div class="col-md-4">
-              <span>ICO</span>
-              <p>Travel Image-psd</p>
-            </div>
-            <div class="col-md-5">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-            </div>
-            <div class="col-md-3">
-
-              <p>Nov 7,2023</p>
-            </div>
-          </div>
-          <div class="row content-user_list">
-            <div class="col-md-4">
-              <span>ICO</span>
-              <p>Travel Image-psd</p>
-            </div>
-            <div class="col-md-5">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-            </div>
-            <div class="col-md-3">
-
-              <p>Nov 7,2023</p>
-            </div>
-          </div>
-          <div class="row content-user_list">
-            <div class="col-md-4">
-              <span>ICO</span>
-              <p>Travel Image-psd</p>
-            </div>
-            <div class="col-md-5">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-            </div>
-            <div class="col-md-3">
-
-              <p>Nov 7,2023</p>
-            </div>
-          </div>
-          <div class="row content-user_list">
-            <div class="col-md-4">
-              <span>ICO</span>
-              <p>Travel Image-psd</p>
-            </div>
-            <div class="col-md-5">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-              <img src="" alt="ico">
-            </div>
-            <div class="col-md-3">
-
-              <p>Nov 7,2023</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+<!--    </div>-->
   </div>
+</div>

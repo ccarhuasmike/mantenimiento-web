@@ -124,11 +124,11 @@ export class EspaciosService {
         });
     });
   }
-  async getObtenerInmuebles(): Promise<any> {
+  async getObtenerInmuebles(idCliente:number): Promise<any> {
 
     return new Promise((resolve, reject) => {
       this.http
-        .get(`${environment.apiEdiUrlParking}/Administracion/ObtenerInmuebles`)
+        .get(`${environment.apiEdiUrlParking}/Administracion/ObtenerInmuebles/${idCliente}`)
         .subscribe({
           next: (data: any) => {
             return resolve(data);
@@ -137,6 +137,34 @@ export class EspaciosService {
         });
     });
   }
+  async getObtenerPisos(idInmueble:number): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${environment.apiEdiUrlParking}/Administracion/ObtenerPisos/${idInmueble}`)
+        .subscribe({
+          next: (data: any) => {
+            return resolve(data);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+  async getObtenerPersonas(): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${environment.apiEdiUrlParking}/Administracion/ObtenerPersonas`)
+        .subscribe({
+          next: (data: any) => {
+            return resolve(data);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
 
 
   async postTokenBI(): Promise<any> {

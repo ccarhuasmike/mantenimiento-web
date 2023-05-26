@@ -1,0 +1,145 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="form-group row">
+            <div class="col-md-12">
+                <xng-breadcrumb></xng-breadcrumb>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+                        <h4 class="card-title">{{titulo}}</h4>                        
+                        <button mat-raised-button class="btn float-right"  [routerLink]="['/espacios/registrarsala']">
+                            <mat-icon>card_travel</mat-icon>
+                            {{nombreBotonNuevo}}
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-accordion class="example-headers-align" multi>                                  
+                                    <mat-expansion-panel [expanded]="false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Filtros Búsqueda
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <form autocomplete="on" [formGroup]="formulario" *ngIf="formulario">
+                                            <div class="row">
+                                              <div class="col-md-3">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Nombre</mat-label>
+                                                      <input matInput formControlName="nombre" >
+                                                  </mat-form-field>
+                                              </div>
+                                              <div class="col-md-3">
+                                              
+                                              </div>
+                                              <div class="col-md-3">
+                                               
+                                              </div>
+                                              <div class="col-md-3">
+                                                <button mat-raised-button class="btn btn-warning float-right">
+                                                  <mat-icon>delete</mat-icon>
+                                                  Limpiar
+                                                </button>
+                                                <button mat-raised-button class="btn btn-primary float-right"  (click)="listar()">
+                                                  <mat-icon>search</mat-icon>
+                                                  Buscar
+                                                </button>
+              
+                                              </div>
+                                            </div>
+              
+                                          </form>
+                                    </mat-expansion-panel>
+                                    <mat-expansion-panel [expanded]="true">  
+                                        <div class="form-group row tablecustom">
+                                            <mat-sidenav-container fxFlex="0 1 auto">
+                                              <mat-sidenav-content>
+                                                  <div class="table-container mt-12" *ngIf="listarDto !=null" >
+                                                         <table mat-table [dataSource]="listarDto.data" class="mat-elevation-z8">
+                                                          <ng-container matColumnDef="Nombre">
+                                                            <th mat-header-cell *matHeaderCellDef class="table-column-200">Nombre</th>                                                            
+                                                            <td mat-cell *matCellDef="let element" class="table-column-200 text-center">
+                                                              <a [routerLink]="['/espacios/editarsala',element.Id]" queryParamsHandling="merge">
+                                                                {{element.Nombre}}
+                                                              </a>
+                                                            </td>                         
+                                                          </ng-container>
+                                                          <ng-container matColumnDef="Inmueble">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-200">Inmueble</th>
+                                                              <td mat-cell *matCellDef="let element" class="table-column-200 text-center">{{element.Inmueble}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                                                          <ng-container matColumnDef="Piso">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-150">Piso</th>                                                                                      
+                                                              <td mat-cell *matCellDef="let element" class="table-column-150 text-center">{{element.Piso}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                                                         
+                                                          <ng-container matColumnDef="aforo">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-100">aforo</th>                                                                                      
+                                                              <td mat-cell *matCellDef="let element" class="table-column-100 text-center">{{element.aforo}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                                                          <ng-container matColumnDef="tieneFriobar">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-150">FrioBar</th>                                                                                      
+                                                              <td mat-cell *matCellDef="let element" class="table-column-100 text-center">{{element.tieneFriobar}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                                                          <ng-container matColumnDef="tieneTv">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-150">Tv</th>                                                                                      
+                                                              <td mat-cell *matCellDef="let element" class="table-column-100 text-center">{{element.tieneTv}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                                                            <ng-container matColumnDef="tieneVideoConferencia">
+                                                              <th mat-header-cell *matHeaderCellDef class="table-column-100">VideoConferencia</th>                                                                                      
+                                                              <td mat-cell *matCellDef="let element" class="table-column-100 text-center">{{element.tieneVideoConferencia}}
+                                                              </td>                         
+                                                            </ng-container>
+  
+                       
+                                                          <ng-container matColumnDef="fechaRegistro">
+                                                            <th mat-header-cell *matHeaderCellDef class="table-column-200">Fecha registro </th>
+                                                            <td mat-cell *matCellDef="let element" class="table-column-100 text-center">{{element.fechaRegistro | date:'dd/MM/yyyy'}}
+                                                            </td>
+                                                          </ng-container>
+                                                        
+                                                          
+                                                          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                                                                    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+                                                                    <tr class="mat-row no-data-row" *matNoDataRow>
+                                                                      <td class="mat-cell" colspan="6">No se encontraron registro.</td>
+                                                                    </tr>
+                                                         </table>
+                                                         <div *ngIf="isLoading" class="spinner-container">
+                                                           <mat-progress-spinner   [diameter]="50" color="primary" mode="indeterminate">
+                                                           </mat-progress-spinner>
+                                                          </div>    
+                                                          <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="listarDto.pageSize" howFirstLastButtons
+                                                          [length]="listarDto.totalRecords"(page)="onPaginateChange($event)" >
+                                                          </mat-paginator>                                                    
+                                                  </div>
+                                              </mat-sidenav-content>
+                                          </mat-sidenav-container>
+                                          </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

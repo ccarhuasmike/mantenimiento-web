@@ -1,14 +1,15 @@
 export const environment = {
-  production: true,
-  apiUrl: 'http://localhost:3001/api/1.0',
+  production: false,
+  apiUrl: 'https://localhost:7055/api',
   apiEdiUrl: 'https://desaapi.sistemaedi.com.pe/webAPIEDI',
+  apiImageTuya: 'https://images.tuyacn.com',
+  apiTuya: "http://localhost:8080",
+  apiDevTuya: "http://localhost:5214",
   apiEdiUrlParking: 'https://desaapi.sistemaedi.com.pe/parking',
   project: 'tgestiona',
   azureAccountName: "edidesastorage",
-  azureContaineName: "edi",
-  azureSas:"sp=rwd&st=2022-02-09T20:11:23Z&se=2023-01-02T04:11:23Z&spr=https&sv=2020-08-04&sr=c&sig=EnH4RkU%2B2dmOkm8K0184tekN3QuQsBlrcATPKQOWDPI%3D",
-  //apiEdiUrlLocal: 'http://localhost:4950',
-  apiImageTuya:'https://images.tuyacn.com',
-  apiTuya:"http://localhost:8080",
-  apiDevTuya:"http://localhost:5214",
-  };
+  azureContaineName: "edidev",
+  azureSas: "sp=racwdl&st=2023-04-24T19:39:09Z&se=2024-01-01T03:39:09Z&spr=https&sv=2021-12-02&sr=c&sig=EFGrDoxXWIwjiDrjhbkFBTWIfEXWtMyEQUlImHHKWNY%3D",
+  SecretKeyCaptcha: "6Lf6E-kjAAAAAIlRTM_4sqEgHGel0ibXx6zMyfz0",
+  ClientKeyCaptcha: "6Lf6E-kjAAAAAFpFfHRXNOl2G7wEkkZRtaRHoAdR"
+};

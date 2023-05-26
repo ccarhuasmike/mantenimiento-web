@@ -14,7 +14,7 @@ export class BtnDispositiveDecreaseComponent implements OnInit {
   ngOnInit(): void {
   }
   handleClick(e:number){
-    let drecrement=this.total-e
+    let drecrement=this.total+e
     this.$value.emit(drecrement)
   }
 }

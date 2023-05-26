@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class=" row">
+        <div class="col-md-12">
+            <ngx-dropzone (change)="onSelect($event)"
+                accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf/image/jpeg,image/jpg,image/png,image/gif">
+                <ngx-dropzone-label>Arrastrar y soltar un archivo</ngx-dropzone-label>
+            </ngx-dropzone>
+        </div>
+    </div>
+    <div class=" row">
+        <div class="col-md-12">
+            <div class="files-list">
+                <div class="single-file" *ngFor="let file of dsAdjunto; let i = index">
+                    <span [ngClass]="{
+                        'icon-img' : file?.NombreExtension?.split('.')?.pop() === 'png' || file?.NombreExtension?.split('.')?.pop() === 'jpeg' || file?.NombreExtension?.split('.')?.pop() === 'jpg'
+                        }" class=""></span>
+                    <div style="width: 72%;">
+                        <h4 class="NombreExterno">
+                            {{ file?.NombreExterno }}
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="size">
+                                    {{ formatBytes(file?.Tamanio) }}
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="size">
+                                    {{ file?.FechaRegistro | date: 'dd/MM/yyyy HH:mm' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 28%;">
+                        <mat-menu #appMenuFile="matMenu">
+                            <button (click)="downloadImage(file)" style="font-size: 12px;"
+                                mat-menu-item>
+                                <mat-icon style="font-size: 15px; margin:5px 0 0 0;">
+                                    file_download</mat-icon>
+                                Descargar
+                            </button>
+                            <button (click)="deleteImageGenerales(file)"
+                                style="font-size: 12px;" mat-menu-item>
+                                <mat-icon style="font-size: 15px; margin:5px 0 0 0;">delete
+                                </mat-icon>
+                                Eliminar
+                            </button>
+                        </mat-menu>
+                        <a style="cursor:pointer;color: #979797;" mat-icon-button
+                            [matMenuTriggerFor]="appMenuFile">
+                            <mat-icon>more_vert</mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>

@@ -72,6 +72,7 @@ export class AuthLayoutComponent implements OnInit {
       password: loginValues['password'],
       Origen: "2"
     }).then((res: any) => {
+      
       if (res.TipoResultado == 1) {
         var usuarioSession = {
           "Flagproveedor": res.Datos.Flagproveedor,

@@ -33,14 +33,29 @@ import { PowerBIEmbedModule } from 'powerbi-client-angular';
 import { ReporteBIEspaciosComponent } from "./pages/reportebiespacios-page/reportebiespacios.component";
 import { RegistroespaciosNewComponent } from "./pages/registroespaciosNew-page/registroespaciosNew.component";
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatListModule} from '@angular/material/list';
+import {MatRadioModule} from '@angular/material/radio';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DialogoConfirmRegistroespacioComponent } from './pages/dialogo-confirm-registroespacio/dialogo-confirm-registroespacio.component';
+import { BandejaSalaReunionPageComponent } from './SalaReunion/bandeja-sala-reunion-page/bandeja-sala-reunion-page.component';
+import { EditarSalaReunionPageComponent } from './SalaReunion/editar-sala-reunion-page/editar-sala-reunion-page.component';
+import { RegistroSalaReunionPageComponent } from './SalaReunion/registro-sala-reunion-page/registro-sala-reunion-page.component';
+import { FormSalaReunionPageComponent } from './SalaReunion/form-sala-reunion-page/form-sala-reunion-page.component';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     RegistroespaciosComponent,
     RegistroespaciosNewComponent,
     BandejaEspaciosComponent,
+    BandejaSalaReunionPageComponent,
     ReporteBIEspaciosComponent,
-    RegistroespaciosNewComponent
+    DialogoConfirmRegistroespacioComponent,
+    DialogoConfirmRegistroespacioComponent,
+    BandejaSalaReunionPageComponent,
+    EditarSalaReunionPageComponent,
+    RegistroSalaReunionPageComponent,
+    FormSalaReunionPageComponent
   ],
   imports: [
     PowerBIEmbedModule,
@@ -66,9 +81,13 @@ import {MatStepperModule} from '@angular/material/stepper';
     FormsModule,
     LightboxModule,
     MatDialogModule,
-    MatStepperModule
+    MatStepperModule,
+    MatListModule,
+    MatRadioModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],  
-  bootstrap: [RegistroespaciosNewComponent],
+  bootstrap: [RegistroespaciosNewComponent,DialogoConfirmRegistroespacioComponent],
   providers: [
     SnackBarService,
     BootstrapNotifyBarService,

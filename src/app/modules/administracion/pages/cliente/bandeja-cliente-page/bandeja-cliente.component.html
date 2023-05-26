@@ -1,0 +1,125 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <xng-breadcrumb></xng-breadcrumb>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+            <h4 class="card-title">BANDEJA DE CLIENTES</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <div>
+                    <form autocomplete="on" [formGroup]="formulario" *ngIf="formulario">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="Nombre">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <button mat-raised-button class="btn btn-warning pull-right"
+                                  (click)="Limpiar()">
+                            <mat-icon>delete</mat-icon>
+                            Limpiar
+                          </button>
+                          <button mat-raised-button class="btn btn-primary pull-right"
+                                  (click)="Buscar()">
+                            <mat-icon>search</mat-icon>
+                            Buscar
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Resultado Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div>
+                      <mat-sidenav-container fxFlex="0 1 auto">
+                        <mat-sidenav-content>
+                          <div class="table-container mt-3" *ngIf="listarDto !=null">
+                            <table mat-table [dataSource]="listarDto.data" class="mat-elevation-z8">
+                              <ng-container matColumnDef="Codigo">
+                                <th mat-header-cell *matHeaderCellDef
+                                    class="table-column-150"> Código
+                                </th>
+                                <td mat-cell *matCellDef="let element"
+                                    class="table-column-150">
+                                  <a [routerLink]="['/admin/editcliente',element.id,element.nombreArchivoLogo]"
+                                     queryParamsHandling="merge">
+                                    {{element.codigo}}
+                                  </a>
+                                </td>
+                              </ng-container>
+                              <!-- <ng-container matColumnDef="Codigo">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Código
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200 " *matCellDef="let row">
+                                  <a [routerLink]="['/admin/editcliente',row.Id]" queryParamsHandling="merge">
+                                    {{row.codigo}}
+                                  </a>
+                                </mat-cell>
+                              </ng-container> -->
+
+                              <ng-container matColumnDef="Nombre">
+                                <th mat-header-cell *matHeaderCellDef class="table-column-700"> Nombre</th>
+                                <td mat-cell *matCellDef="let element" class="table-column-700">
+                                  {{element.nombre}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="Estado">
+                                <th mat-header-cell *matHeaderCellDef class="table-column-200 text-center"> Estado</th>
+                                <td mat-cell *matCellDef="let element" class="table-column-200 text-center">
+                                  {{element.estado}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="descripcionLogo">
+                                <th mat-header-cell *matHeaderCellDef class="table-column-700"> logo</th>
+                                <td mat-cell *matCellDef="let element" class="table-column-700">
+                                  {{element.descripcionLogo}} </td>
+                              </ng-container>
+
+                              <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                              <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+                              <tr class="mat-row no-data-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="7">No se encontraron registro.</td>
+                              </tr>
+                            </table>
+                            <div *ngIf="isLoading" class="spinner-container">
+                              <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                              </mat-progress-spinner>
+                            </div>
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="listarDto.pageSize"
+                                           howFirstLastButtons [length]="listarDto.totalRecords"
+                                           (page)="onPaginateChange($event)">
+                            </mat-paginator>
+                          </div>
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

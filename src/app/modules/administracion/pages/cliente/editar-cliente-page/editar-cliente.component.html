@@ -1,0 +1,48 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="form-group row">
+        <div class="col-md-12">
+          <xng-breadcrumb></xng-breadcrumb>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+              <h4 class="card-title">EDITAR CLIENTE</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">                    
+                    <a class="btn btn-info" mat-raised-button [routerLink]="['/admin/bandcliente']">Cancelar<mat-icon>block</mat-icon></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  
+                  <div class="col-md-3">
+                    <div fxFlex="30" fxLayout="column">
+                      <img [src]="srcFoto" alt="" style="max-width: 220px; max-height: 200px; margin: 0 auto;">
+                      <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)" #portadaInputFile>
+                      <div class="file-upload"></div>                                                  
+                  </div>
+                  </div>  
+                  <div class="col-md-3">
+                    <div fxFlex="30" fxLayout="column">
+                      <strong>Logo:</strong> {{ formulario.controls['urlFoto'].value || 'No seleccionado' }}                
+                      <button type="button" mat-mini-fab color="primary" class="upload-btn" (click)="portadaInputFile.click()">
+                          <mat-icon>attach_file</mat-icon>
+                      </button>
+                    </div>
+                  </div>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+!
