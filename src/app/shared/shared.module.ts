@@ -158,6 +158,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { DiaglogoCargaMasivaComponent } from './components/diaglogo-carga-masiva/diaglogo-carga-masiva.component';
 
 
 @NgModule({
@@ -223,6 +224,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     DialogoDispositivoComponent,
     DispositiveBodyComponent,
     DispositiveControledComponent,
+    DiaglogoCargaMasivaComponent,
 
 
   ],
