@@ -144,7 +144,7 @@
             }
 
             &:first-child > a{
-                margin: 0 15px;
+                margin: 0 5px;
             }
 
             &:hover > a,
@@ -208,7 +208,7 @@
     }
     .nav li a,
     .nav li .dropdown-menu a{
-          margin: 10px 15px 0;
+          margin: 10px 5px 0;
           border-radius: $border-radius-base;
           color: $black-color;
           padding-left: 10px;
@@ -315,7 +315,7 @@
     }
 
     .user{
-       
+
         //margin:20px auto 0;
         position: relative;
 

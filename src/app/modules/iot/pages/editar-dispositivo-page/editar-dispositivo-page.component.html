@@ -1,0 +1,81 @@
+<div class="main-content content-fadeIn">
+    <div class="container-fluid">
+        <div class=" row">
+            <div class="col-md-12">
+                <xng-breadcrumb></xng-breadcrumb>
+                <br>
+                <br>
+            </div>
+        </div>
+
+
+        <form (ngSubmit)="sendSubmit()">
+            <ng-template matStepLabel>paso 1</ng-template>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-rose card-header-icon">
+                            <div class="card-icon"><i class="material-icons">description</i></div>
+                            <h4 class="card-title">Registrar Dispositivo</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <mat-drawer-container class="example-container">
+                                        <mat-drawer-content style="overflow: hidden;">
+                                            <div class="container-fluid"
+                                                style=" background: white; box-shadow: 0 21px 41px -13px rgb(0 0 0 / 18%);">
+                                                <div class=" row">
+                                                    <div class="col-md-12">
+                                                        <fieldset class="form-group  p-3">
+                                                            <legend class="w-auto px-2">Editar Dispositivo</legend>
+                                                            <div class=" row">
+                                                                <div class="col-md-6">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>data</mat-label>
+                                                                        <input matInput placeholder="Ingrese Api key"
+                                                                            required>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>data</mat-label>
+                                                                        <input matInput placeholder="Ingrese Api key"
+                                                                            required>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class=" row">
+                                                                <div class="col-md-6">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>data1</mat-label>
+                                                                        <input matInput placeholder="Ingrese Token"
+                                                                            required>
+                                                                    </mat-form-field>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </fieldset>
+
+                                                    </div>
+
+                                                    <!--</form>-->
+                                                </div>
+                                            </div>
+                                        </mat-drawer-content>
+                                    </mat-drawer-container>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <button mat-button>Enviar</button>
+        </form>
+
+
+    </div>
+</div>

@@ -46,6 +46,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { ControladorIotPageComponent } from './pages/controlador-iot-page/controlador-iot-page.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EditarDispositivoPageComponent } from './pages/editar-dispositivo-page/editar-dispositivo-page.component';
 @NgModule({
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -54,7 +55,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BandejaConfiguracionPageComponent,
     RegistroConfiguracionPageComponent,
     ControladorIotPageComponent,
-
+    EditarDispositivoPageComponent
   ],
   imports: [
     NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),

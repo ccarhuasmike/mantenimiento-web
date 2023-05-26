@@ -17,8 +17,8 @@
 //   timer,
 // } from "rxjs";
 // import { filter } from "rxjs/operators";
-// import { AuthService } from "../auth/auth.service";
-// import { NavigationService } from "../navigation/navigation.service";
+// import { AuthService } from "../auth/auth.services";
+// import { NavigationService } from "../navigation/navigation.services";
 //
 // @Injectable({
 //   providedIn: "root",

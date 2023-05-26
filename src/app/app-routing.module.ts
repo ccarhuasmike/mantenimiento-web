@@ -51,9 +51,30 @@ const routes: Routes = [
         path: 'iot',
         loadChildren: () => import(`./modules/iot/iot.module`).then(m => m.IotModule),
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import(`./modules/administracion/admin.module`).then(m => m.AdminModule),
+        canActivate: [AuthGuard],
       }
     ]
-  },  
+  },
+  // ,
+  // {
+  //   path: 'home',
+  //   loadChildren: () => import(`./modules/home/home.module`).then(m => m.HomeModule),
+  //   //canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: '',
+  //   redirectTo: '/home/0',
+  //   pathMatch: 'full'
+  // },
+  // ,
+  // {
+  //   path:"home/:id",
+  //   component:HomeComponent
+  // },
   {
     path: 'nodisponible',
     loadChildren: () => import(`./modules/no-disponible/no-disponible.module`).then(m => m.NoDisponibleModule),

@@ -1,0 +1,88 @@
+<form autocomplete="on" [formGroup]="formulario" (ngSubmit)="guardar()" *ngIf="formulario">
+    <div class="row">
+      <div class="col-md-12">
+          <button mat-raised-button class="btn">Guardar<mat-icon>save</mat-icon></button>
+          <a class="btn btn-info" mat-raised-button [routerLink]="['/espacios/bandejasala']">Cancelar<mat-icon>block</mat-icon></a>
+      </div>
+    </div>
+    <fieldset class="form-group border p-3">        
+        <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Inmueble</mat-label>
+                <mat-select formControlName="idInmueble"
+                  (selectionChange)="onSelectEventInmueble($event.value)">
+                  <mat-option *ngFor="let item of listInmueble" [value]="item.id">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.controls['idInmueble'].hasError('required')">
+                  Es necesario inmueble !
+                </mat-error>
+              </mat-form-field>
+             </div>           
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Piso</mat-label>
+                <mat-select formControlName="idPiso">
+                  <mat-option *ngFor="let item of listPiso" [value]="item.id">
+                    {{item.nombre}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.controls['idPiso'].hasError('required')">
+                  Es necesario el piso !
+                </mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="Nombre">
+                <mat-error *ngIf="formulario.controls['Nombre'].hasError('required')">
+                    Este campo es obligatorio
+                </mat-error>
+                <mat-error *ngIf="formulario.controls['Nombre'].hasError('minlength')">
+                  Este campo debe contener 3 caracteres como mínimo
+                </mat-error>                  
+                <mat-error *ngIf="formulario.controls['Nombre'].hasError('maxlength')">
+                  Este campo debe contener 50 caracteres como máximo
+                </mat-error>
+            </mat-form-field>
+        </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Aforo</mat-label>
+                    <input matInput formControlName="Aforo" type="number">
+                    <mat-error *ngIf="formulario.controls['Aforo'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error> 
+                </mat-form-field>
+            </div> 
+        </div>  
+          <div class="row">
+            <div class="col-md-1">
+              <mat-checkbox formControlName="tieneVideoConferencia">VideoConferencia</mat-checkbox>
+           </div>
+           <div class="col-md-1">
+            <mat-checkbox formControlName="tieneFriobar">FríoBar</mat-checkbox>
+          </div>
+          <div class="col-md-1">
+            <mat-checkbox formControlName="tieneTv">Tv</mat-checkbox>
+          </div>
+          <div class="col-md-1">
+            <mat-checkbox formControlName="Activo">Activo</mat-checkbox>
+          </div>
+        </div>
+        <div class="row" >        
+          <div class="col-md-12">
+            <h5>Adjunte aquí las fotos del área:</h5>
+            </div>
+          </div>
+        <div class="row" >        
+          <div class="col-md-12">
+            <app-adjunto-util [CodigoTabla]="CodigoTabla" [idRegistro]="idRegistro" *ngIf="idRegistro"></app-adjunto-util>        
+          </div>   
+        </div> 
+           
+    </fieldset>
+  </form>

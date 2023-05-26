@@ -7,7 +7,7 @@ import { DialogoConfirmacionComponent } from './components/dialogo-confirmacion/
 import { MatTableModule } from '@angular/material/table'
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
-
+import { MatIconModule } from '@angular/material/icon';
 import { DropzoneDirective } from './directives/DropzoneDirective';
 import { UpperCaseInputDirective } from './directives/Touppercase.Directive';
 import { SnackBarService } from '../shared/services/snack-bar.service';
@@ -20,12 +20,9 @@ import { MaterialTreeDemoComponent } from "@shared/components/tree-autocomplete/
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
-
-
 import {
   BusquedaClienteComponent
 } from "@shared/components/multiselectcliente/modal-busqueda-cliente/modal-busqueda-cliente.component";
-
 
 import { MultiSelectClienteComponent } from "@shared/components/multiselectcliente/multiselectcliente.component";
 
@@ -80,7 +77,7 @@ import { MultiSelectZonalComponent } from "@shared/components/multiselectzonal/m
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   DialogoRechazarSolicutdComponent
 } from "@shared/components/dialogo-rechazarsolicitud/dialogo-rechazarsolicitud.component";
@@ -124,6 +121,7 @@ import { BootstrapNotifyBarService } from "@shared/services/bootstrap-notify.ser
 import {
   DialogoEnviarProveedorSolicutdComponent
 } from "@shared/components/dialogo-enviarproveedor-solicitud/dialogo-enviarproveedor-solicitud.component";
+import { MatSelectModule } from '@angular/material/select';
 import {
   DialogAprobadoresComponent
 } from "@shared/components/modal-busqueda-aprobadores/modal-busqueda-aprobadores.component";
@@ -151,19 +149,15 @@ import { QRCodeModule } from 'angularx-qrcode';
 import {PrintDataComponent} from "@shared/components/print-data/print-data.component";
 import { DialogoDispositivoComponent } from './components/dialogo-dispositivo/dialogo-dispositivo.component';
 import {MatTabsModule} from '@angular/material/tabs';
-import { DispositiveBodyComponent } from './components/dispositive-body/dispositive-body.component';
+
 import { ComponentsModule } from '../components/components.module';
 import { DispositiveControledComponent } from './components/dispositive-controled/dispositive-controled.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
+import { AdjuntoUtilComponent } from './components/adjunto-util/adjunto-util.component';
+import { DialogAdjuntoUtilComponent } from './components/dialog-adjunto-util/dialog-adjunto-util.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
-  
   declarations: [
-    //MultipleSelectionSelectAllExampleComponent,
     DialogoPreviewQRComponent,
     DialogoConfigUsuarioEspaciosComponent,
     DialogoServicioPrecarioComponent,
@@ -181,6 +175,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     DialogAprobadoresComponent,
     DialogoEnviarProveedorSolicutdComponent,
     DialogoAdjuntoCloudComponent,
+    AdjuntoUtilComponent,
     DialogoRegFechaComponent,
     DialogoVerTiempoComponent,
     DialogoLogAccionComponent,
@@ -221,8 +216,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     ModalBusquedadUbigeoComponent,
     PrintDataComponent,
     DialogoDispositivoComponent,
-    DispositiveBodyComponent,
+
     DispositiveControledComponent,
+      DialogAdjuntoUtilComponent,
 
 
   ],
@@ -288,6 +284,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     DialogoEnviarProveedorSolicutdComponent,
     AutoCompleteGrupoUnidadComponent,
     DialogoAdjuntoCloudComponent,
+    AdjuntoUtilComponent,
+    DialogAdjuntoUtilComponent,
     DialogoRegFechaComponent,
     DialogoVerTiempoComponent,
     DialogoLogAccionComponent,

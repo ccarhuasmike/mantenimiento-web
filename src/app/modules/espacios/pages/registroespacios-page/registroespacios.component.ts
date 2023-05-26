@@ -382,7 +382,7 @@ export class RegistroespaciosComponent implements OnInit {
     }
   }
   cargarSedeLocales() {
-    this.espaciosService.getObtenerInmuebles().then((respuesta) => {
+    this.espaciosService.getObtenerInmuebles(62).then((respuesta) => {
       this.listInmueble = respuesta;
       /* Buscamos AGCERESMATRIZ dentro de la lista de inmueble */
       var existInmuebleAGCERESMATRIZ = this.listInmueble.find((x: any) => { return x.nombre === 'SEDE HATUN WASI' })

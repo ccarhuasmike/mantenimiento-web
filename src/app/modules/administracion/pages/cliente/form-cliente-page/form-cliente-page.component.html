@@ -1,0 +1,120 @@
+<form autocomplete="on" [formGroup]="formulario" (ngSubmit)="guardar()" *ngIf="formulario">
+  <!--
+    <div class="row">
+        <div class="col-md-12">
+            <button mat-raised-button class="btn">Guardar<mat-icon>save</mat-icon></button>
+            <a class="btn btn-info" mat-raised-button [routerLink]="['/seguridad/bandusuario']">Cancelar<mat-icon>block</mat-icon></a>
+        </div>
+    </div>
+    <fieldset class="form-group border p-3">
+        <legend class="w-auto px-2">DATOS GENERALES</legend>
+        <div class="row">
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="Nombre">
+                    <mat-error *ngIf="formulario.controls['Nombre'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls['Nombre'].hasError('minlength')">
+                        Este campo debe contener 3 caracteres como mínimo
+                      </mat-error>
+                      <mat-error *ngIf="formulario.controls['Nombre'].hasError('maxlength')">
+                        Este campo debe contener 50 caracteres como máximo
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input matInput formControlName="apellidoPaterno">
+                    <mat-error *ngIf="formulario.controls['apellidoPaterno'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls['apellidoPaterno'].hasError('minlength')">
+                        Este campo debe contener 3 caracteres como mínimo
+                      </mat-error>
+                      <mat-error *ngIf="formulario.controls['apellidoPaterno'].hasError('maxlength')">
+                        Este campo debe contener 50 caracteres como máximo
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input matInput formControlName="apellidoMaterno">
+                    <mat-error *ngIf="formulario.controls['apellidoMaterno'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls['apellidoMaterno'].hasError('minlength')">
+                        Este campo debe contener 3 caracteres como mínimo
+                      </mat-error>
+                      <mat-error *ngIf="formulario.controls['apellidoMaterno'].hasError('maxlength')">
+                        Este campo debe contener 50 caracteres como máximo
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="formulario.controls['email'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error>
+                    <mat-error *ngIf="formulario.get('email').hasError('pattern')">
+                        Email ingresado no es valido
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls['email'].hasError('minlength')">
+                        Este campo debe contener 3 caracteres como mínimo
+                      </mat-error>
+                      <mat-error *ngIf="formulario.controls['email'].hasError('maxlength')">
+                        Este campo debe contener 100 caracteres como máximo
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Login</mat-label>
+                    <input matInput formControlName="login">
+                    <mat-error *ngIf="formulario.controls['login'].hasError('required')">
+                        Este campo es obligatorio
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls['login'].hasError('minlength')">
+                        Este campo debe contener 3 caracteres como mínimo
+                      </mat-error>
+                      <mat-error *ngIf="formulario.controls['login'].hasError('maxlength')">
+                        Este campo debe contener 20 caracteres como máximo
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-checkbox formControlName="recibeNotificacion">Recibir notificacion</mat-checkbox>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group border p-3">
+        <legend class="w-auto px-2">ROLES</legend>
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6" *ngFor="let group of groupsRoles">
+                        <ul style=" list-style-type: none;">
+                            <li *ngFor="let item of group" formArrayName="ListRoles">
+                                <mat-checkbox color="primary"  [disabled]="false" [checked]="item.completed"
+                                 (change)="updateChkbxArray(item, $event.checked, 'ListRoles')" value="item.Id">
+                                    {{item.Nombre}}
+                                </mat-checkbox>
+                            </li>
+                        </ul>
+                    </div>
+                    <mat-error *ngIf="formulario.controls.ListRoles.invalid">
+                        Por favor seleccione al menos un rol
+                    </mat-error>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+!-->
+</form>

@@ -116,3 +116,7 @@ label {
     background-color: rgba(167, 35, 35, 0.54);
     color: #fff;
 }
+
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+  margin-left: 50px;
+}

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AuthUtils } from './auth.utils';
-//import { UserService } from 'app/core/user/user.service';
+//import { UserService } from 'app/core/user/user.services';
 import { UserService } from '../user/user.service';
 import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
@@ -94,7 +94,7 @@ export class AuthService
      */
     signIn(credentials:any): Observable<any>
     {
-        
+
         // Throw error, if the user is already logged in
         if ( this._authenticated )
         {
@@ -112,7 +112,7 @@ export class AuthService
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
-                // Store the user on the user service
+                // Store the user on the user services
                 this._userService.user = JSON.parse(AuthUtils._decodeToken(response.body).data);
                 // Return a new observable with the response
                 return of(response);
@@ -148,13 +148,13 @@ export class AuthService
       }
 
     async login(request:any): Promise<any>
-    {    
-        var data = await this.encriptarBody(request);     
+    {
+        var data = await this.encriptarBody(request);
         return new Promise((resolve, reject) => {
             this._httpClient
               .post(`${environment.apiEdiUrl}/Autenticacion`,data)
               .subscribe({
-                next: (data:any) => {            
+                next: (data:any) => {
                   return resolve(data);
                 },
                 error: (err) => reject(err),
@@ -171,7 +171,7 @@ export class AuthService
       localStorage.removeItem('accessEdi');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('listOpciones');
-      
+
       //localStorage.removeItem('permissions');
       //localStorage.removeItem('navigation');
       this._authenticated = false;
@@ -210,7 +210,7 @@ export class AuthService
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
-                // Store the user on the user service
+                // Store the user on the user services
                 this._userService.user = response.user;
 
                 // Return true

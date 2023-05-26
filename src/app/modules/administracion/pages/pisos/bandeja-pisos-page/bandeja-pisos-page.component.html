@@ -1,0 +1,166 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="form-group row">
+            <div class="col-md-12">
+                <xng-breadcrumb></xng-breadcrumb>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon"><i class="material-icons">mail_outline</i></div>
+                        <h4 class="card-title">BANDEJA DE PISOS</h4>                        
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-accordion class="example-headers-align" multi>
+                                    <mat-expansion-panel [expanded]="true">                                        
+                                        <form autocomplete="on" [formGroup]="formulario" *ngIf="formulario">
+                                            <div class="row">                                               
+                                              <div class="col-md-2">   
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Inmueble</mat-label>
+                                                    <mat-select formControlName="idInmueble"
+                                                      (selectionChange)="onSelectEventInmueble($event.value)">
+                                                      <mat-option *ngFor="let item of listInmueble" [value]="item.id">
+                                                        {{item.nombre}}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="formulario.controls['idInmueble'].hasError('required')">
+                                                      Es necesario inmueble !
+                                                    </mat-error>
+                                                  </mat-form-field>                                                                                                      
+                                              </div>  
+                                              
+                                              <div class="col-md-2">   
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Edificio</mat-label>
+                                                    <mat-select formControlName="idEdificio">
+                                                      <mat-option *ngFor="let item of listEdificios" [value]="item.id">
+                                                        {{item.nombre}}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="formulario.controls['idEdificio'].hasError('required')">
+                                                      Es necesario Edificio !
+                                                    </mat-error>
+                                                  </mat-form-field>                                                                                                      
+                                              </div> 
+
+                                                <div class="col-md-4">                           
+                                                      <mat-form-field appearance="outline">
+                                                        <mat-label>Nombre</mat-label>
+                                                        <input matInput formControlName="nombre" >
+                                                      </mat-form-field>
+                                                </div>                                                
+                                                     
+                                                <div class="col-md-2">                                                    
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <button mat-raised-button class="btn btn-warning float-right"
+                                                    (click)="Limpiar()">
+                                                    <mat-icon>delete</mat-icon>
+                                                    Limpiar
+                                                  </button>                                                  
+                                                </div>
+                                                <div class="col-md-2">                                                
+                                                  <button mat-raised-button class="btn btn-primary"
+                                                    (click)="Buscar()">
+                                                    <mat-icon>search</mat-icon>
+                                                    Buscar
+                                                  </button> 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                 
+                                                </div>
+                                                <div class="col-md-4">                                                    
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </mat-expansion-panel>
+                                    <mat-expansion-panel [expanded]="true">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Resultado Búsqueda
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <div>
+                                          <mat-sidenav-container fxFlex="0 1 auto">
+                                            <mat-sidenav-content>
+                                                <div class="table-container mt-3" *ngIf="listarDto !=null" >
+                                                <table mat-table [dataSource]="listarDto.data" class="mat-elevation-z8">
+
+
+                                                  <ng-container matColumnDef="codigo">
+                                                    <th mat-header-cell *matHeaderCellDef class="table-column-200"> Código </th>
+                                                    <td mat-cell *matCellDef="let element" class="table-column-200">
+                                                        {{element.codigo}} </td>
+                                                  </ng-container>
+  
+                                                    <ng-container matColumnDef="nombre">
+                                                        <th mat-header-cell *matHeaderCellDef class="table-column-400"> Nombre </th>
+                                                        <td mat-cell *matCellDef="let element" class="table-column-400">
+                                                            {{element.nombre}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="inmueble">
+                                                        <th mat-header-cell *matHeaderCellDef class="table-column-300"> Inmueble </th>
+                                                        <td mat-cell *matCellDef="let element" class="table-column-300">
+                                                            {{element.inmueble}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="edificio">
+                                                        <th mat-header-cell *matHeaderCellDef class="table-column-300 text-center"> Edificio </th>
+                                                        <td mat-cell *matCellDef="let element" class="table-column-300 text-center">
+                                                            {{element.edificio}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="fechaRegistro">
+                                                        <th mat-header-cell *matHeaderCellDef class="table-column-300 text-center"> Fecha Registro </th>
+                                                        <td mat-cell *matCellDef="let element" class="table-column-300 text-center">
+                                                            {{element.fechaRegistro | date: 'dd/MM/yyyy HH:mm'}} </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="fotos">
+                                                        <th mat-header-cell *matHeaderCellDef class="table-column-100 text-center"> fotos </th>
+                                                        <td mat-cell *matCellDef="let element" class="table-column-100 text-center">
+                                                            <button mat-raised-button class="btn btn-warning float-right"
+                                                                    (click)="adjuntos(element.Id)">
+                                                                    <mat-icon>insert_photo</mat-icon>
+                                                                    Adjuntos
+                                                          </button>                                                  
+                                                        </td>
+                                                    </ng-container>
+  
+                                                          
+  
+                                                          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                                                          <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+                                                          <tr class="mat-row no-data-row" *matNoDataRow>
+                                                          <td class="mat-cell" colspan="7">No se encontraron registro.</td>
+                                                          </tr>
+                                                        </table>
+                                                       <div *ngIf="isLoading" class="spinner-container">
+                                                         <mat-progress-spinner   [diameter]="50" color="primary" mode="indeterminate">
+                                                         </mat-progress-spinner>
+                                                        </div>
+                                                        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="listarDto.pageSize" howFirstLastButtons [length]="listarDto.totalRecords" (page)="onPaginateChange($event)">
+                                                        </mat-paginator>
+                                                </div>
+                                            </mat-sidenav-content>
+                                        </mat-sidenav-container>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
