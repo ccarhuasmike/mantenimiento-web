@@ -429,6 +429,7 @@ export enum eEntidad
   Reemplazo = 226,
   ServicioTarifaPrecio = 228,
   Solicitud = 233,
+  SalaReunion = 1018,
   TipoSolicitud = 234,
   TarifaPrecio = 235,
   Tecnico = 236,
