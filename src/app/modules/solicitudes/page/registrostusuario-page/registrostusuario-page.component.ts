@@ -84,8 +84,9 @@ export interface EquipoFlatNode {
 })
 export class RegistroSTusuarioPageComponent implements OnInit, OnDestroy {
   progressRef!: NgProgressRef;
-  clienteMaster: number = 0;
   value: number = 0;
+  clienteMaster: number = 0;
+
   mode = new UntypedFormControl('side');
   isLoading = false;
   isSubmitted: boolean = false;

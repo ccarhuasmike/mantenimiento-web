@@ -268,7 +268,7 @@ export class ConsultaSolicitudesComponent implements OnInit, OnDestroy {
   }
   //#region Deserializer get encriptado
   loadDatos(): void {
-    debugger;
+    
     if (!moment.isDate(this._filtro.FechaRegHasta)) {
       this.bootstrapNotifyBarService.notifyWarning("Fecha fin incorrecto.");
       return;
@@ -317,7 +317,7 @@ export class ConsultaSolicitudesComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: any): void {
-    debugger;
+    
     this.currentPage = event.pageIndex;
     this.itemsPerPage = event.pageSize;
     this.loadDatos();

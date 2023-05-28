@@ -1,0 +1,71 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
+    [class.active]="progressRef.isStarted"></mat-progress-bar>
+    <form class="form-horizontal" (ngSubmit)='confirmado()'>
+      <div class=" form-group row">
+        <div class="col-md-12">
+          <ngx-dropzone (change)="onSelect($event)" accept=".xlsx,.xls">
+            <ngx-dropzone-label>Arrastrar y soltar un archivo</ngx-dropzone-label>
+          </ngx-dropzone>
+        </div>
+      </div>
+      <div class=" form-group row">
+        <div class="col-md-12">
+          <div class="files-list">
+            <div class="single-file" *ngFor="let file of files; let i = index">
+              <span [ngClass]="{
+'icon-pdf': file?.name.split('.').pop() === 'pdf' ,
+'icon-excel' : file?.name.split('.').pop() === 'xlsx' || file?.name.split('.').pop() === 'xls',
+'icon-img' : file?.name.split('.').pop() === 'png' || file?.name.split('.').pop() === 'jpeg' || file?.name.split('.').pop() === 'jpg'
+}" class=""></span>
+              <div style="width: 72%;">
+                <h4 class="name">
+                  {{ file?.name }}
+                </h4>
+                <p class="size">
+                  {{ formatBytes(file?.size) }}
+                </p>
+                <app-progress [progress]="file?.progress"></app-progress>
+              </div>
+              <!--<mat-icon matSuffix>file_download</mat-icon>-->
+              <button mat-icon-button aria-label="" (click)="deleteFile(i)">
+                <mat-icon matSuffix>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Motivo de Anulación</mat-label>
+            <textarea required formControlName="mytxtComentarioRechazo" matInput [maxlength]="200"
+              placeholder="Motivo de anulación"></textarea>
+            <mat-error *ngIf="datosBasicosFormGroup.get('mytxtComentarioRechazo')?.hasError('required')">
+              Es necesario el motivo anulación!
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div> -->
+    
+      <br>
+      <div class="form-group row">
+        <div class="col-md-12 text-right">
+          <button mat-raised-button class="btn btn-primary">Guardar</button>
+          <button mat-raised-button class="btn btn-info" (click)="cerrarDialogo()">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
