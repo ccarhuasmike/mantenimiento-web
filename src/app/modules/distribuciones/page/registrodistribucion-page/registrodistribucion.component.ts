@@ -26,6 +26,7 @@ import {
   DialogAprobadoresComponent
 } from "@shared/components/modal-busqueda-aprobadores/modal-busqueda-aprobadores.component";
 import {DialogoCargaMasivaDistribucionComponent} from "@shared/components/dialogo-cargamasivadistribucion/dialogo-cargamasivadistribucion.component";
+import {DialogoCargaMasivaDistribucionOtrosComponent} from "@shared/components/dialogo-cargamasivadistribucionotro/dialogo-cargamasivadistribucionotro.component";
 import { ClienteService } from '@shared/services/cliente.service';
 
 
@@ -99,6 +100,33 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         // }
       });
   }
+
+  btnCargaMasivaDistribucionOtros(){
+    this.dialogo.open(DialogoCargaMasivaDistribucionOtrosComponent, {
+      maxWidth: '50vw',
+      maxHeight: 'auto',
+      height: 'auto',
+      width: '50%',
+      disableClose: true,
+      data: {
+        titulo: `Carga Masiva Distribución Otros`,
+        //listAprobadores: dataObtenerAprobadores.ListAprobadores
+        /*clientChekeado : this.clientSeleccionado.map(x=>{ return x.Id}),
+        IdsCliente:this.value==""? []:this.value*/
+      }
+      //data: this.clientSeleccionado.map(x=>{ return x.Id})
+    })
+      .afterClosed()
+      .subscribe(async (confirmado: any) => {
+
+        // if (confirmado.respuesta) {
+        //   this.datosBasicosFormGroup.patchValue({
+        //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
+        //   });
+        // }
+      });
+  }
+
   ngOnDestroy(): void {
     this.ngProgress.destroyAll();
   }

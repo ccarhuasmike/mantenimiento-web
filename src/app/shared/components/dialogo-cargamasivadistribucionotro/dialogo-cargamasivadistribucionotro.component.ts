@@ -160,7 +160,7 @@ export class DialogoCargaMasivaDistribucionOtrosComponent implements OnInit {
         arrArchivo: base64
       }
     }
-    this.distribucionesService.subirPlantillaCargarMasivaDistribucion(request).then((res: any) => {
+    this.distribucionesService.subirPlantillaCargarMasivaDistribucionOtros(request).then((res: any) => {
       if (res.TipoResultado === 1) {
         this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
         this.dialogo.close({

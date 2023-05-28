@@ -48,6 +48,21 @@ export class DistribucionesService {
     });
   }
 
+  async subirPlantillaCargarMasivaDistribucionOtros(data: any): Promise<any> {
+    data = await this.utilsService.encriptarBody(data);
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.apiEdiUrl}/DIS/CargaMasivaRegistroDistribucionOtros`, data)
+        .subscribe({
+          next: (res: any) => {            
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+
   async DescargarReporteDetallado(data: any): Promise<any> {
     data = await this.utilsService.encriptarBody(data);
     return new Promise((resolve, reject) => {
