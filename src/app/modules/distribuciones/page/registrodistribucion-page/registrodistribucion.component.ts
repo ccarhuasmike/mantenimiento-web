@@ -28,6 +28,7 @@ import {
   DialogAprobadoresComponent
 } from "@shared/components/modal-busqueda-aprobadores/modal-busqueda-aprobadores.component";
 import { ClienteService } from '@shared/services/cliente.service';
+import { ListavaloresService } from '@shared/services/listavalores.service';
 
 
 
@@ -42,7 +43,7 @@ import { ClienteService } from '@shared/services/cliente.service';
 })
 export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   matexpansionpaneldatosgenerales: boolean = false;
-  
+
   progressRef!: NgProgressRef;
   clienteMaster: number = 0;
   value: number = 0;
@@ -54,16 +55,32 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   //RegEx_Telefono = "^[679]{1}[0-9]{8}$";
   datosBasicosFormGroup!: UntypedFormGroup;
   datosEquipoFormGroup!: UntypedFormGroup;
+
+  displayedColumns: string[] =
+    [
+      'select',
+      'Destino',
+      'Descripcion',
+      'Cantidad',
+      'UndMed',
+      'Accion'
+    ];
+  listAgenciaOrigen: any[] = [];
+  listTipoServicio: any[] = [];
+  listPrioridad: any[] = [];
+  listTipoOrigen: any[] = [];
+  listTipoPaquete: any[] = [];
+
   constructor(
     public clienteService: ClienteService,
     public router: Router,
-    private ngProgress: NgProgress,    
+    private ngProgress: NgProgress,
     private _authService: AuthService,
-    private _formBuilder: UntypedFormBuilder,    
+    private _formBuilder: UntypedFormBuilder,
     public dialogo: MatDialog,
-    private distribucionesService: DistribucionesService,    
+    private distribucionesService: DistribucionesService,
     private bootstrapNotifyBarService: BootstrapNotifyBarService,
-    
+    private listavaloresService: ListavaloresService
   ) {
     /*Cada vez que existe un cambio  en el objeto cartEvent se suscribira para que realizo un accion */
     clienteService.cartEvent$.subscribe((value) => {
@@ -80,12 +97,55 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    var respuesta = await this.listavaloresService.getListaValores({
+      idlista: 62,
+      idcliente: ""
+    });
 
-  
+    if (respuesta.TipoResultado == 1) {
+      this.listAgenciaOrigen = respuesta.ListaEntidadComun;
+      console.log("idlista: 62");
+      console.log(respuesta.ListaEntidadComun);
+    }
+
+    var respuesta = await this.listavaloresService.getListaValores({
+      idlista: 180,
+      idcliente: ""
+    });
+
+    if (respuesta.TipoResultado == 1) {
+      this.listTipoServicio = respuesta.ListaEntidadComun;
+    }
+
+    var respuesta = await this.listavaloresService.getListaValores({
+      idlista: 181,
+      idcliente: ""
+    });
+
+    if (respuesta.TipoResultado == 1) {
+      this.listTipoOrigen = respuesta.ListaEntidadComun;
+    }
+
+    var respuesta = await this.listavaloresService.getListaValores({
+      idlista: 182,
+      idcliente: ""
+    });
+
+    if (respuesta.TipoResultado == 1) {
+      this.listPrioridad = respuesta.ListaEntidadComun;
+    }
+
+    var respuesta = await this.listavaloresService.getListaValores({
+      idlista: 183,
+      idcliente: ""
+    });
+
+    if (respuesta.TipoResultado == 1) {
+      this.listTipoPaquete = respuesta.ListaEntidadComun;
+    }
   }
 
- 
-  FinalizarRegistroSolicitud(){
+  FinalizarRegistroSolicitud() {
 
   }
 

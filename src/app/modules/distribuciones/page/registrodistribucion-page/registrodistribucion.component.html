@@ -121,13 +121,8 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Servicio</mat-label>
                                 <mat-select>
-                                  <!-- *ngFor="let food of foods" [value]="food.value" -->
-                                  <mat-option>
-                                    ENVÍO
-                                    <!-- {{food.viewValue}} -->
-                                  </mat-option>
-                                  <mat-option>
-                                    RECOJO
+                                  <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
+                                    {{tipoServicio.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -136,11 +131,8 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Prioridad</mat-label>
                                 <mat-select>
-                                  <mat-option>
-                                    NORMAL
-                                  </mat-option>
-                                  <mat-option>
-                                    URGENTE
+                                  <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
+                                    {{prioridad.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -155,14 +147,8 @@
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Origen</mat-label>
                                       <mat-select>
-                                        <mat-option>
-                                          ALMACÉN
-                                        </mat-option>
-                                        <mat-option>
-                                          AGENCIA
-                                        </mat-option>
-                                        <mat-option>
-                                          OTROS
+                                        <mat-option *ngFor="let tipoOrigen of listTipoOrigen" [value]="tipoOrigen.Id">
+                                          {{tipoOrigen.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
@@ -171,11 +157,9 @@
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Origen</mat-label>
                                       <mat-select>
-                                        <mat-option>
-                                          ALMACÉN HATUN WASI
-                                        </mat-option>
-                                        <mat-option>
-                                          ALMACÉN MIBANCO
+                                        <mat-option *ngFor="let agenciaOrigen of listAgenciaOrigen"
+                                          [value]="agenciaOrigen.Id">
+                                          {{agenciaOrigen.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
@@ -210,14 +194,8 @@
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Destino</mat-label>
                                       <mat-select>
-                                        <mat-option>
-                                          ALMACÉN
-                                        </mat-option>
-                                        <mat-option>
-                                          AGENCIA
-                                        </mat-option>
-                                        <mat-option>
-                                          OTROS
+                                        <mat-option *ngFor="let tipoDestino of listTipoOrigen" [value]="tipoDestino.Id">
+                                          {{tipoDestino.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
@@ -226,11 +204,8 @@
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Destino</mat-label>
                                       <mat-select>
-                                        <mat-option>
-                                          ALMACÉN HATUN WASI
-                                        </mat-option>
-                                        <mat-option>
-                                          ALMACÉN MIBANCO
+                                        <mat-option *ngFor="let agenciaDestino of listAgenciaOrigen">
+                                          {{agenciaDestino.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
@@ -251,14 +226,8 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Paquete</mat-label>
                                 <mat-select>
-                                  <mat-option>
-                                    Cajas de Documentos
-                                  </mat-option>
-                                  <mat-option>
-                                    Celulares
-                                  </mat-option>
-                                  <mat-option>
-                                    Economato
+                                  <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
+                                    {{tipoPaquete.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -297,7 +266,122 @@
                           </div> -->
                         </fieldset>
                       </mat-tab>
-                      <mat-tab label="ITEMS"> ITEMS </mat-tab>
+                      <mat-tab label="ITEMS">
+                        <br />
+                        <div class=" row">
+                          <div class="col-md-6">
+                            <!-- [dataSource]="dataSource" -->
+                            <table mat-table class="table">
+                              <ng-container matColumnDef="select">
+                                <mat-header-cell [ngClass]="'w-75'" mat-header-cell *matHeaderCellDef>
+                                  <!-- (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()" -->
+                                  #
+                                </mat-header-cell>
+                                <mat-cell mat-cell [ngClass]="'w-75'" *matCellDef="let row">
+                                  <!-- (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)" -->
+                                  <mat-checkbox [color]="'primary'">
+                                  </mat-checkbox>
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="Destino">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Destino
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
+                                    {{row.Codigo}}
+                                  </a>
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Descripcion">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Descripción
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.TipoServicio}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Cantidad">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Cantidad
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Prioridad}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="UndMed">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Und.Med.
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Solicitante}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Accion">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Acción
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Estado}}
+                                </mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                                [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                              <tr class="mat-row no-data-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="9">No se encontraron registro.</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Descripción</mat-label>
+                                  <input matInput placeholder="Ingrese Descripción">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Cantidad</mat-label>
+                                  <input matInput placeholder="Ingrese Descripción de Cantidad">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Und.Med.</mat-label>
+                                  <input matInput placeholder="Ingrese Descripción de Und.Med.">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <!-- outline -->
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Und.Med.</mat-label>
+                                  <mat-select>
+                                    <!-- *ngFor="let food of foods" [value]="food.value" -->
+                                    <mat-option>
+                                      METROS
+                                      <!-- {{food.viewValue}} -->
+                                    </mat-option>
+                                    <mat-option>
+                                      UNIDADES
+                                    </mat-option>
+                                    <mat-option>
+                                      LITROS
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-tab>
                     </mat-tab-group>
                   </mat-expansion-panel>
 
