@@ -19,14 +19,14 @@ import { ChecklistDatabaseInmueble } from "../../services/ChecklistDatabaseInmue
 import {
   ChecklistDatabaseGrupoMantenimiento
 } from "@modules/solicitudes/services/ChecklistDatabaseGrupoMantenimiento.service";
-import { InmuebleFlatNode, InmuebleNode } from "../../../../core/models/inmuebletree.model";
-import { GrupoMantenimientoFlatNode, GrupoMantenimientoNode } from "../../../../core/models/grupomantenimientotree.model";
-import { debounceTime, distinctUntilChanged, tap, switchMap, finalize, filter } from 'rxjs/operators';
+
 import { NgProgress, NgProgressRef } from '@ngx-progressbar/core';
 import { BootstrapNotifyBarService } from "@shared/services/bootstrap-notify.service";
 import {
   DialogAprobadoresComponent
 } from "@shared/components/modal-busqueda-aprobadores/modal-busqueda-aprobadores.component";
+import {DialogoCargaMasivaDistribucionComponent} from "@shared/components/dialogo-cargamasivadistribucion/dialogo-cargamasivadistribucion.component";
+import {DialogoCargaMasivaDistribucionOtrosComponent} from "@shared/components/dialogo-cargamasivadistribucionotro/dialogo-cargamasivadistribucionotro.component";
 import { ClienteService } from '@shared/services/cliente.service';
 import { ListavaloresService } from '@shared/services/listavalores.service';
 
@@ -90,6 +90,58 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       this.cookieService.set('objetoClientePorUsuario', JSON.stringify(value));*/
       this.ngOnInit();
     });
+  }
+
+  btnCargaMasivaDistribucion(){
+    this.dialogo.open(DialogoCargaMasivaDistribucionComponent, {
+      maxWidth: '50vw',
+      maxHeight: 'auto',
+      height: 'auto',
+      width: '50%',
+      disableClose: true,
+      data: {
+        titulo: `Carga Masiva Distribución`,
+        //listAprobadores: dataObtenerAprobadores.ListAprobadores
+        /*clientChekeado : this.clientSeleccionado.map(x=>{ return x.Id}),
+        IdsCliente:this.value==""? []:this.value*/
+      }
+      //data: this.clientSeleccionado.map(x=>{ return x.Id})
+    })
+      .afterClosed()
+      .subscribe(async (confirmado: any) => {
+
+        // if (confirmado.respuesta) {
+        //   this.datosBasicosFormGroup.patchValue({
+        //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
+        //   });
+        // }
+      });
+  }
+
+  btnCargaMasivaDistribucionOtros(){
+    this.dialogo.open(DialogoCargaMasivaDistribucionOtrosComponent, {
+      maxWidth: '50vw',
+      maxHeight: 'auto',
+      height: 'auto',
+      width: '50%',
+      disableClose: true,
+      data: {
+        titulo: `Carga Masiva Distribución Otros`,
+        //listAprobadores: dataObtenerAprobadores.ListAprobadores
+        /*clientChekeado : this.clientSeleccionado.map(x=>{ return x.Id}),
+        IdsCliente:this.value==""? []:this.value*/
+      }
+      //data: this.clientSeleccionado.map(x=>{ return x.Id})
+    })
+      .afterClosed()
+      .subscribe(async (confirmado: any) => {
+
+        // if (confirmado.respuesta) {
+        //   this.datosBasicosFormGroup.patchValue({
+        //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
+        //   });
+        // }
+      });
   }
 
   ngOnDestroy(): void {

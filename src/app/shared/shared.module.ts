@@ -149,7 +149,6 @@ import { QRCodeModule } from 'angularx-qrcode';
 import {PrintDataComponent} from "@shared/components/print-data/print-data.component";
 import { DialogoDispositivoComponent } from './components/dialogo-dispositivo/dialogo-dispositivo.component';
 import {MatTabsModule} from '@angular/material/tabs';
-
 import { ComponentsModule } from '../components/components.module';
 import { DispositiveControledComponent } from './components/dispositive-controled/dispositive-controled.component';
 import { AdjuntoUtilComponent } from './components/adjunto-util/adjunto-util.component';
@@ -157,8 +156,13 @@ import { DialogAdjuntoUtilComponent } from './components/dialog-adjunto-util/dia
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { DiaglogoCargaMasivaComponent } from './components/diaglogo-carga-masiva/diaglogo-carga-masiva.component';
 
+import {DialogoCargaMasivaDistribucionComponent} from "@shared/components/dialogo-cargamasivadistribucion/dialogo-cargamasivadistribucion.component";
+import {DialogoCargaMasivaDistribucionOtrosComponent} from "@shared/components/dialogo-cargamasivadistribucionotro/dialogo-cargamasivadistribucionotro.component";
+
 @NgModule({
   declarations: [
+    DialogoCargaMasivaDistribucionComponent,
+    DialogoCargaMasivaDistribucionOtrosComponent,
     DialogoPreviewQRComponent,
     DialogoConfigUsuarioEspaciosComponent,
     DialogoServicioPrecarioComponent,
@@ -267,6 +271,8 @@ import { DiaglogoCargaMasivaComponent } from './components/diaglogo-carga-masiva
    
   ],
   exports: [
+    DialogoCargaMasivaDistribucionComponent,
+    DialogoCargaMasivaDistribucionOtrosComponent,
     DialogoPreviewQRComponent,
     DialogoConfigUsuarioEspaciosComponent,
     DialogoServicioPrecarioComponent,
