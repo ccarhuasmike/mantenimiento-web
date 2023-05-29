@@ -12,426 +12,210 @@
         <div class="card">
           <div class="card-header card-header-rose card-header-icon">
             <div class="card-icon"><i class="material-icons">description</i></div>
-            <h4 class="card-title">SOLICITUD DE TRABAJO</h4>
+            <h4 class="card-title">ACTUALIZACIÓN MASIVA DE ÓRDENES DE ENTREGA</h4>
           </div>
           <div class="card-body">
             <div class="row">
+              <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
+              [class.active]="progressRef.isStarted"></mat-progress-bar>
               <div class="col-md-12">
-                <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
-                  [class.active]="progressRef.isStarted"></mat-progress-bar>
-                <mat-drawer-container class="example-container">
-                  <mat-drawer #drawer [mode]="mode.value" [opened]="isShowing" class="example-sidenav" position="end"
-                    style="width: 35%;">
-                    <br>
-                    <div class="container" *ngIf="flagContenedorAdjunto">
-                      <div class=" row">
-                        <div class="col-md-12">
+                <mat-accordion class="example-headers-align" multi>
+                  <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <!-- ACTUALIZACIÓN MASIVA DE ÓRDENES DE ENTREGA -->
+                      </mat-panel-title>
+                      <!-- <mat-panel-description>
+                        <div class="container-fluid">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <h5><strong style="font-weight: 580;">CodigoXXXXXX</strong></h5>
+                            </div>
+                            <div class="offset-md-1 col-md-5">
+                              <h5 class="text-lg-end"><strong style="font-weight: 580;">
+                                  Estado XXXXXX </strong>
+                              </h5>
 
-                          <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,.pdf,.xlsx">
-                            <ngx-dropzone-label>Arrastrar y soltar un archivo</ngx-dropzone-label>
-                          </ngx-dropzone>
-                        </div>
-                      </div>
-                      <div class=" row">
-                        <div class="col-md-12">
-                          <div class="files-list">
-                            <div class="single-file" *ngFor="let file of files; let i = index">
-                              <span [ngClass]="{
-                'icon-pdf': file?.name.split('.').pop() === 'pdf' ,
-                'icon-excel' : file?.name.split('.').pop() === 'xlsx',
-                'icon-img' : file?.name.split('.').pop() === 'png' || file?.name.split('.').pop() === 'jpeg' || file?.name.split('.').pop() === 'jpg'
-                }" class=""></span>
-                              <div style="width: 72%;">
-                                <h4 class="name">
-                                  {{ file?.name }}
-                                </h4>
-                                <p class="size">
-                                  {{ formatBytes(file?.size) }}
-                                </p>
-                                <app-progress [progress]="file?.progress"></app-progress>
-                              </div>
-                              <!--<mat-icon matSuffix>file_download</mat-icon>-->
-                              <button mat-icon-button aria-label="" (click)="deleteFile(i)">
-                                <mat-icon matSuffix>delete</mat-icon>
-                              </button>
                             </div>
                           </div>
                         </div>
+                      </mat-panel-description> -->
+                    </mat-expansion-panel-header>
+                    
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div style="    height: auto;
+                        padding: 19px;
+                        margin-bottom: 20px;
+                        background-color: #f5f5f5;
+                        border: 1px solid #e3e3e3;
+                        border-radius: 4px;
+                        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+                        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+                    ">
+                          Esta opción actualiza masivamente las órdenes de entrega que aún no fueron atendias,
+                          desde un archivo excel que se debe adjuntar en este formulario.
+                          Debe estar completamente seguro sobre la información que cargará al sistema, pues se
+                          notificará a todos los usuarios sobre las actualizaciones de estado.
                       </div>
-                    </div>
-                    <div class="container" *ngIf="flagContenedorEquipo" [formGroup]="datosEquipoFormGroup">
-                      <fieldset class="form-group  p-3">
-                        <legend class="w-auto px-2">ACTIVO RELACIONADO</legend>
-                        <div class=" row">
+                      </div>                      
+                      <div class="col-md-4">
+                        <div class=" form-group row">
                           <div class="col-md-12">
-                            <mat-form-field appearance="outline">
-                              <mat-label>Tipo de Equipo</mat-label>
-                              <mat-select>
-                                <mat-option value=""  (click)="selectTipoEquipoCtrl(null)">--SELECCIONE--
-                                </mat-option>
-                                <mat-option *ngFor="let itemTipoEquipo of listTipoEquipo"
-                                  (click)="selectTipoEquipoCtrl(itemTipoEquipo)" [value]="itemTipoEquipo">
-                                  {{itemTipoEquipo.Nombre}}</mat-option>
-                              </mat-select>
-                              <mat-error>
-                                Tipo de Equipo es obligatorio.
-                              </mat-error>
-                            </mat-form-field>
+                            <ngx-dropzone (change)="onSelect($event)" accept=".xlsx,.xls">
+                              <ngx-dropzone-label>Arrastrar y soltar un archivo</ngx-dropzone-label>
+                            </ngx-dropzone>
                           </div>
                         </div>
+                       
+                      </div>  
+                      <div class="col-md-5">
+
                         <div class=" row">
                           <div class="col-md-12">
-                            <mat-form-field appearance="outline">
-                              <mat-label>Equipo(s)</mat-label>
-                              <input matInput [matAutocomplete]="autocompleteequipo"  reuired [formControl]="myControlEquipo"
-                              formControlName="myControlEquipo">
-                              
-                              <button *ngIf="datosEquipoFormGroup.get('myControlEquipo')?.value ===''" type="button"
-                                mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchEquipo()">
-                                <mat-icon>search</mat-icon>
-                              </button>
-                              <a *ngIf="datosEquipoFormGroup.get('myControlEquipo')?.value!==''" href="javascript:void(0)"
-                                mat-button matSuffix mat-icon-button aria-label="Clear" (click)="closeEquipo()">
-                                <mat-icon>close</mat-icon>
-                              </a>
-                              <mat-autocomplete #autocompleteequipo="matAutocomplete">
-                                <mat-option disabled>Por favor seleccione una opción</mat-option>
-                                <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
-                                  <mat-spinner diameter="20"></mat-spinner>
-                                </mat-option>
-                                <mat-tree [dataSource]="dataSourceEquipo" [treeControl]="treeControlEquipo"
-                                  *ngIf="showDropDownEquipo">>
-                                  <!-- Esta es la plantilla de nodo de árbol para nodos de hoja -->
-                                  <mat-tree-node (click)="onLeafEquipo(node)" *matTreeNodeDef="let node"
-                                    matTreeNodePadding>
-                                    <!-- use un botón deshabilitado para proporcionar relleno para la hoja del árbol -->
-                                    <button mat-icon-button disabled></button>
-                                    {{node.textoMostrar }} 
-                                  </mat-tree-node>
-                                  <!-- This is the tree node template for expandable nodes -->
-                                  <mat-tree-node *matTreeNodeDef="let node;when: hasChildEquipo"
-                                    (click)="onLeafEquipo(node)" matTreeNodePadding>
-                                    <button mat-icon-button matTreeNodeToggle
-                                      [attr.aria-label]="'toggle ' + node.label">
-                                      <mat-icon class="mat-icon-rtl-mirror">
-                                        {{treeControlEquipo.isExpanded(node) ? 'expand_more' :
-                                        'chevron_right'}}
-                                      </mat-icon>
-                                    </button>
-                                    {{node.title}}
-                                  </mat-tree-node>
-                                </mat-tree>
-                              </mat-autocomplete>
-                            </mat-form-field>
+                            <div class="files-list">
+                              <div class="single-file" *ngFor="let file of files; let i = index">
+                                <span [ngClass]="{
+                  'icon-pdf': file?.name.split('.').pop() === 'pdf' ,
+                  'icon-excel' : file?.name.split('.').pop() === 'xlsx' || file?.name.split('.').pop() === 'xls',
+                  'icon-img' : file?.name.split('.').pop() === 'png' || file?.name.split('.').pop() === 'jpeg' || file?.name.split('.').pop() === 'jpg'
+                  }" class=""></span>
+                                <div style="width: 72%;">
+                                  <h4 class="name">
+                                    {{ file?.name }}
+                                  </h4>
+                                  <p class="size">
+                                    {{ formatBytes(file?.size) }}
+                                  </p>
+                                  <app-progress [progress]="file?.progress"></app-progress>
+                                </div>
+                                <!--<mat-icon matSuffix>file_download</mat-icon>-->
+                                <button mat-icon-button aria-label="" (click)="deleteFile(i)">
+                                  <mat-icon matSuffix>delete</mat-icon>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class=" row">
+                        <div class=" row" [hidden]="files.length === 0">
                           <div class="col-md-12 text-right">
-                            <a href="javascript:void(0)" (click)="AgregarEquipo()">Agregar</a>
+                            <button (click)="btnActualizarTickets()" class="btn btn-success" mat-raised-button>
+                              <mat-icon>settings</mat-icon>
+                              ACTUALIZAR TICKETS
+                            </button>
                           </div>
                         </div>
-                        <div class="row" data-mdb-perfect-scrollbar='true'>
-                          <div class="col-md-12">
-                            <div class="form-group row" *ngFor="let group of listEquipoAgrupado">
-                              <div class="col-md-6" *ngFor="let item of group">
-                                <mat-card class="example-card">
-                                  <!--<mat-card-header>
-                                    <div mat-card-avatar class="example-header-image"></div>
-                                    <mat-card-title>Shiba Inu</mat-card-title>
-                                    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                                  </mat-card-header>-->
-                                  <img mat-card-image
-                                    src="./assets/img/TipoEquipo/{{item.NombreImagen === '' ?  'Default.png': item.NombreImagen}}"
-                                    alt="Photo of a Shiba Inu">
-                                  <mat-card-content>
-                                    <p>
-                                      {{item.textoMostrar}}
-                                    </p>
-                                  </mat-card-content>
-                                  <!--<mat-card-actions>
-                                    <button mat-button (click)="btnEliminarEquipo_onClick(item.IdEquipo)">
-                                      <mat-icon>delete</mat-icon>
-                                    </button>
-                                  </mat-card-actions>
-                                -->
-                                </mat-card>
-                              </div>                                        
-                            </div>    
-                          </div>
-                        </div>
-                      </fieldset>
-
+                        
+                      </div>                    
                     </div>
-                  </mat-drawer>
-                  <mat-drawer-content style="overflow: hidden;">
-                    <div class="container-fluid"
-                      style=" background: white; box-shadow: 0 21px 41px -13px rgb(0 0 0 / 18%);">
-                      <div class=" row">
-                        <form [formGroup]="datosBasicosFormGroup" (ngSubmit)='FinalizarRegistroSolicitud()'
-                          class="form-horizontal w-100 p-md-4 p-4">
-                          <div class="col-md-12">
+                  </mat-expansion-panel>
 
-                            <fieldset class="form-group  p-3">
-                              <legend class="w-auto px-2">DATOS GENERALES</legend>
-                              <div class=" row">
-                                <div class="col-md-6">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Cliente</mat-label>
-                                    <input type="text" matInput [formControl]="myControlCliente"
-                                      formControlName="myControlCliente" [matAutocomplete]="auto" required>
-                                    <mat-autocomplete panelWidth="240px" #auto="matAutocomplete"
-                                      [displayWith]="displayFnClientePorUsuario"
-                                      (optionSelected)='matAutocompleteSeleccionCliente($event.option.value)'>
-                                      <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
-                                        <mat-spinner diameter="20"></mat-spinner>
-                                      </mat-option>
-                                      <ng-container *ngIf="!isLoading">
-                                        <mat-option *ngFor="let option of filteredOptionsCliente | async"
-                                          [value]="option">
-                                          {{option.nombre}}
-                                        </mat-option>
-                                      </ng-container>
-                                    </mat-autocomplete>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('myControlCliente')?.hasError('required')">
-                                      Es necesario el cliente!
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-6">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Solicitante</mat-label>
-                                    <input type="text" matInput [formControl]="myControlSolicitante" class="input-sm"
-                                      formControlName="myControlSolicitante" [matAutocomplete]="solicitante" required>
-                                    <mat-autocomplete panelWidth="240px" #solicitante="matAutocomplete"
-                                      [displayWith]="displayFnSolicitante"
-                                      (optionSelected)='matAutocompleteSeleccionSolicitante($event.option.value)'>
-                                      <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
-                                        <mat-spinner diameter="20"></mat-spinner>
-                                      </mat-option>
-                                      <ng-container *ngIf="!isLoading">
-                                        <mat-option *ngFor="let option of filteredOptionsSolicitante" [value]="option">
-                                          {{option.nombre}}
-                                        </mat-option>
-                                      </ng-container>
-                                    </mat-autocomplete>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('myControlSolicitante')?.hasError('required')">
-                                      Es necesario el solicitante!
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class=" row">
-                                <div class="col-md-6">
 
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Inmueble</mat-label>
-                                    <input matInput [matAutocomplete]="inmuble" [formControl]="myControlInmueble"
-                                      formControlName="myControlInmueble" required>
-                                    <button *ngIf="!datosBasicosFormGroup.get('myControlInmueble')?.valid" type="button"
-                                      mat-button matSuffix mat-icon-button aria-label="Clear"
-                                      (click)="searchInmueble()">
-                                      <mat-icon>search</mat-icon>
-                                    </button>
-                                    <a *ngIf="datosBasicosFormGroup.get('myControlInmueble')?.valid"
-                                      href="javascript:void(0)" mat-button matSuffix mat-icon-button aria-label="Clear"
-                                      (click)="closeInmueble()">
-                                      <mat-icon>close</mat-icon>
-                                    </a>
-                                    <mat-autocomplete #inmuble="matAutocomplete">
-                                      <mat-option disabled>Por favor seleccione una opción</mat-option>
-                                      <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
-                                        <mat-spinner diameter="20"></mat-spinner>
-                                      </mat-option>
-                                      <mat-tree [dataSource]="dataSourceInmueble" [treeControl]="treeControlInmueble"
-                                        *ngIf="showDropDownInmueble">>
-                                        <!-- Esta es la plantilla de nodo de árbol para nodos de hoja -->
-                                        <mat-tree-node (click)="onLeafInmuebleNodeClick(node)"
-                                          *matTreeNodeDef="let node" matTreeNodePadding>
-                                          <!-- use un botón deshabilitado para proporcionar relleno para la hoja del árbol -->
-                                          <button mat-icon-button disabled></button>
-                                          {{node.label}}
-                                        </mat-tree-node>
-                                        <!-- This is the tree node template for expandable nodes -->
-                                        <mat-tree-node *matTreeNodeDef="let node;when: hasChildInmueble"
-                                          (click)="onLeafInmuebleNodeClick(node)" matTreeNodePadding>
-                                          <button mat-icon-button matTreeNodeToggle
-                                            [attr.aria-label]="'toggle ' + node.label">
-                                            <mat-icon class="mat-icon-rtl-mirror">
-                                              {{treeControlInmueble.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                                            </mat-icon>
-                                          </button>
-                                          {{node.label}}
-                                        </mat-tree-node>
-                                      </mat-tree>
 
-                                    </mat-autocomplete>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('myControlInmueble')?.hasError('required')">
-                                      Es necesario el arbol de inmuebles!
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Correo</mat-label>
-                                    <input matInput placeholder="Ingrese correo electronico"
-                                      formControlName="correoCtrl" required>
-                                    <mat-icon matSuffix>mail</mat-icon>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('correoCtrl')?.hasError('required')">
-                                      Es necesario el correo!
-                                    </mat-error>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('correoCtrl')?.hasError('pattern')">
-                                      Correo electronico ingresado no es valido
-                                    </mat-error>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('correoCtrl')?.hasError('minlength')">
-                                      El correo debe tener al menos 8 caracteres.
-                                    </mat-error>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('correoCtrl')?.hasError('maxlength')">
-                                      El correo no debe exceder los 50 caracteres.
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Telef.</mat-label>
-                                    <input matInput placeholder="Ingrese telefono" required
-                                      formControlName="telefonoCtrl">
-                                    <mat-icon matSuffix>phone</mat-icon>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('telefonoCtrl')?.hasError('required')">
-                                      Es necesario el telefono!
-                                    </mat-error>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('telefonoCtrl')?.hasError('minlength')">
-                                      El telefono debe tener al menos 7 caracteres.
-                                    </mat-error>
-                                    <mat-error *ngIf="datosBasicosFormGroup.get('telefonoCtrl')?.hasError('maxlength')">
-                                      El telefono no debe exceder los 20 caracteres.
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                            </fieldset>
-
-                            <fieldset class="form-group  p-3">
-                              <legend class="w-auto px-2">DATOS DE SOLICITUD</legend>
-                              <div class=" row">
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Tipo Solicitud</mat-label>
-                                    <mat-select formControlName="tipoSolicitudCtrl" required>
-                                      <mat-option value="" (click)="selectTipoSolicitudCtrl(null)">--SELECCIONE--
-                                      </mat-option>
-                                      <mat-option *ngFor="let itemTipoSolicitud of listTipoSolicitud"
-                                        (click)="selectTipoSolicitudCtrl(itemTipoSolicitud)"
-                                        [value]="itemTipoSolicitud">
-                                        {{itemTipoSolicitud.nombre}}</mat-option>
-                                    </mat-select>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('tipoSolicitudCtrl')?.hasError('required')">
-                                      Tipo de solicitud es obligatorio.
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-1">
-                                  <button mat-fab type="button" matTooltip="Activo relacionado"
-                                    [matTooltipPosition]="'below'" class="btn btn-primary" (click)="btnEquipo();">
-                                    <mat-icon>construction</mat-icon>
-                                  </button>
-                                </div>
-                                <div class="col-md-8">
-                                  <mat-form-field appearance="outline">
-                                    <mat-label>Grupo/Unidad</mat-label>
-                                    <input matInput [matAutocomplete]="grupomantenimiento"
-                                      [formControl]="myControlGrupoMantenimiento"
-                                      formControlName="myControlGrupoMantenimiento" required>
-                                    <button *ngIf="!datosBasicosFormGroup.get('myControlGrupoMantenimiento')?.valid"
-                                      type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
-                                      (click)="searchGrupoUnidad()">
-                                      <mat-icon>search</mat-icon>
-                                    </button>
-
-                                    <a *ngIf="datosBasicosFormGroup.get('myControlGrupoMantenimiento')?.valid"
-                                      href="javascript:void(0)" mat-button matSuffix mat-icon-button aria-label="Clear"
-                                      (click)="closeGrupoUnidad()">
-                                      <mat-icon>close</mat-icon>
-                                    </a>
-
-                                    <mat-autocomplete #grupomantenimiento="matAutocomplete">
-                                      <mat-option disabled>Por favor seleccione una opción</mat-option>
-                                      <mat-option *ngIf="isLoading" class="autocomplete__option--loading">
-                                        <mat-spinner diameter="20"></mat-spinner>
-                                      </mat-option>
-                                      <mat-tree [dataSource]="dataSourceGrupoMantenimiento"
-                                        [treeControl]="treeControlGrupoMantenimiento"
-                                        *ngIf="showDropDownGrupoMantenimiento">>
-                                        <!-- Esta es la plantilla de nodo de árbol para nodos de hoja -->
-                                        <mat-tree-node (click)="onLeafGrupoUnidadNodeClick(node)"
-                                          *matTreeNodeDef="let node" matTreeNodePadding>
-                                          <!-- use un botón deshabilitado para proporcionar relleno para la hoja del árbol -->
-                                          <button mat-icon-button disabled></button>
-                                          {{node.label}}
-                                        </mat-tree-node>
-                                        <!-- This is the tree node template for expandable nodes -->
-                                        <mat-tree-node *matTreeNodeDef="let node;when: hasChildGrupoMantenimiento"
-                                          (click)="onLeafGrupoUnidadNodeClick(node)" matTreeNodePadding>
-                                          <button mat-icon-button matTreeNodeToggle
-                                            [attr.aria-label]="'toggle ' + node.label">
-                                            <mat-icon class="mat-icon-rtl-mirror">
-                                              {{treeControlGrupoMantenimiento.isExpanded(node) ? 'expand_more' :
-                                              'chevron_right'}}
-                                            </mat-icon>
-                                          </button>
-                                          {{node.label}}
-                                        </mat-tree-node>
-                                      </mat-tree>
-                                    </mat-autocomplete>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('myControlGrupoMantenimiento')?.hasError('required')">
-                                      Es necesario el arbol de grupo y unidad!
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class=" row">
-                                <div class="col-md-12">
-                                  <mat-form-field appearance="outline" [style.fontSize.px]=12>
-                                    <mat-label>Descripción detallada</mat-label>
-                                    <textarea matInput formControlName="descripcionDetalladaCtrl" required></textarea>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('required')">
-                                      Se necesita que se ingrese descripción detallada.
-                                    </mat-error>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('minlength')">
-                                      El telefono debe tener al menos 10 caracteres.
-                                    </mat-error>
-                                    <mat-error
-                                      *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('maxlength')">
-                                      El telefono no debe exceder los 200 caracteres.
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                            </fieldset>
-                            <div class=" row">
-                              <div class="col-md-12 text-left">
-                                <button mat-fab type="button" matTooltip="Adjuntos" [matTooltipPosition]="'below'"
-                                  class="btn btn-primary" (click)="btnAdjunto();">
-                                  <mat-icon>attach_file</mat-icon>
-                                </button>
-                                <button mat-raised-button [disabled]="isSubmitted" class="btn btn-primary">
-                                  <mat-icon *ngIf="!isSubmitted">send</mat-icon>
-                                  Enviar
-                                </button>
-                              </div>
+                  <mat-expansion-panel [expanded]="matexpansionpaneldatosgenerales">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Resultado Búsqueda
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="form-group  row" [hidden]="dataSource?.length === 0">
+                      <button class="btn btn-primary" *ngIf="dataSource?.length > 0" (click)="btnDescargarExcel()" mat-raised-button>
+                        <mat-icon>do_not_disturb_on</mat-icon>
+                        download
+                      </button>
+                    </div>
+                    <div class="form-group row">
+                      <mat-sidenav-container>
+                        <mat-sidenav-content>                          
+                          <div class="table-container">
+                            <table mat-table [dataSource]="dataSource" class="table">
+                              <!-- <ng-container matColumnDef="select">
+                                <mat-header-cell [ngClass]="'w-75'" mat-header-cell *matHeaderCellDef>
+                                  <mat-checkbox [color]="'primary'" (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                  </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell mat-cell [ngClass]="'w-75'" *matCellDef="let row">
+                                  <mat-checkbox [color]="'primary'" (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                  </mat-checkbox>
+                                </mat-cell>
+                              </ng-container> -->
+                              
+                              <ng-container matColumnDef="CodigoSolicitud">
+                                <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  Codigo de Solicitud
+                                </mat-header-cell>
+                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
+                                  <a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
+                                    {{row.Codigo}}
+                                  </a>
+                                </mat-cell>
+                              </ng-container>                           
+                              <ng-container matColumnDef="TipoServicio">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Tipo Servicio
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.TipoServicio}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Solicitante">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Solicitante
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Solicitante}}
+                                </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Prioridad">
+                                <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>Prioridad
+                                </mat-header-cell>
+                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Prioridad}}
+                                </mat-cell>
+                              </ng-container>
+                              
+                             
+                              <ng-container matColumnDef="FRegistro">
+                                <mat-header-cell class="table-column-150 text-justify-content" *matHeaderCellDef> F.Registro
+                                </mat-header-cell>
+                                <mat-cell class="table-column-150 text-justify-content"
+                                  *matCellDef="let row; let i=index;">
+                                  {{row.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}}</mat-cell>
+                              </ng-container>
+                             
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+                                [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
+                              <tr class="mat-row no-data-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="9">No se encontraron registro.</td>
+                              </tr>
+                              <!--                </mat-table>-->
+                            </table>
+                            <div *ngIf="isLoading" class="spinner-container">
+                              <mat-progress-spinner [diameter]="50" color="primary" mode="indeterminate">
+                              </mat-progress-spinner>
                             </div>
                           </div>
-                        </form>
-                      </div>
+                          <div>
+                            <mat-paginator #paginator [hidden]="dataSource?.length === 0" [length]="totalRegistros"
+                              (page)="pageChanged($event)" [pageSize]="itemsPerPage" [pageSizeOptions]="[10, 50, 100]">
+                            </mat-paginator>
+                          </div>
+                          <!-- end table container -->
+                          <!--                    </div>-->
+                        </mat-sidenav-content>
+                      </mat-sidenav-container>
+                      <!--              </div>-->
                     </div>
-                  </mat-drawer-content>
-                </mat-drawer-container>
+                  </mat-expansion-panel>
+
+              
+
+                </mat-accordion>
               </div>
             </div>
           </div>
