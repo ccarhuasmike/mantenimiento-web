@@ -45,11 +45,11 @@
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA DISTRIBUCIÓN
                         </button>
-                        <button (click)="btnCargaMasivaDistribucionOtros()"  class="btn btn-primary" mat-raised-button>
+                        <button (click)="btnCargaMasivaDistribucionOtros()" class="btn btn-primary" mat-raised-button>
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA OTROS
                         </button>
-                        <button class="btn btn-info" mat-raised-button>
+                        <button (click)="btnGrabar()" class="btn btn-info" mat-raised-button>
                           <mat-icon>back_hand</mat-icon>
                           ENVIAR
                         </button>
@@ -107,19 +107,42 @@
                       <mat-tab label="DATOS GENERALES ">
                         <fieldset class="form-group p-3">
                           <legend class="w-auto px-2">DATOS GENERALES</legend>
-                          <div class=" row">
-                            <div class="col-md-12">
+
+
+                          <div class="row">
+                            <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Descripción de Items</mat-label>
-                                <input matInput placeholder="Ingrese Descripción de Items">
+                                <input matInput placeholder="Ingrese Descripción de Items"
+                                  [(ngModel)]="datosDistribucion.sol.descripcion">
                               </mat-form-field>
                             </div>
                           </div>
-                          <div class=" row">
-                            <div class="col-md-8">
-                              <!-- outline -->
+                          <div class="row">
+                            <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Servicio</mat-label>
+                                <mat-select (selectionChange)="seleccionarTipoServicio($event.value)"
+                                  [(ngModel)]="datosDistribucion.sol.tiposervicio.Id">
+                                  <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
+                                    {{tipoServicio.Nombre}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Prioridad</mat-label>
+                                <mat-select [(ngModel)]="datosDistribucion.sol.prioridad.Id">
+                                  <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
+                                    {{prioridad.Nombre}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Centro de Costo</mat-label>
                                 <mat-select>
                                   <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
                                     {{tipoServicio.Nombre}}
@@ -127,36 +150,29 @@
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                            <div class="col-md-4">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Prioridad</mat-label>
-                                <mat-select>
-                                  <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
-                                    {{prioridad.Nombre}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
-                            </div>
                           </div>
-                          <div class=" row">
+                          <div class="row">
                             <div class="col-md-6">
                               <fieldset class="form-group p-3">
                                 <legend class="w-auto px-2">Origen</legend>
                                 <div class="row">
-                                  <div class="col-md-12">
+                                  <div class="col-md-6">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Origen</mat-label>
-                                      <mat-select>
-                                        <mat-option *ngFor="let tipoOrigen of listTipoOrigen" [value]="tipoOrigen.Id">
+                                      <mat-select (selectionChange)="seleccionarOrigen($event.value)"
+                                        [(ngModel)]="datosDistribucion.sol.origen.Id">
+                                        <mat-option *ngFor="let tipoOrigen of listOrigen" [value]="tipoOrigen.Id"
+                                          [disabled]="tipoOrigen.Disabled">
                                           {{tipoOrigen.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
-                                  </div>
-                                  <div class="col-md-12">
+                                  </div>                                  
+                                  <div class="col-md-6" *ngIf="datosDistribucion.sol.origen.Id !== 347">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Origen</mat-label>
-                                      <mat-select>
+                                      <mat-select [(ngModel)]="datosDistribucion.sol.sedeOrigen.Id"
+                                        (selectionChange)="seleccionarSedeOrigen($event.value)">
                                         <mat-option *ngFor="let agenciaOrigen of listAgenciaOrigen"
                                           [value]="agenciaOrigen.Id">
                                           {{agenciaOrigen.Nombre}}
@@ -164,23 +180,31 @@
                                       </mat-select>
                                     </mat-form-field>
                                   </div>
+                                  <div class="col-md-6"
+                                    *ngIf="(datosDistribucion.sol.tiposervicio.Id === 343 || datosDistribucion.sol.tiposervicio.Id === 344)  && datosDistribucion.sol.origen.Id === 347">
+                                    <div class="row">
+                                      <div class="col-lg-6">
+                                        Seleccionar Origen:
+                                      </div>                                      
+                                      <div class="col-lg-6">
+                                        <button mat-raised-button mat-min-fab class="btn btn-warning btn-round btn-fab">
+                                          <i class="material-icons">location_on</i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-sm btn-warning"
+                                          ng-click="mostrarMapaOrigen(undefined,ticketId)">
+                                          <span class="fa fa-map-marker"></span>
+                                        </button> -->
+                                      </div>
+                                    </div>                                    
+                                  </div>
+                                </div>
+                                <div class="row">
                                   <div class="col-md-12">
                                     <mat-form-field appearance="outline" [style.fontSize.px]=12>
                                       <mat-label>Dirección Origen</mat-label>
                                       <!-- formControlName="descripcionDetalladaCtrl" -->
-                                      <textarea matInput disabled="disabled" required></textarea>
-                                      <!-- <mat-error
-                                        *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('required')">
-                                        Se necesita que se ingrese descripción detallada.
-                                      </mat-error>
-                                      <mat-error
-                                        *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('minlength')">
-                                        El telefono debe tener al menos 10 caracteres.
-                                      </mat-error>
-                                      <mat-error
-                                        *ngIf="datosBasicosFormGroup.get('descripcionDetalladaCtrl')?.hasError('maxlength')">
-                                        El telefono no debe exceder los 200 caracteres.
-                                      </mat-error> -->
+                                      <textarea matInput disabled="disabled" required
+                                        [(ngModel)]="datosDistribucion.sol.direccion_origen"></textarea>                                     
                                     </mat-form-field>
                                   </div>
                                 </div>
@@ -190,31 +214,34 @@
                               <fieldset class="form-group p-3">
                                 <legend class="w-auto px-2">Destino</legend>
                                 <div class="row">
-                                  <div class="col-md-12">
+                                  <div class="col-md-6">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Destino</mat-label>
-                                      <mat-select>
-                                        <mat-option *ngFor="let tipoDestino of listTipoOrigen" [value]="tipoDestino.Id">
+                                      <mat-select (selectionChange)="seleccionarDestino($event.value)" [disabled]="!datosDistribucion.sol.origen" [(ngModel)]="datosDistribucion.sol.destino.Id">
+                                        <mat-option *ngFor="let tipoDestino of listDestino" [value]="tipoDestino.Id">
                                           {{tipoDestino.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
                                   </div>
-                                  <div class="col-md-12">
+                                  <div class="col-md-6" *ngIf="datosDistribucion.sol.destino.Id !== 347">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Destino</mat-label>
-                                      <mat-select>
-                                        <mat-option *ngFor="let agenciaDestino of listAgenciaOrigen">
+                                      <mat-select (selectionChange)="seleccionarSedeDestino($event.value)" [(ngModel)]="datosDistribucion.sol.sedeDestino.Id">
+                                        <mat-option *ngFor="let agenciaDestino of listAgenciaDestino"   [value]="agenciaDestino.Id">
                                           {{agenciaDestino.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
                                   </div>
+
+                                </div>
+                                <div class="row">
                                   <div class="col-md-12">
                                     <mat-form-field appearance="outline" [style.fontSize.px]=12>
                                       <mat-label>Dirección Destino</mat-label>
                                       <!-- formControlName="descripcionDetalladaCtrl" -->
-                                      <textarea matInput disabled="disabled" required></textarea>
+                                      <textarea matInput  [disabled]="datosDistribucion.sol.destino.Id !== 347" [(ngModel)]="datosDistribucion.sol.direccion_destino"></textarea>
                                     </mat-form-field>
                                   </div>
                                 </div>
@@ -225,7 +252,7 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Paquete</mat-label>
-                                <mat-select>
+                                <mat-select [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
                                   <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
                                     {{tipoPaquete.Nombre}}
                                   </mat-option>
@@ -235,150 +262,130 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Usuario Destino</mat-label>
-                                <mat-select>
-                                  <mat-option>
-                                    ALMACÉN
-                                  </mat-option>
-                                  <mat-option>
-                                    AGENCIA
-                                  </mat-option>
-                                  <mat-option>
-                                    OTROS
+                                <mat-select [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
+                                  <mat-option *ngFor="let usuario of UsuarioDestino" [value]="usuario.Id">
+                                    {{usuario.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
                             </div>
                           </div>
-                          <!-- <div class=" row">
-                            <div class="col-md-3">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Sede / Agencia</mat-label>
-                                <input matInput placeholder="Ingrese Sede / Agencia">
-                              </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                              <mat-form-field appearance="outline">
-                                <mat-label>Telefono.</mat-label>
-                                <input matInput placeholder="Ingrese telefono">
-                                <mat-icon matSuffix>phone</mat-icon>
-                              </mat-form-field>
-                            </div>
-                          </div> -->
                         </fieldset>
                       </mat-tab>
                       <mat-tab label="ITEMS">
                         <br />
                         <div class=" row">
-                          <div class="col-md-6">
-                            <!-- [dataSource]="dataSource" -->
-                            <table mat-table class="table">
-                              <ng-container matColumnDef="select">
-                                <mat-header-cell [ngClass]="'w-75'" mat-header-cell *matHeaderCellDef>
-                                  <!-- (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                    [indeterminate]="selection.hasValue() && !isAllSelected()" -->
-                                  #
-                                </mat-header-cell>
-                                <mat-cell mat-cell [ngClass]="'w-75'" *matCellDef="let row">
-                                  <!-- (click)="$event.stopPropagation()"
-                                    (change)="$event ? selection.toggle(row) : null"
-                                    [checked]="selection.isSelected(row)" -->
-                                  <mat-checkbox [color]="'primary'">
-                                  </mat-checkbox>
-                                </mat-cell>
-                              </ng-container>
-
+                          <div class="col-md-8">
+                            <!--<div class="table-responsive">-->
+                            <table mat-table #table [dataSource]="dataSourceItems" class="mat-elevation-z8">
                               <ng-container matColumnDef="Destino">
                                 <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>
                                   Destino
                                 </mat-header-cell>
-                                <mat-cell class="table-column-130 text-justify-content" *matCellDef="let row">
-                                  <a [routerLink]="['/solicitud/editarsolicitud',row.Id]" queryParamsHandling="merge">
-                                    {{row.Codigo}}
-                                  </a>
+                                <mat-cell class="table-column-200 text-justify-content" *matCellDef="let row">
+                                  {{row.Destino}}
                                 </mat-cell>
                               </ng-container>
                               <ng-container matColumnDef="Descripcion">
                                 <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>Descripción
                                 </mat-header-cell>
-                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.TipoServicio}}
+                                <mat-cell class="table-column-200 text-justify-content" *matCellDef="let row">
+                                  {{row.Descripcion}}
                                 </mat-cell>
                               </ng-container>
                               <ng-container matColumnDef="Cantidad">
                                 <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>Cantidad
                                 </mat-header-cell>
-                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Prioridad}}
+                                <mat-cell class="table-column-200 text-justify-content" *matCellDef="let row">
+                                  {{row.Cantidad}}
                                 </mat-cell>
                               </ng-container>
                               <ng-container matColumnDef="UndMed">
                                 <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>Und.Med.
                                 </mat-header-cell>
-                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Solicitante}}
+                                <mat-cell class="table-column-200  text-justify-content" *matCellDef="let row">
+                                  {{row.UnidadMedida }}
                                 </mat-cell>
                               </ng-container>
                               <ng-container matColumnDef="Accion">
                                 <mat-header-cell class="table-column-200 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>Acción
                                 </mat-header-cell>
-                                <mat-cell class="table-column-200" *matCellDef="let row"> {{row.Estado}}
+                                <mat-cell class="table-column-200  text-justify-content" *matCellDef="let row">
+                                  <button mat-raised-button (click)="btnEliminarItem(row)"
+                                    class="btn btn-primary pull-right">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                               <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
                                 [ngClass]=" i % 2 != 0 ? 'row-color-tb' : ''"></mat-row>
                               <tr class="mat-row no-data-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="9">No se encontraron registro.</td>
+                                <td class="mat-cell" colspan="5">No se encontraron registro.</td>
                               </tr>
                             </table>
+                            <!--</div>-->
+
                           </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <mat-form-field appearance="outline">
-                                  <mat-label>Descripción</mat-label>
-                                  <input matInput placeholder="Ingrese Descripción">
-                                </mat-form-field>
+                          <div class="col-md-4">
+                            <form [formGroup]="datosBasicosItemFormGroup" class="form-horizontal"
+                              (ngSubmit)='btnAgregarItem()'>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Descripción</mat-label>
+                                    <input matInput placeholder="Ingrese Descripción" formControlName="descripcionCtrl">
+                                    <mat-error
+                                      *ngIf="datosBasicosItemFormGroup.get('descripcionCtrl')?.hasError('required')">
+                                      Es necesario la descripción!
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
                               </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <mat-form-field appearance="outline">
-                                  <mat-label>Cantidad</mat-label>
-                                  <input matInput placeholder="Ingrese Descripción de Cantidad">
-                                </mat-form-field>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input matInput type="number" placeholder="Ingrese Descripción de Cantidad"
+                                      formControlName="cantidadCtrl">
+                                    <mat-error
+                                      *ngIf="datosBasicosItemFormGroup.get('cantidadCtrl')?.hasError('required')">
+                                      Es necesario la cantidad!
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
                               </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <mat-form-field appearance="outline">
-                                  <mat-label>Und.Med.</mat-label>
-                                  <input matInput placeholder="Ingrese Descripción de Und.Med.">
-                                </mat-form-field>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Und.Med.</mat-label>
+                                    <mat-select formControlName="unidadMedidaCtrl">
+                                      <mat-option *ngFor="let item of listUnidadMedida" [value]="item">
+                                        {{item.Nombre}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                      *ngIf="datosBasicosItemFormGroup.get('unidadMedidaCtrl')?.hasError('required')">
+                                      Es necesario la unidad de medida!
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
                               </div>
-                              <div class="col-md-12">
-                                <!-- outline -->
-                                <mat-form-field appearance="outline">
-                                  <mat-label>Und.Med.</mat-label>
-                                  <mat-select>
-                                    <!-- *ngFor="let food of foods" [value]="food.value" -->
-                                    <mat-option>
-                                      METROS
-                                      <!-- {{food.viewValue}} -->
-                                    </mat-option>
-                                    <mat-option>
-                                      UNIDADES
-                                    </mat-option>
-                                    <mat-option>
-                                      LITROS
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <button mat-raised-button class="btn btn-primary pull-right">
+                                    <mat-icon>add</mat-icon>
+                                    Agregar
+                                  </button>
+                                </div>
                               </div>
-                            </div>
+                            </form>
+
                           </div>
                         </div>
                       </mat-tab>

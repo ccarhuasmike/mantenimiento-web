@@ -174,4 +174,76 @@ export class DistribucionesService {
         });
     });
   }  
+  
+  async obtenerCentroCosto(idCliente: number): Promise<any> {      
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/ADM/Cliente/ListarUnidadesOrganizativas?IdCliente=${idCliente}`)
+        .subscribe({
+          next: (res: any) => {            
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }  
+
+  async validarCalificacion(): Promise<any> {      
+     return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/DIS/ValidarPendientesCalificacion`)
+        .subscribe({
+          next: (res: any) => {            
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }  
+  async obtenerAgencias(idCliente:any,buscar:any): Promise<any> {      
+    var idCliente = await this.utilsService.encriptar(idCliente);
+    var buscar = await this.utilsService.encriptar(buscar);
+     return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/INM/ListarporClienteGeneral?pIdCliente=${idCliente}&Nombre=${buscar}`)
+        .subscribe({
+          next: (res: any) => {            
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }  
+  async obtenerAlmacenes(idCliente:any): Promise<any> {      
+     idCliente = await this.utilsService.encriptar(idCliente.toString());   
+     return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/MAT/ListarAlmacenesActivosxCiente?IdCliente=${idCliente.data}`)
+        .subscribe({
+          next: (res: any) => { 
+            debugger;           
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }  
+  
+
+  async obtenerUsuariosPorInmueble(req:any): Promise<any> {      
+    req = await this.utilsService.encriptar(req.toString());   
+    return new Promise((resolve, reject) => {
+     this.http
+       .get(`${this.apiEdiUrl}/SEG/Usuario/ListarxInmueble?IdInmueble=${req.data}`)
+       .subscribe({
+         next: (res: any) => { 
+           debugger;           
+           return resolve(res);
+         },
+         error: (err) => reject(err),
+       });
+   });
+ }  
+
+
 }
