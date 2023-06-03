@@ -221,7 +221,7 @@ export class DistribucionesService {
         .get(`${this.apiEdiUrl}/MAT/ListarAlmacenesActivosxCiente?IdCliente=${idCliente.data}`)
         .subscribe({
           next: (res: any) => { 
-            debugger;           
+                       
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -237,13 +237,70 @@ export class DistribucionesService {
        .get(`${this.apiEdiUrl}/SEG/Usuario/ListarxInmueble?IdInmueble=${req.data}`)
        .subscribe({
          next: (res: any) => { 
-           debugger;           
+                      
            return resolve(res);
          },
          error: (err) => reject(err),
        });
    });
  }  
+ async obtenerTicketId(req:any): Promise<any> {      
+  req = await this.utilsService.encriptar(req.toString());   
+  return new Promise((resolve, reject) => {
+   this.http
+     .get(`${this.apiEdiUrl}/DIS/ObtenerPorId?IdDistribuciones=${req.data}`)
+     .subscribe({
+       next: (res: any) => { 
+                    0
+         return resolve(res);
+       },
+       error: (err) => reject(err),
+     });
+ });
+}  
+
+ async grabarDistribucion(data: any): Promise<any> {
+  data = await this.utilsService.encriptarBody(data);
+  return new Promise((resolve, reject) => {
+    this.http
+      .post(`${this.apiEdiUrl}/DIS/Grabar`, data)
+      .subscribe({
+        next: (res: any) => {
+          return resolve(res);
+        },
+        error: (err) => reject(err),
+      });
+  });
+}
+
+async anularDistribucion(data: any): Promise<any> {
+  data = await this.utilsService.encriptarBody(data);
+  return new Promise((resolve, reject) => {
+    this.http
+      .post(`${this.apiEdiUrl}/DIS/Anular`, data)
+      .subscribe({
+        next: (res: any) => {
+          return resolve(res);
+        },
+        error: (err) => reject(err),
+      });
+  });
+}
+
+async aprobarRechazar(data: any): Promise<any> {
+  data = await this.utilsService.encriptarBody(data);
+  return new Promise((resolve, reject) => {
+    this.http
+      .post(`${this.apiEdiUrl}/DIS/AprobarRechazarSolicitud`, data)
+      .subscribe({
+        next: (res: any) => {
+          return resolve(res);
+        },
+        error: (err) => reject(err),
+      });
+  });
+}
+
 
 
 }

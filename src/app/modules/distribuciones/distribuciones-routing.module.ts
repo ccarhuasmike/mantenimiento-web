@@ -12,8 +12,9 @@ export const DistribucionesRoutingModule: Routes = [
   {
     path: '',
     children: [
+    
       {
-        path: 'registrardistribucion',
+        path: 'regdistribucion/:id',
         component: RegistroDistribucionComponent,
         canActivate: [AuthGuard],
         data: {
@@ -33,6 +34,7 @@ export const DistribucionesRoutingModule: Routes = [
       }
     }
   },
+  {path: 'regdistribucion', redirectTo: 'regdistribucion/0', pathMatch: 'full'},
   {
     path: 'actualizacionmasiva',
     component: ActualizacionMasivaComponent,
