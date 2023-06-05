@@ -122,7 +122,17 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Descripción de Items</mat-label>
                                 <input matInput placeholder="Ingrese Descripción de Items"
-                                  [(ngModel)]="datosDistribucion.sol.descripcion">
+                                  [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket.Id ? true : false">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3" *ngIf="ticketId!==0">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Proveedor</mat-label>
+                                <mat-select  [(ngModel)]="datosDistribucion.sol.proveedor.Id">
+                                  <mat-option *ngFor="let proveedor of listProveedor" [value]="proveedor.Id">
+                                    {{proveedor.Nombre}}
+                                  </mat-option>
+                                </mat-select>
                               </mat-form-field>
                             </div>
                           </div>
@@ -130,7 +140,7 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Servicio</mat-label>
-                                <mat-select (selectionChange)="seleccionarTipoServicio($event.value)"
+                                <mat-select [disabled]="ticket.Id ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
                                   [(ngModel)]="datosDistribucion.sol.tiposervicio.Id">
                                   <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
                                     {{tipoServicio.Nombre}}
@@ -141,7 +151,7 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Prioridad</mat-label>
-                                <mat-select [(ngModel)]="datosDistribucion.sol.prioridad.Id">
+                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
                                   <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
                                     {{prioridad.Nombre}}
                                   </mat-option>
@@ -279,7 +289,7 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Paquete</mat-label>
-                                <mat-select [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
+                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
                                   <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
                                     {{tipoPaquete.Nombre}}
                                   </mat-option>
@@ -289,7 +299,7 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Usuario Destino</mat-label>
-                                <mat-select [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
+                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
                                   <mat-option *ngFor="let usuario of UsuarioDestino" [value]="usuario.Id">
                                     {{usuario.Nombre}}
                                   </mat-option>
@@ -504,6 +514,56 @@
                                 <td class="mat-cell" colspan="8">No se encontraron registro.</td>
                               </tr>
                             </table>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="LOGS">
+                        <br />
+                        <div class=" row">
+                          <div class="col-md-6">    
+                            <div class="container-lineatiempo">
+                              <div class="lineatiempo">
+                                  <ul>
+                                      <li *ngFor="let row of listLogs">
+                                          <div class="bullet pink"></div>
+                                          <div class="time">{{row.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}}</div>
+                                          <div class="desc">
+                                              <h3>{{row.NombreUsuario}}</h3>
+                                              <h4>{{row.Descripcion}}</h4>
+                                          </div>
+                                      </li>
+                                      <!-- <li>
+                                          <div class="bullet green"></div>
+                                          <div class="time">3 - 4pm</div>
+                                          <div class="desc">
+                                              <h3>Design Stand Up</h3>
+                                              <h4>Hangouts</h4>
+                                              <div class="people">
+                                                  <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ashleyford/128.jpg" alt="">
+                                                  <img src="https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg" alt="">
+                                                  <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mattsince87/128.jpg" alt="">
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <li>
+                                          <div class="bullet orange"></div>
+                                          <div class="time">12pm</div>
+                                          <div class="desc">
+                                              <h3>Lunch Break</h3>
+                                          </div>
+                                      </li>
+                                      <li>
+                                          <div class="bullet green"></div>
+                                          <div class="time">9 - 11am</div>
+                                          <div class="desc">
+                                              <h3>Finish Home Screen</h3>
+                                              <h4>Web App</h4>
+                                          </div>
+                                      </li> -->
+                                  </ul>
+                              </div>
+                          </div>
+                            
                           </div>
                         </div>
                       </mat-tab>

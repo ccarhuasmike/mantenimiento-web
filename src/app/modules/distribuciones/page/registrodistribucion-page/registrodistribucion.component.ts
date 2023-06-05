@@ -151,6 +151,8 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   listAgenciaOrigen: any[] = [];
   listAgenciaDestino: any[] = [];
   listTipoServicio: any[] = [];
+  listProveedor: any[] = [];
+  listLogs: any[] = [];
   listPrioridad: any[] = [];
   listTipoOrigen: any[] = [];
   listTipoPaquete: any[] = [];
@@ -266,7 +268,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   btnGrabar() {
-    
+
     let _otros = false;
     let _multiples_origenes = false;
     let _multiples_destinos = false;
@@ -465,7 +467,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     }
   }
   seleccionarTipoServicio(val: any) {
-    
+
     //LIMPIAR
     this.limpiarOrigen();
     this.limpiarDestino();
@@ -527,7 +529,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   seleccionarDestino(val: any) {
-    
+
     this.datosDistribucion.sol.sedeDestino = {
       Id: 0
     };
@@ -555,7 +557,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   seleccionarSedeDestino(i: any) {
-    
+
     this.distribucionesService.obtenerUsuariosPorInmueble(i).then((res) => {
       this.UsuarioDestino = res.ListaUsuarios;
     });
@@ -565,12 +567,12 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   seleccionarSedeOrigen(i: number) {
-    
+
     var datoseleccionado = this.listAgenciaOrigen.find(x => { return x.Id == i });
     this.datosDistribucion.sol.direccion_origen = datoseleccionado.Nombre2;
   }
   async seleccionarOrigen(value: any) {
-    
+
     //var respuesta = await this.distribucionesService.obtenerAgencias({ id: value }, this.selected);
 
     // $scope.sol.sedeOrigen = {};
@@ -650,7 +652,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       Aprobar: true,
       IdProveedor: this.datosDistribucion.sol.proveedor.Id,
       IdUnidadOrganizativa: this.datosDistribucion.sol.centrocosto.Id
-    };    
+    };
     this.dialogo.open(DialogoConfirmacionComponent, {
       maxWidth: '25vw',
       maxHeight: 'auto',
@@ -665,7 +667,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: Boolean) => {
         if (confirmado) {
-          
+
           var req = {
             IdDistribuciones: this.ticketId
           };
@@ -679,7 +681,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
 
   }
   rechazar() {
- 
+
     this.dialogo.open(DialogoConfirmacionComponent, {
       maxWidth: '25vw',
       maxHeight: 'auto',
@@ -694,11 +696,11 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: Boolean) => {
         if (confirmado) {
-          
+
           const req = {
             IdDistribuciones: this.ticket.Id,
             Aprobar: false
-        };
+          };
           return this.distribucionesService.aprobarRechazar(req).then((res) => {
             if (res.TipoResultado == 1)
               this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
@@ -707,7 +709,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         }
       });
 
-   }
+  }
   anular() {
     this.dialogo.open(DialogoConfirmacionComponent, {
       maxWidth: '25vw',
@@ -723,7 +725,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: Boolean) => {
         if (confirmado) {
-          
+
           var req = {
             IdDistribuciones: this.ticketId
           };
@@ -871,7 +873,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   //   });
   // }
   async ngOnInit() {
-    
+
 
 
     this.datosEdi = JSON.parse(this._authService.accessEdi);
@@ -883,7 +885,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
 
     let valor: any = this.route.snapshot.paramMap.get('id');
     if (parseInt(valor) != 0) {
-      
       var respuestaTicket = await this.distribucionesService.obtenerTicketId(parseInt(valor));
       if (respuestaTicket.TipoResultado == 1) {
         console.log(this.ticket);
@@ -929,20 +930,17 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
             DireccionMapaDestino: x.DireccionMapaDestino
           }
         });
-
-
-        // _.map(respuestaTicket.ListOrdenes, o => _.pick(o, ['Codigo', 'Estado', 'Origen', 'DireccionOrigen',
-        //  'LatitudOrigen', 'LongitudOrigen', 'ReferenciaOrigen', 'DireccionMapaOrigen']));
-        //DESTINATARIO
-        // this.dataDistribucion.sol.usuario_destino.Id = { Id: $scope.ticket.IdDestinatario, Nombre: $scope.ticket.Destinatario };
-
-        // this.dataDistribucion.sol.origen = _.find($scope.Origen, { 'Id': $scope.ticket.IdTipoOrigen });
-        // this.dataDistribucion.sol.destino = _.find($scope.Destino, { 'Id': $scope.ticket.IdTipoDestino });
-
-
-        console.log(this.ticket);
       }
 
+      var respuestaProveedor = await this.distribucionesService.obtenerProveedoresDistribucion(62);
+      this.listProveedor = respuestaProveedor;
+
+      var respuestaLog = await this.distribucionesService.obtenerLogAcciones({
+        tabla: 1008,
+        entidad: this.ticketId
+      });
+      this.listLogs = respuestaLog;
+      console.log(this.listLogs);
     }
 
     var respuestavalidarCalificacion = await this.distribucionesService.validarCalificacion();
@@ -956,7 +954,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       // }
     }
 
-    
+
     var respuestaTipoServicio = await this.listavaloresService.getListaValores({ idlista: 180, idcliente: "" });
     if (respuestaTipoServicio.TipoResultado == 1)
       this.listTipoServicio = respuestaTipoServicio.ListaEntidadComun;

@@ -26,7 +26,7 @@ export class DistribucionesService {
         .post(`${this.apiEdiUrl}/DIS/ListarPaginado`, data)
         .subscribe({
           next: (res: any) => {
-            
+
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -40,7 +40,7 @@ export class DistribucionesService {
       this.http
         .post(`${this.apiEdiUrl}/DIS/CargaMasivaRegistroDistribucion`, data)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -54,7 +54,7 @@ export class DistribucionesService {
       this.http
         .post(`${this.apiEdiUrl}/DIS/CargaMasivaRegistroDistribucionOtros`, data)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -68,7 +68,7 @@ export class DistribucionesService {
       this.http
         .post(`${this.apiEdiUrl}/DIS/ProcesarArchivoDeActualizacion`, data)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -85,7 +85,7 @@ export class DistribucionesService {
         .post(`${this.apiEdiUrl}/DIS/DescargarReporteDetallado`, data)
         .subscribe({
           next: (res: any) => {
-            
+
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -161,145 +161,178 @@ export class DistribucionesService {
     });
   }
 
-  
-  async DescargarArchivoProveedorDistribucion(idcliente: any): Promise<any> {      
+
+  async DescargarArchivoProveedorDistribucion(idcliente: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http
         .get(`${this.apiEdiUrl}/DIS/DescargarArchivoProveedorDistribucion?IdDistribuciones=${idcliente}`)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
         });
     });
-  }  
-  
-  async obtenerCentroCosto(idCliente: number): Promise<any> {      
+  }
+
+  async obtenerCentroCosto(idCliente: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http
         .get(`${this.apiEdiUrl}/ADM/Cliente/ListarUnidadesOrganizativas?IdCliente=${idCliente}`)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
         });
     });
-  }  
+  }
 
-  async validarCalificacion(): Promise<any> {      
-     return new Promise((resolve, reject) => {
+  async validarCalificacion(): Promise<any> {
+    return new Promise((resolve, reject) => {
       this.http
         .get(`${this.apiEdiUrl}/DIS/ValidarPendientesCalificacion`)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
         });
     });
-  }  
-  async obtenerAgencias(idCliente:any,buscar:any): Promise<any> {      
+  }
+  async obtenerAgencias(idCliente: any, buscar: any): Promise<any> {
     var idCliente = await this.utilsService.encriptar(idCliente);
     var buscar = await this.utilsService.encriptar(buscar);
-     return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.http
         .get(`${this.apiEdiUrl}/INM/ListarporClienteGeneral?pIdCliente=${idCliente}&Nombre=${buscar}`)
         .subscribe({
-          next: (res: any) => {            
+          next: (res: any) => {
             return resolve(res);
           },
           error: (err) => reject(err),
         });
     });
-  }  
-  async obtenerAlmacenes(idCliente:any): Promise<any> {      
-     idCliente = await this.utilsService.encriptar(idCliente.toString());   
-     return new Promise((resolve, reject) => {
+  }
+  async obtenerAlmacenes(idCliente: any): Promise<any> {
+    idCliente = await this.utilsService.encriptar(idCliente.toString());
+    return new Promise((resolve, reject) => {
       this.http
         .get(`${this.apiEdiUrl}/MAT/ListarAlmacenesActivosxCiente?IdCliente=${idCliente.data}`)
         .subscribe({
-          next: (res: any) => { 
-                       
+          next: (res: any) => {
+
             return resolve(res);
           },
           error: (err) => reject(err),
         });
     });
-  }  
-  
+  }
 
-  async obtenerUsuariosPorInmueble(req:any): Promise<any> {      
+
+  async obtenerUsuariosPorInmueble(req: any): Promise<any> {
+    req = await this.utilsService.encriptar(req.toString());
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/SEG/Usuario/ListarxInmueble?IdInmueble=${req.data}`)
+        .subscribe({
+          next: (res: any) => {
+
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+  async obtenerTicketId(req: any): Promise<any> {
+    req = await this.utilsService.encriptar(req.toString());
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.apiEdiUrl}/DIS/ObtenerPorId?IdDistribuciones=${req.data}`)
+        .subscribe({
+          next: (res: any) => {
+            0
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+  async grabarDistribucion(data: any): Promise<any> {
+    data = await this.utilsService.encriptarBody(data);
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.apiEdiUrl}/DIS/Grabar`, data)
+        .subscribe({
+          next: (res: any) => {
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+  async anularDistribucion(data: any): Promise<any> {
+    data = await this.utilsService.encriptarBody(data);
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.apiEdiUrl}/DIS/Anular`, data)
+        .subscribe({
+          next: (res: any) => {
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+  async aprobarRechazar(data: any): Promise<any> {
+    data = await this.utilsService.encriptarBody(data);
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.apiEdiUrl}/DIS/AprobarRechazarSolicitud`, data)
+        .subscribe({
+          next: (res: any) => {
+            return resolve(res);
+          },
+          error: (err) => reject(err),
+        });
+    });
+  }
+  async obtenerProveedoresDistribucion(req:any): Promise<any> {      
     req = await this.utilsService.encriptar(req.toString());   
     return new Promise((resolve, reject) => {
      this.http
-       .get(`${this.apiEdiUrl}/SEG/Usuario/ListarxInmueble?IdInmueble=${req.data}`)
+       .get(`${this.apiEdiUrl}/DIS/ObtenerProveedores?IdCliente=${req.data}`)
        .subscribe({
          next: (res: any) => { 
-                      
+                      0
            return resolve(res);
          },
          error: (err) => reject(err),
        });
    });
- }  
- async obtenerTicketId(req:any): Promise<any> {      
-  req = await this.utilsService.encriptar(req.toString());   
-  return new Promise((resolve, reject) => {
-   this.http
-     .get(`${this.apiEdiUrl}/DIS/ObtenerPorId?IdDistribuciones=${req.data}`)
-     .subscribe({
-       next: (res: any) => { 
-                    0
-         return resolve(res);
-       },
-       error: (err) => reject(err),
-     });
- });
-}  
+  }  
 
- async grabarDistribucion(data: any): Promise<any> {
-  data = await this.utilsService.encriptarBody(data);
-  return new Promise((resolve, reject) => {
-    this.http
-      .post(`${this.apiEdiUrl}/DIS/Grabar`, data)
-      .subscribe({
-        next: (res: any) => {
-          return resolve(res);
-        },
-        error: (err) => reject(err),
-      });
-  });
-}
 
-async anularDistribucion(data: any): Promise<any> {
-  data = await this.utilsService.encriptarBody(data);
-  return new Promise((resolve, reject) => {
-    this.http
-      .post(`${this.apiEdiUrl}/DIS/Anular`, data)
-      .subscribe({
-        next: (res: any) => {
-          return resolve(res);
-        },
-        error: (err) => reject(err),
-      });
-  });
-}
 
-async aprobarRechazar(data: any): Promise<any> {
-  data = await this.utilsService.encriptarBody(data);
-  return new Promise((resolve, reject) => {
-    this.http
-      .post(`${this.apiEdiUrl}/DIS/AprobarRechazarSolicitud`, data)
-      .subscribe({
-        next: (res: any) => {
-          return resolve(res);
-        },
-        error: (err) => reject(err),
-      });
-  });
-}
+  async obtenerLogAcciones(req:any): Promise<any> {      
+    req.tabla = await this.utilsService.encriptar(req.tabla.toString());   
+    req.entidad = await this.utilsService.encriptar(req.entidad.toString());   
+    debugger;
+    return new Promise((resolve, reject) => {
+     this.http
+       .get(`${this.apiEdiUrl}/SEG/LogAccion/ListarxEntidad?CodigoTabla=${req.tabla.data}&IdEntidad=${req.entidad.data}`)
+       .subscribe({
+         next: (res: any) => {                       
+           return resolve(res);
+         },
+         error: (err) => reject(err),
+       });
+   });
+  }  
+
 
 
 
