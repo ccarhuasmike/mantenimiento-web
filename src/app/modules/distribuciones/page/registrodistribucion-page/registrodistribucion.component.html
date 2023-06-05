@@ -27,11 +27,11 @@
                         <div class="container-fluid">
                           <div class="row">
                             <div class="col-md-6">
-                              <h5><strong style="font-weight: 580;">{{ticket.Codigo}}</strong></h5>
+                              <h5><strong style="font-weight: 580;">{{ticket==undefined ? "": ticket.Codigo}}</strong></h5>
                             </div>
                             <div class="offset-md-1 col-md-5">
                               <h5 class="text-lg-end" *ngIf="ticketId!==0"><strong style="font-weight: 580;">
-                                {{ticket.Estado}} </strong>
+                                {{ticket==undefined ?  "": ticket.Estado}} </strong>
                               </h5>
 
                             </div>
@@ -41,6 +41,10 @@
                     </mat-expansion-panel-header>
                     <div class="row">
                       <div class="col-md-12">
+                        <button class="btn btn-warning" mat-raised-button (click)="Cancelar()">
+                          <mat-icon>block</mat-icon>
+                          Cancelar
+                        </button>
                         <button (click)="btnCargaMasivaDistribucion()" class="btn btn-primary" mat-raised-button>
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA DISTRIBUCIÓN
@@ -49,19 +53,30 @@
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA OTROS
                         </button>
-                        <button (click)="btnGrabar()" *ngIf="ticketId==0" class="btn btn-info" mat-raised-button>
+                        <button (click)="btnGrabar()" *ngIf="ticket==undefined" class="btn btn-info" mat-raised-button>
                           <mat-icon>back_hand</mat-icon>
                           ENVIAR
                         </button>
                         <button (click)="aprobar()" *ngIf="permisos.AprobarRechazar" class="btn btn-success" mat-raised-button>                          
                           APROBAR
-                        </button>
-                        <button (click)="rechazar()" *ngIf="permisos.AprobarRechazar" class="btn btn-success" mat-raised-button>                          
+                        </button> 
+                      <button (click)="rechazar()" *ngIf="permisos.AprobarRechazar" class="btn btn-warning" mat-raised-button>                          
                           RECHAZAR
                         </button>
                         <button (click)="anular()" *ngIf="permisos.PermiteAnularTicket" class="btn btn-danger" mat-raised-button>                          
                           ANULAR
                         </button>
+                     
+                        <!-- <button (click)="aprobar()"  class="btn btn-success" mat-raised-button>                          
+                          APROBAR
+                        </button>
+                        <button (click)="rechazar()"  class="btn btn-warning" mat-raised-button>                          
+                          RECHAZAR
+                        </button>
+                        <button (click)="anular()"  class="btn btn-danger" mat-raised-button>                          
+                          ANULAR
+                        </button> -->
+                        
                       </div>
                       <div class="col-md-12">
                         <br />
@@ -70,14 +85,14 @@
                             <label class="control-label">Solicitante:</label>
                           </div>
                           <div class="col-md-4">
-                            <label class="control-label">{{ticket.Id ? ticket.Solicitante : datosEdi.ApellidoPaterno + " " + datosEdi.ApellidoMaterno + "
+                            <label class="control-label">{{ticket ? ticket.Solicitante : datosEdi.ApellidoPaterno + " " + datosEdi.ApellidoMaterno + "
                               " + datosEdi.Nombre}}</label>
                           </div>
                           <div class="col-md-2">
                             <label class="control-label">Fecha de Registro:</label>
                           </div>
                           <div class="col-md-4">
-                            <label class="control-label">{{ticket.Id ? (ticket.FechaRegistro | date: 'dd/MM/yyyy HH:mm a'):datosDistribucion.sol.disponibilidad | date: 'dd/MM/yyyy  HH:mm'}}</label>
+                            <label class="control-label">{{ticket ? (ticket.FechaRegistro | date: 'dd/MM/yyyy HH:mm a'):datosDistribucion.sol.disponibilidad | date: 'dd/MM/yyyy  HH:mm'}}</label>
                           </div>
                           
                         </div>
@@ -86,13 +101,13 @@
                             <label class="control-label">Correo:</label>
                           </div>
                           <div class="col-md-4">
-                            <label class="control-label">{{ticket.Id ? ticket.Email : datosEdi.Email}}</label>
+                            <label class="control-label">{{ticket ? ticket.Email : datosEdi.Email}}</label>
                           </div>
                           <div class="col-md-2">
                             <label class="control-label">Sede / Agencia:</label>
                           </div>
                           <div class="col-md-4">
-                            <label class="control-label">{{ticket.Id ? ticket.UbicacionSolicitante : '(2105)SAN BORJA-EDIFICIO 1-PISO 1'}}</label>
+                            <label class="control-label">{{ticket ? ticket.UbicacionSolicitante : '(2105)SAN BORJA-EDIFICIO 1-PISO 1'}}</label>
                           </div>
                         </div>
                         <div class="row">
@@ -100,7 +115,7 @@
                             <label class="control-label">Telefono:</label>
                           </div>
                           <div class="col-md-4">
-                            <label class="control-label">{{ticket.Id ? ticket.Celular : datosEdi.Celular}} </label>
+                            <label class="control-label">{{ticket ? ticket.Celular : datosEdi.Celular}} </label>
                           </div>
                         </div>
                       </div>
@@ -113,7 +128,8 @@
                         DATOS GENERALES / ITEMS
                       </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <mat-tab-group [color]="'accent'" [backgroundColor]="'primary'">
+                    <!-- <mat-tab-group [color]="'accent'" [backgroundColor]="'primary'"> -->
+                      <mat-tab-group >
                       <mat-tab label="DATOS GENERALES ">
                         <fieldset class="form-group p-3">
                           <legend class="w-auto px-2">DATOS GENERALES</legend>
@@ -122,10 +138,10 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Descripción de Items</mat-label>
                                 <input matInput placeholder="Ingrese Descripción de Items"
-                                  [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket.Id ? true : false">
+                                  [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket ? true : false">
                               </mat-form-field>
                             </div>
-                            <div class="col-md-3" *ngIf="ticketId!==0">
+                            <div class="col-md-3" *ngIf="ticket!==undefined">
                               <mat-form-field appearance="outline">
                                 <mat-label>Proveedor</mat-label>
                                 <mat-select  [(ngModel)]="datosDistribucion.sol.proveedor.Id">
@@ -140,7 +156,7 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Servicio</mat-label>
-                                <mat-select [disabled]="ticket.Id ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
+                                <mat-select [disabled]="ticket ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
                                   [(ngModel)]="datosDistribucion.sol.tiposervicio.Id">
                                   <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
                                     {{tipoServicio.Nombre}}
@@ -151,19 +167,20 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Prioridad</mat-label>
-                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
+                                <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
                                   <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
                                     {{prioridad.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-6" *ngIf="ticket!==undefined">
                               <mat-form-field appearance="outline">
                                 <mat-label>Centro de Costo</mat-label>
-                                <mat-select>
-                                  <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
-                                    {{tipoServicio.Nombre}}
+                                <mat-select [(ngModel)]="datosDistribucion.sol.centrocosto.Id">
+                                  <mat-option *ngFor="let centrocosto of listCentroCosto" [value]="centrocosto.Id">
+                                    {{centrocosto.Nombre}}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -173,7 +190,7 @@
                             <div class="col-md-6">
                               <fieldset class="form-group p-3">
                                 <legend class="w-auto px-2">Origen</legend>
-                                <div class="row" *ngIf="ticketId==0">
+                                <div class="row" *ngIf="ticket==null">
                                   <div class="col-md-6">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Origen</mat-label>
@@ -239,7 +256,7 @@
                             <div class="col-md-6">
                               <fieldset class="form-group p-3">
                                 <legend class="w-auto px-2">Destino</legend>
-                                <div class="row" *ngIf="ticketId==0">
+                                <div class="row" *ngIf="ticket==null">
                                   <div class="col-md-6" >
                                     <mat-form-field appearance="outline">
                                       <mat-label>Tipo Destino</mat-label>
@@ -289,7 +306,7 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Paquete</mat-label>
-                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
+                                <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
                                   <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
                                     {{tipoPaquete.Nombre}}
                                   </mat-option>
@@ -299,7 +316,7 @@
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Usuario Destino</mat-label>
-                                <mat-select [disabled]="ticket.Id ? true : false" [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
+                                <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
                                   <mat-option *ngFor="let usuario of UsuarioDestino" [value]="usuario.Id">
                                     {{usuario.Nombre}}
                                   </mat-option>
@@ -309,11 +326,11 @@
                           </div>
                         </fieldset>
                       </mat-tab>
-                      <mat-tab label="ITEMS" *ngIf="ticketId==0">
+                      <mat-tab label="ITEMS" *ngIf="ticket==undefined">
                         <br />
                         <div class=" row">
                           <div class="col-md-8">                            
-                            <table mat-table #table [dataSource]="dataSourceItems" class="mat-elevation-z8">
+                            <table mat-table #tableItem [dataSource]="dataSourceItems" class="mat-elevation-z8">
                               <ng-container matColumnDef="Destino">
                                 <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>
@@ -423,15 +440,15 @@
                           </div>
                         </div>
                       </mat-tab>
-                      <mat-tab label="DISTRIBUCIÓN">
+                      <mat-tab label="DISTRIBUCIÓN" *ngIf="ticket!==undefined">
                         <br />
                         <div class=" row">
                           <div class="col-md-12">     
-                            <button class="btn btn-primary" (click)="btnVerDetalleOrdenes()" *ngIf="ordenesMatTableDataSource.data.length > 0"  mat-raised-button>
+                            <button class="btn btn-info" (click)="btnVerDetalleOrdenes()" *ngIf="ordenesMatTableDataSource.data.length > 0"  mat-raised-button>
                               <mat-icon>do_not_disturb_on</mat-icon>
                               Ver
                             </button>
-                            <button class="btn btn-primary" (click)="btnExportarExcelOrdenes()" *ngIf="ordenesMatTableDataSource.data.length > 0"  mat-raised-button>
+                            <button class="btn btn-warning" (click)="btnExportarExcelOrdenes()" *ngIf="ordenesMatTableDataSource.data.length > 0"  mat-raised-button>
                               <mat-icon>do_not_disturb_on</mat-icon>
                               Exp. Excel
                             </button>                       
@@ -517,7 +534,7 @@
                           </div>
                         </div>
                       </mat-tab>
-                      <mat-tab label="LOGS">
+                      <mat-tab label="LOGS" *ngIf="ticket!==undefined">
                         <br />
                         <div class=" row">
                           <div class="col-md-6">    
@@ -525,11 +542,14 @@
                               <div class="lineatiempo">
                                   <ul>
                                       <li *ngFor="let row of listLogs">
-                                          <div class="bullet pink"></div>
+                                          <div class="bullet green"></div>
                                           <div class="time">{{row.FechaRegistro | date: 'dd/MM/yyyy HH:mm'}}</div>
                                           <div class="desc">
                                               <h3>{{row.NombreUsuario}}</h3>
                                               <h4>{{row.Descripcion}}</h4>
+                                              <div class="people">
+                                                <img src="./assets/img/deepgrade_logo.png" alt="">                                                
+                                            </div>
                                           </div>
                                       </li>
                                       <!-- <li>

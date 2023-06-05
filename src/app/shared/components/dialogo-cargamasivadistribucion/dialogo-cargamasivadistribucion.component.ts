@@ -171,29 +171,6 @@ export class DialogoCargaMasivaDistribucionComponent implements OnInit {
       }
       this.progressRef.complete();
     });
-
-
-    // this.dialogoConfir.open(DialogoConfirmacionComponent, {
-    //   maxWidth: '25vw',
-    //   maxHeight: 'auto',
-    //   height: 'auto',
-    //   width: '25%',
-    //   disableClose: true,
-    //   data: {
-    //     titulo: `Mensaje de Confirmación`,
-    //     mensaje: `¿Está seguro de anular las solicitudes seleccionadas?`
-    //   }
-    // })
-    //   .afterClosed()
-    //   .subscribe(async (confirmado: Boolean) => {
-    //     if (confirmado) {
-    //       this.dialogo.close({
-    //         IdsSolicitud: this.data.IdsSolicitud,
-    //         txtComentarioRechazo: this.datosBasicosFormGroup.controls["mytxtComentarioRechazo"].value,
-    //         respuesta: true
-    //       });
-    //     }
-    //   });
   }
 
   ngOnInit() {

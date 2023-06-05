@@ -14,7 +14,8 @@ import { ClienteService } from '@shared/services/cliente.service';
 import { ListavaloresService } from '@shared/services/listavalores.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DialogoConfirmacionComponent } from '@shared/components/dialogo-confirmacion/dialogo-confirmacion.component';
-//import * as FileSaver from 'file-saver';
+import {DialogoRechazarDistribucionComponent} from "@shared/components/dialogo-rechazardistribucion/dialogo-rechazardistribucion.component";
+import { RptDistribucionExcelService } from "../../services/RptDistribuciones.service";
 
 export interface Items {
   Id: number,
@@ -23,6 +24,45 @@ export interface Items {
   Cantidad: number,
   IdUnidadMedida: number,
   UnidadMedida: string,
+}
+
+export interface permisos {
+  AprobarRechazar:boolean,
+  PermiteAnularTicket:boolean,
+}
+
+
+export interface Ticket {
+  Id: number
+  Codigo: string
+  Estado: string
+  IdSolicitante: number
+  Solicitante: string
+  IdDestinatario: number
+  Email: string
+  Celular: string
+  FechaRegistro: string
+  UbicacionSolicitante: string
+  DescripcionItem: string
+  FechaDisponibilidad: Date
+  TipoServicio: string
+  Prioridad: string
+  FechaEstimadaAtencion: any
+  IdUnidadOrganizativa: number
+  TipoOrigen: string
+  TipoDestino: string
+  TipoPaquete: string
+  IdTipoOrigen: number
+  IdTipoDestino: number
+  IdPrioridad: number
+  IdTipoServicio: number
+  IdTipoPaquete: number
+  IdEstado: number
+  IdProveedor: any
+  Proveedor: any
+  CelularPersonaContacto: string
+  NombrePersonaContacto: string
+  CorreoPersonaContacto: string
 }
 
 export interface ordenesdto {
@@ -64,8 +104,11 @@ const ELEMENT_DATA: Items[] = [
 export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   matexpansionpaneldatosgenerales: boolean = false;
   ordenesMatTableDataSource = new MatTableDataSource<ordenesdto>();
-  ticket: any;
-  permisos: any;
+  ticket!: Ticket;
+  permisos: permisos={
+    AprobarRechazar:false,
+    PermiteAnularTicket:false
+  };
   //dataDistribucion: any;
   ticketId: any;
   origen_list: any = [];
@@ -166,8 +209,9 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   listDestino: any[] = [];
   dataSourceItems = ELEMENT_DATA;
   datosEdi: any = {};
-  @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
+  @ViewChild('tableItem') tableItem!: MatTable<any>;
   constructor(
+    private rptDistribucionExcelService: RptDistribucionExcelService,
     private route: ActivatedRoute,
     public clienteService: ClienteService,
     public router: Router,
@@ -190,6 +234,9 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     });
   }
 
+  Cancelar() {
+    this.router.navigate(['/distribucion/consultasolicitudes']);
+  }
 
   btnCargaMasivaDistribucion() {
     this.dialogo.open(DialogoCargaMasivaDistribucionComponent, {
@@ -199,16 +246,11 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       width: '50%',
       disableClose: true,
       data: {
-        titulo: `Carga Masiva Distribución`,
-        //listAprobadores: dataObtenerAprobadores.ListAprobadores
-        /*clientChekeado : this.clientSeleccionado.map(x=>{ return x.Id}),
-        IdsCliente:this.value==""? []:this.value*/
+        titulo: `Carga Masiva Distribución`,       
       }
-      //data: this.clientSeleccionado.map(x=>{ return x.Id})
     })
       .afterClosed()
       .subscribe(async (confirmado: any) => {
-
         // if (confirmado.respuesta) {
         //   this.datosBasicosFormGroup.patchValue({
         //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
@@ -226,20 +268,10 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         titulo: `Carga Masiva Distribución Otros`,
-        //listAprobadores: dataObtenerAprobadores.ListAprobadores
-        /*clientChekeado : this.clientSeleccionado.map(x=>{ return x.Id}),
-        IdsCliente:this.value==""? []:this.value*/
       }
-      //data: this.clientSeleccionado.map(x=>{ return x.Id})
     })
       .afterClosed()
-      .subscribe(async (confirmado: any) => {
-
-        // if (confirmado.respuesta) {
-        //   this.datosBasicosFormGroup.patchValue({
-        //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
-        //   });
-        // }
+      .subscribe(async (confirmado: any) => {        
       });
   }
 
@@ -251,7 +283,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     if (ObjectIndex != -1) {
       this.dataSourceItems.splice(ObjectIndex, 1);
     }
-    this.table.renderRows();
+    this.tableItem.renderRows();
   }
   btnAgregarItem() {
     if (!this.datosBasicosItemFormGroup.valid)
@@ -264,7 +296,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       IdUnidadMedida: this.datosBasicosItemFormGroup.value.unidadMedidaCtrl.Id,
       UnidadMedida: this.datosBasicosItemFormGroup.value.unidadMedidaCtrl.Nombre,
     });
-    this.table.renderRows();
+    this.tableItem.renderRows();
   }
 
   btnGrabar() {
@@ -636,23 +668,23 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
   btnExportarExcelOrdenes() {
 
+    this.rptDistribucionExcelService.exportReport(this.ordenesMatTableDataSource.data,"ReporteOrdenesEntrega").then(() => {
+      //location.reload()
+    })
+
   }
 
   aprobar() {
-    if (!this.datosDistribucion.sol.centrocosto) {
+    
+    if (this.datosDistribucion.sol.centrocosto.Id==0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de seleccionar un centro de costo.');
       return;
     }
-    if (!this.datosDistribucion.sol.proveedor) {
+    if (this.datosDistribucion.sol.proveedor.Id==0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de seleccionar un proveedor.');
       return;
     }
-    const req = {
-      IdDistribuciones: this.ticket.Id,
-      Aprobar: true,
-      IdProveedor: this.datosDistribucion.sol.proveedor.Id,
-      IdUnidadOrganizativa: this.datosDistribucion.sol.centrocosto.Id
-    };
+    
     this.dialogo.open(DialogoConfirmacionComponent, {
       maxWidth: '25vw',
       maxHeight: 'auto',
@@ -669,8 +701,13 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         if (confirmado) {
 
           var req = {
-            IdDistribuciones: this.ticketId
+            IdDistribuciones: this.ticket.Id,
+            Aprobar: true,
+            IdProveedor: this.datosDistribucion.sol.proveedor.Id,
+            IdUnidadOrganizativa: this.datosDistribucion.sol.centrocosto.Id
           };
+
+          
           return this.distribucionesService.aprobarRechazar(req).then((res) => {
             if (res.TipoResultado == 1)
               this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
@@ -682,7 +719,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
   rechazar() {
 
-    this.dialogo.open(DialogoConfirmacionComponent, {
+    this.dialogo.open(DialogoRechazarDistribucionComponent, {
       maxWidth: '25vw',
       maxHeight: 'auto',
       height: 'auto',
@@ -694,12 +731,13 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       }
     })
       .afterClosed()
-      .subscribe(async (confirmado: Boolean) => {
-        if (confirmado) {
+      .subscribe(async (confirmado: any) => {                
+        if (confirmado.respuesta) {
 
           const req = {
             IdDistribuciones: this.ticket.Id,
-            Aprobar: false
+            Aprobar: false,
+            MotivoRechazo : confirmado.txtComentarioRechazo
           };
           return this.distribucionesService.aprobarRechazar(req).then((res) => {
             if (res.TipoResultado == 1)
@@ -883,13 +921,15 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       unidadMedidaCtrl: ["", Validators.required],
     });
 
+    console.log(this.ticket);
     let valor: any = this.route.snapshot.paramMap.get('id');
     if (parseInt(valor) != 0) {
       var respuestaTicket = await this.distribucionesService.obtenerTicketId(parseInt(valor));
       if (respuestaTicket.TipoResultado == 1) {
-        console.log(this.ticket);
+        console.log(respuestaTicket.data);
         this.ticket = respuestaTicket.data;
         this.permisos = respuestaTicket.permisos;
+        console.log(this.permisos);
         //this.dataDistribucion = respuestaTicket.ListOrdenes;
         this.ordenesMatTableDataSource.data = respuestaTicket.ListOrdenes;
 
@@ -903,7 +943,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         this.datosDistribucion.sol.tiposervicio.Id = this.ticket.IdTipoServicio;
         this.datosDistribucion.sol.prioridad.Id = this.ticket.IdPrioridad;
         this.datosDistribucion.sol.tipopaquete.Id = this.ticket.IdTipoPaquete;
-        this.datosDistribucion.sol.centrocosto.Id = this.ticket.IdUnidadOrganizativa;
+        this.datosDistribucion.sol.centrocosto.Id = this.ticket?.IdUnidadOrganizativa;
         this.origen_list = respuestaTicket.ListOrdenes.map((x: any) => {
           return {
             Codigo: x.Codigo,
@@ -941,6 +981,10 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       });
       this.listLogs = respuestaLog;
       console.log(this.listLogs);
+
+      var respuestaCentroCosto = await this.distribucionesService.obtenerCentroCosto(62);
+      this.listCentroCosto = respuestaCentroCosto;      
+
     }
 
     var respuestavalidarCalificacion = await this.distribucionesService.validarCalificacion();
@@ -982,10 +1026,8 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       //     return a.Nombre > b.Nombre;
       // });
     }
-    // var respuestaCentroCosto = await this.distribucionesService.obtenerCentroCosto(62);
-    // if (respuestaCentroCosto.TipoResultado == 1)
-    //   this.listCentroCosto = respuestaCentroCosto.ListaEntidadComun;
-    // 
+    
+    
   }
 
   FinalizarRegistroSolicitud() {

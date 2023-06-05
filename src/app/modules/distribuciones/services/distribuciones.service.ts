@@ -175,12 +175,15 @@ export class DistribucionesService {
     });
   }
 
-  async obtenerCentroCosto(idCliente: number): Promise<any> {
+  async obtenerCentroCosto(idCliente: any): Promise<any> {
+    
+     idCliente = await this.utilsService.encriptar(idCliente);
     return new Promise((resolve, reject) => {
       this.http
-        .get(`${this.apiEdiUrl}/ADM/Cliente/ListarUnidadesOrganizativas?IdCliente=${idCliente}`)
+        .get(`${this.apiEdiUrl}/ADM/Cliente/ListarUnidadesOrganizativas?IdCliente=${idCliente.data}`)
         .subscribe({
           next: (res: any) => {
+            
             return resolve(res);
           },
           error: (err) => reject(err),
@@ -320,7 +323,7 @@ export class DistribucionesService {
   async obtenerLogAcciones(req:any): Promise<any> {      
     req.tabla = await this.utilsService.encriptar(req.tabla.toString());   
     req.entidad = await this.utilsService.encriptar(req.entidad.toString());   
-    debugger;
+    
     return new Promise((resolve, reject) => {
      this.http
        .get(`${this.apiEdiUrl}/SEG/LogAccion/ListarxEntidad?CodigoTabla=${req.tabla.data}&IdEntidad=${req.entidad.data}`)
