@@ -81,43 +81,61 @@
                       <div class="col-md-12">
                         <br />
                         <div class="row">
-                          <div class="col-md-2">
-                            <label class="control-label">Solicitante:</label>
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-2">
+                                <label class="control-label">Solicitante:</label>
+                              </div>
+                              <div class="col-md-10">
+                                <label class="control-label">{{ticket ? ticket.Solicitante : datosEdi.ApellidoPaterno + " " + datosEdi.ApellidoMaterno + "
+                                  " + datosEdi.Nombre}}</label>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <label class="control-label">Correo:</label>
+                              </div>
+                              <div class="col-md-10">
+                                <label class="control-label">{{ticket ? ticket.Email : datosEdi.Email}}</label>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <label class="control-label">Telefono:</label>
+                              </div>
+                              <div class="col-md-10">
+                                <label class="control-label">{{ticket ? ticket.Celular : datosEdi.Celular}} </label>
+                              </div>
+                            </div>
+
                           </div>
-                          <div class="col-md-4">
-                            <label class="control-label">{{ticket ? ticket.Solicitante : datosEdi.ApellidoPaterno + " " + datosEdi.ApellidoMaterno + "
-                              " + datosEdi.Nombre}}</label>
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-3">
+                                <label class="control-label">Fecha de Registro:</label>
+                              </div>
+                              <div class="col-md-9">
+                                <label class="control-label">{{ticket ? (ticket.FechaRegistro | date: 'dd/MM/yyyy HH:mm a'):datosDistribucion.sol.disponibilidad | date: 'dd/MM/yyyy  HH:mm'}}</label>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-3">
+                                <label class="control-label">Fecha Estimada Entrega:</label>
+                              </div>
+                              <div class="col-md-9">
+                                <label class="control-label">{{ticket ? (ticket.FechaEstimadaAtencion | date: 'dd/MM/yyyy HH:mm a'):datosDistribucion.sol.disponibilidad | date: 'dd/MM/yyyy  HH:mm'}}</label>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-3">
+                                <label class="control-label">Sede / Agencia:</label>
+                              </div>
+                              <div class="col-md-9">
+                                <label class="control-label">{{ticket ? ticket.UbicacionSolicitante : '(2105)SAN BORJA-EDIFICIO 1-PISO 1'}}</label>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-md-2">
-                            <label class="control-label">Fecha de Registro:</label>
-                          </div>
-                          <div class="col-md-4">
-                            <label class="control-label">{{ticket ? (ticket.FechaRegistro | date: 'dd/MM/yyyy HH:mm a'):datosDistribucion.sol.disponibilidad | date: 'dd/MM/yyyy  HH:mm'}}</label>
-                          </div>
-                          
-                        </div>
-                        <div class="row">
-                          <div class="col-md-2">
-                            <label class="control-label">Correo:</label>
-                          </div>
-                          <div class="col-md-4">
-                            <label class="control-label">{{ticket ? ticket.Email : datosEdi.Email}}</label>
-                          </div>
-                          <div class="col-md-2">
-                            <label class="control-label">Sede / Agencia:</label>
-                          </div>
-                          <div class="col-md-4">
-                            <label class="control-label">{{ticket ? ticket.UbicacionSolicitante : '(2105)SAN BORJA-EDIFICIO 1-PISO 1'}}</label>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-2">
-                            <label class="control-label">Telefono:</label>
-                          </div>
-                          <div class="col-md-4">
-                            <label class="control-label">{{ticket ? ticket.Celular : datosEdi.Celular}} </label>
-                          </div>
-                        </div>
+                        </div>                        
                       </div>
                     </div>
                   </mat-expansion-panel>
@@ -140,8 +158,31 @@
                                 <input matInput placeholder="Ingrese Descripción de Items"
                                   [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket ? true : false">
                               </mat-form-field>
+                            </div>                                                               
+                            <div class="col-md-2" *ngIf="(datosDistribucion.sol.origen.Id === 345 && datosDistribucion.sol.destino.Id === 347) || (datosDistribucion.sol.origen.Id === 347 && datosDistribucion.sol.destino.Id === 345)">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Celular Contacto</mat-label>
+                                <input matInput placeholder="Celular Contacto"
+                                  [(ngModel)]="datosDistribucion.sol.CelularPersonaContacto" [readonly]="ticket ? true : false">
+                              </mat-form-field>
                             </div>
-                            <div class="col-md-3" *ngIf="ticket!==undefined">
+                            <div class="col-md-2" *ngIf="(datosDistribucion.sol.origen.Id === 345 && datosDistribucion.sol.destino.Id === 347) || (datosDistribucion.sol.origen.Id === 347 && datosDistribucion.sol.destino.Id === 345)">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Personas contacto</mat-label>
+                                <input matInput placeholder="Personas contacto"
+                                  [(ngModel)]="datosDistribucion.sol.NombrePersonaContacto" [readonly]="ticket ? true : false">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-2" *ngIf="(datosDistribucion.sol.origen.Id === 345 && datosDistribucion.sol.destino.Id === 347) || (datosDistribucion.sol.origen.Id === 347 && datosDistribucion.sol.destino.Id === 345)">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Correo contacto</mat-label>
+                                <input matInput placeholder="Correo contacto  "
+                                  [(ngModel)]="datosDistribucion.sol.CorreoPersonaContacto" [readonly]="ticket ? true : false">
+                              </mat-form-field>
+                            </div>
+                          </div>                          
+                          <div class="row" *ngIf="ticket!==undefined">
+                            <div class="col-md-3" >
                               <mat-form-field appearance="outline">
                                 <mat-label>Proveedor</mat-label>
                                 <mat-select  [(ngModel)]="datosDistribucion.sol.proveedor.Id">
@@ -442,6 +483,47 @@
                       </mat-tab>
                       <mat-tab label="DISTRIBUCIÓN" *ngIf="ticket!==undefined">
                         <br />
+                        <div class=" row" style="height: 142px;
+                        padding: 19px;
+                        margin-bottom: 20px;
+                        background-color: #f5f5f5;
+                        border: 1px solid #e3e3e3;
+                        border-radius: 4px;
+                        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+                        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);">
+                          <div class="col-md-5"> 
+                            <div >                            
+                            Leyenda: 
+                            <button style="padding: 12px 16px;color: black;" mat-raised-button class="btn btn-link btn-youtube">
+                              <i style="top: -3px;" class="fa fa-home"></i> En Almacén
+                            </button>
+                            <button style="padding: 12px 16px;color: blue;" mat-raised-button class="btn btn-link btn-youtube">
+                              <i style="top: -3px;"  class="fa fa-truck"></i> En Reparto
+                            </button>
+                            <button style="padding: 12px 16px;color: green;" mat-raised-button class="btn btn-link btn-youtube">
+                              <i style="top: -3px;"  class="fa fa-check-square"></i> Entregado
+                            </button>
+                            <button style="padding: 12px 16px;color: red;" mat-raised-button class="btn btn-link btn-youtube">
+                              <i style="top: -3px;"  class="fa fa-circle"></i> Rezagado
+                            </button>                            
+                          </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div style="    background: white;
+                            padding: 8px;
+                            border-radius: 13px;
+                            height: 57px;">
+                            {{porcentaje_txt}}
+                            <div class="spacer"></div>
+                            <mat-progress-bar *ngIf="porcentaje_val == 0 ? false : true" [value]="porcentaje_val" color="primary" class="progressbar"></mat-progress-bar>
+                          </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div  style="width:240px;    margin-top: -64px;">
+                              <canvas #rpt1></canvas>
+                            </div>
+                          </div>
+                        </div>
                         <div class=" row">
                           <div class="col-md-12">     
                             <button class="btn btn-info" (click)="btnVerDetalleOrdenes()" *ngIf="ordenesMatTableDataSource.data.length > 0"  mat-raised-button>
@@ -457,6 +539,26 @@
                         <div class=" row">
                           <div class="col-md-12">                            
                             <table mat-table #table [dataSource]="ordenesMatTableDataSource" class="mat-elevation-z8">
+                              <ng-container matColumnDef="estado">
+                                <mat-header-cell class="table-column-10 text-justify-content" *matHeaderCellDef
+                                  mat-sort-header>
+                                  #
+                                </mat-header-cell>
+                                <mat-cell class="table-column-10 text-justify-content" *matCellDef="let row">                                  
+                                  <button *ngIf="row.IdEstado == 355"  style="padding: 12px 16px;color: black;" mat-raised-button class="btn btn-link btn-youtube">
+                                    <i style="top: -3px;" class="fa fa-home"></i> 
+                                  </button>
+                                  <button *ngIf="row.IdEstado == 356" style="padding: 12px 16px;color: blue;" mat-raised-button class="btn btn-link btn-youtube">
+                                    <i style="top: -3px;"  class="fa fa-truck"></i> 
+                                  </button>
+                                  <button *ngIf="row.IdEstado == 357" style="padding: 12px 16px;color: green;" mat-raised-button class="btn btn-link btn-youtube">
+                                    <i style="top: -3px;"  class="fa fa-check-square"></i>
+                                  </button>
+                                  <button *ngIf="row.IdEstado == 364" style="padding: 12px 16px;color: red;" mat-raised-button class="btn btn-link btn-youtube">
+                                    <i style="top: -3px;"  class="fa fa-circle"></i> 
+                                  </button>                                   
+                                </mat-cell>
+                              </ng-container>
                               <ng-container matColumnDef="CodigoOE">
                                 <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
                                   mat-sort-header>
