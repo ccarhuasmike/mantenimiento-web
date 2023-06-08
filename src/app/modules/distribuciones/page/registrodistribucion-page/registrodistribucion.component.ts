@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators } from '@angular/forms';
 import { DistribucionesService } from '../../services/distribuciones.service';
 import { MatDialog } from "@angular/material/dialog";
@@ -16,6 +16,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DialogoConfirmacionComponent } from '@shared/components/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoRechazarDistribucionComponent } from "@shared/components/dialogo-rechazardistribucion/dialogo-rechazardistribucion.component";
 import { RptDistribucionExcelService } from "../../services/RptDistribuciones.service";
+import { MatSelect } from '@angular/material/select';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 export interface Items {
@@ -103,6 +104,12 @@ const ELEMENT_DATA: Items[] = [
   providers: [ChecklistDatabaseInmueble, ChecklistDatabaseGrupoMantenimiento]
 })
 export class RegistroDistribucionComponent implements OnInit, OnDestroy {
+  //@ViewChild('descripcion') descripcion!: ElementRef;
+  @ViewChild('cboPrioidad') cboPrioidad!: MatSelect;
+  @ViewChild('cboTipoPaquete') cboTipoPaquete!: MatSelect;
+  @ViewChild('cbosedeOrigen') cbosedeOrigen!: MatSelect;
+  @ViewChild('cbosedeDestino') cbosedeDestino!: MatSelect;
+
   canvasOrdenesKilos: any;
   ctxOrdenesKilos: any;
   @ViewChild('rpt1') pieCanvasOrdenesKilos!: { nativeElement: any };
@@ -211,6 +218,8 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   listCentroCosto: any[] = [];
   listUnidadMedida: any[] = [];
   UsuarioDestino: any[] = [];
+  bloquearTodo: boolean = false;
+  mensajeBloqueo: string = "";
   // $scope.SedeOrigen = [];
   // $scope.SedeDestino = [];
 
@@ -315,10 +324,12 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     let _multiples_destinos = false;
     if (this.datosDistribucion.sol.prioridad.Id == 0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar una prioridad.');
+      this.cboPrioidad.focus();
       return;
     }
     if (this.datosDistribucion.sol.tipopaquete.Id == 0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar Tipo de Paquete.');
+      this.cboTipoPaquete.focus();
       return;
     }
 
@@ -341,19 +352,21 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         }
       }
     }
-
-    if ((this.datosDistribucion.sol.tiposervicio.Id === 343 || this.datosDistribucion.sol.tiposervicio.Id === 344) && this.datosDistribucion.sol.origen.Id === 347 && (this.datosDistribucion.sol.origen.DireccionMapaOrigen === undefined)) { //Si es Recojo
+    debugger;
+    if ((this.datosDistribucion.sol.tiposervicio.Id === 343 || this.datosDistribucion.sol.tiposervicio.Id === 344) && this.datosDistribucion.sol.origen.Id === 347 && (this.datosDistribucion.sol.origen.DireccionMapaOrigen === "")) { //Si es Recojo
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar ubicacion origen.');
       return;
     }
 
-    if (this.datosDistribucion.sol.tiposervicio.Id === 343 && this.datosDistribucion.sol.destino.Id === 347 && (this.datosDistribucion.sol.destino.DireccionMapaDestino === undefined)) { //Si es Recojo
+    if (this.datosDistribucion.sol.tiposervicio.Id === 343 && this.datosDistribucion.sol.destino.Id === 347 && (this.datosDistribucion.sol.destino.DireccionMapaDestino === "")) { //Si es Recojo
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar ubicacion destino.');
       return;
     }
     if (this.datosDistribucion.sol.sedeOrigen && this.datosDistribucion.sol.sedeDestino) {
       if (this.datosDistribucion.sol.sedeOrigen.Id === this.datosDistribucion.sol.sedeDestino.Id) {
         this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'El origen y destino no pueden ser iguales!');
+        this.cbosedeOrigen.focus();
+        this.cbosedeDestino.focus();
         return;
       }
     } else {
@@ -364,7 +377,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Datos del destino se encuentran incompletos!');
       return;
     }
-
     if (this.datosDistribucion.sol.sedeOrigen && this.datosDistribucion.sol.sedeOrigen.Id === 0) {
       _multiples_origenes = true;
     }
@@ -807,30 +819,31 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     this.pieChartOrdenesKilos = new Chart(this.ctxOrdenesKilos, {
       type: 'pie',
       data: res,
-      
-      options: {         
-        layout:{
-          padding:{
+
+      options: {
+        layout: {
+          padding: {
             left: 0,
             right: 0,
             top: -30,
             bottom: 0
           }
         },
-        plugins:{
-          
-          legend:{
+        plugins: {
+
+          legend: {
             display: true,
             align: 'center',
-            position:'right'
-          },          
-        }     
+            position: 'right'
+          },
+        }
       }
     });
 
-  
+
   }
   async ngOnInit() {
+    this.matexpansionpaneldatosgenerales = true;
     this.datosEdi = JSON.parse(this._authService.accessEdi);
     this.datosBasicosItemFormGroup = this._formBuilder.group({
       descripcionCtrl: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(20)]],
@@ -919,12 +932,12 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     var respuestavalidarCalificacion = await this.distribucionesService.validarCalificacion();
     if (respuestavalidarCalificacion.TipoResultado === 1) {
       if (respuestavalidarCalificacion.Mensaje) this.bootstrapNotifyBarService.notifySuccess('Info Edi!' + respuestavalidarCalificacion.Mensaje);
-    } else {
-      // if (!$scope.ticket.Id) {
-      //     $scope.bloquearTodo = false;
-      //     $scope.mensajeBloqueo = res.Mensaje;
-      //     toast.info('Info Edi!', res.Mensaje);
-      // }
+    } else {      
+      if (this.ticket==undefined) {
+        this.bloquearTodo = false;
+        this.mensajeBloqueo = respuestavalidarCalificacion.Mensaje;
+        this.bootstrapNotifyBarService.notifySuccess('Info Edi! ' + respuestavalidarCalificacion.Mensaje);
+      }
     }
 
 
@@ -955,6 +968,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       //     return a.Nombre > b.Nombre;
       // });
     }
+
 
 
   }

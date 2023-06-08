@@ -39,22 +39,23 @@
                         </div>
                       </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div class="row">
+                    <h5 *ngIf="!bloquearTodo" style="color: red">{{mensajeBloqueo}}</h5>
+                    <div class="row" *ngIf="bloquearTodo">
                       <div class="col-md-12">
                         <button class="btn btn-warning" mat-raised-button (click)="Cancelar()">
                           <mat-icon>block</mat-icon>
                           Cancelar
                         </button>
-                        <button (click)="btnCargaMasivaDistribucion()" class="btn btn-primary" mat-raised-button>
+                        <button (click)="btnCargaMasivaDistribucion()" class="btn btn-info" mat-raised-button>
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA DISTRIBUCIÓN
                         </button>
-                        <button (click)="btnCargaMasivaDistribucionOtros()" class="btn btn-primary" mat-raised-button>
+                        <button (click)="btnCargaMasivaDistribucionOtros()" class="btn btn-info" mat-raised-button>
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA OTROS
                         </button>
-                        <button (click)="btnGrabar()" *ngIf="ticket==undefined" class="btn btn-info" mat-raised-button>
-                          <mat-icon>back_hand</mat-icon>
+                        <button (click)="btnGrabar()" *ngIf="ticket==undefined" class="btn btn-primary" mat-raised-button>
+                          <mat-icon>send</mat-icon>
                           ENVIAR
                         </button>
                         <button (click)="aprobar()" *ngIf="permisos.AprobarRechazar" class="btn btn-success" mat-raised-button>                          
@@ -156,7 +157,7 @@
                               <mat-form-field appearance="outline">
                                 <mat-label>Descripción de Items</mat-label>
                                 <input matInput placeholder="Ingrese Descripción de Items"
-                                  [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket ? true : false">
+                                  [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket ? true : false" >
                               </mat-form-field>
                             </div>                                                               
                             <div class="col-md-2" *ngIf="(datosDistribucion.sol.origen.Id === 345 && datosDistribucion.sol.destino.Id === 347) || (datosDistribucion.sol.origen.Id === 347 && datosDistribucion.sol.destino.Id === 345)">
@@ -197,7 +198,7 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Servicio</mat-label>
-                                <mat-select [disabled]="ticket ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
+                                <mat-select   [disabled]="ticket ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
                                   [(ngModel)]="datosDistribucion.sol.tiposervicio.Id">
                                   <mat-option *ngFor="let tipoServicio of listTipoServicio" [value]="tipoServicio.Id">
                                     {{tipoServicio.Nombre}}
@@ -208,7 +209,7 @@
                             <div class="col-md-3">
                               <mat-form-field appearance="outline">
                                 <mat-label>Prioridad</mat-label>
-                                <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
+                                <mat-select #cboPrioidad [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
                                   <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
                                     {{prioridad.Nombre}}
                                   </mat-option>
@@ -247,7 +248,7 @@
                                   <div class="col-md-6" *ngIf="datosDistribucion.sol.origen.Id !== 347">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Origen</mat-label>
-                                      <mat-select [(ngModel)]="datosDistribucion.sol.sedeOrigen.Id"
+                                      <mat-select #cbosedeOrigen [(ngModel)]="datosDistribucion.sol.sedeOrigen.Id"
                                         (selectionChange)="seleccionarSedeOrigen($event.value)">
                                         <mat-option *ngFor="let agenciaOrigen of listAgenciaOrigen"
                                           [value]="agenciaOrigen.Id">
@@ -313,7 +314,7 @@
                                   <div class="col-md-6" *ngIf="datosDistribucion.sol.destino.Id !== 347">
                                     <mat-form-field appearance="outline">
                                       <mat-label>Agencia Destino</mat-label>
-                                      <mat-select (selectionChange)="seleccionarSedeDestino($event.value)"
+                                      <mat-select #cbosedeDestino (selectionChange)="seleccionarSedeDestino($event.value)"
                                         [(ngModel)]="datosDistribucion.sol.sedeDestino.Id">
                                         <mat-option *ngFor="let agenciaDestino of listAgenciaDestino"
                                           [value]="agenciaDestino.Id">
@@ -343,11 +344,12 @@
                               </fieldset>
                             </div>
                           </div>
+                          <br>
                           <div class=" row">
                             <div class="col-md-6">
                               <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Paquete</mat-label>
-                                <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
+                                <mat-select #cboTipoPaquete [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
                                   <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
                                     {{tipoPaquete.Nombre}}
                                   </mat-option>
