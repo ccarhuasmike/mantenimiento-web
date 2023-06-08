@@ -18,6 +18,7 @@ import { DialogoRechazarDistribucionComponent } from "@shared/components/dialogo
 import { RptDistribucionExcelService } from "../../services/RptDistribuciones.service";
 import { MatSelect } from '@angular/material/select';
 import { Chart, registerables } from 'chart.js';
+const _ = require('lodash');
 Chart.register(...registerables);
 export interface Items {
   Id: number,
@@ -103,13 +104,12 @@ const ELEMENT_DATA: Items[] = [
   styleUrls: ['./registrodistribucion.component.css'],
   providers: [ChecklistDatabaseInmueble, ChecklistDatabaseGrupoMantenimiento]
 })
-export class RegistroDistribucionComponent implements OnInit, OnDestroy {
-  //@ViewChild('descripcion') descripcion!: ElementRef;
+export class RegistroDistribucionComponent implements OnInit, OnDestroy {  
   @ViewChild('cboPrioidad') cboPrioidad!: MatSelect;
   @ViewChild('cboTipoPaquete') cboTipoPaquete!: MatSelect;
   @ViewChild('cbosedeOrigen') cbosedeOrigen!: MatSelect;
   @ViewChild('cbosedeDestino') cbosedeDestino!: MatSelect;
-
+  contentLoaded: boolean = false;
   canvasOrdenesKilos: any;
   ctxOrdenesKilos: any;
   @ViewChild('rpt1') pieCanvasOrdenesKilos!: { nativeElement: any };
@@ -185,7 +185,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   value: number = 0;
   mode = new UntypedFormControl('side');
   isLoading = false;
-  isSubmitted: boolean = false;
+  //isSubmitted: boolean = false;
   datosBasicosItemFormGroup!: UntypedFormGroup;
   displayedColumns: string[] =
     [
@@ -480,25 +480,25 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
           .afterClosed()
           .subscribe(async (confirmado: Boolean) => {
             if (confirmado) {
-              this.progressRef.start();
+              this.progressRef.start();              
               this.distribucionesService.grabarDistribucion(req).then((res) => {
-                debugger;
+                
                 if (res.TipoResultado === 1) {
                   this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
                   this.obtenerTicketId(res.Id);
                 } else this.bootstrapNotifyBarService.notifyDanger(res.Mensaje);
-                this.progressRef.complete();
+                this.progressRef.complete();                
               });
             }
           });
       }
 
     } else {
-      this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de agregar items para el envio.');      
+      this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de agregar items para el envio.');
     }
   }
   seleccionarTipoServicio(val: any) {
-
+    
     //LIMPIAR
     this.limpiarOrigen();
     this.limpiarDestino();
@@ -520,6 +520,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   }
 
   limpiarOrigen() {
+    this.listOrigen.forEach(x=>{x.Disabled=false});
     this.datosDistribucion.sol.origen = {
       Id: 0,
       DireccionMapaOrigen: "",
@@ -542,6 +543,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     // _.forEach($scope.Destino, function (i) {
     //     i.Disabled = false;
     // });
+    this.listDestino.forEach(x=>{x.Disabled=false});
     this.datosDistribucion.sol.destino = {
       DireccionMapaDestino: "",
       FechaDisponible: "",
@@ -603,7 +605,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     this.datosDistribucion.sol.direccion_origen = datoseleccionado.Nombre2;
   }
   async seleccionarOrigen(value: any) {
-
+    debugger;
     //var respuesta = await this.distribucionesService.obtenerAgencias({ id: value }, this.selected);
 
     // $scope.sol.sedeOrigen = {};
@@ -616,7 +618,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     //origen almacen 345
     //origen agencia 346
     //origen otros 347
-
+    
     //envio + almacen
     if (tiposervicio.Id === 343 && value === 345) {
       this.distribucionesService.obtenerAlmacenes(62).then((res) => {
@@ -660,21 +662,20 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         else x.Disabled = false;
       });
     }
-
+    console.log(this.listOrigen);
+    console.log(this.listDestino);
   }
   btnVerDetalleOrdenes() {
 
   }
   btnExportarExcelOrdenes() {
-
     this.rptDistribucionExcelService.exportReport(this.ordenesMatTableDataSource.data, "ReporteOrdenesEntrega").then(() => {
       //location.reload()
-    })
-
+    });
   }
 
   aprobar() {
-
+    
     if (this.datosDistribucion.sol.centrocosto.Id == 0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de seleccionar un centro de costo.');
       return;
@@ -682,8 +683,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     if (this.datosDistribucion.sol.proveedor.Id == 0) {
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de seleccionar un proveedor.');
       return;
-    }
-
+    }    
     this.dialogo.open(DialogoConfirmacionComponent, {
       maxWidth: '25vw',
       maxHeight: 'auto',
@@ -698,19 +698,24 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: Boolean) => {
         if (confirmado) {
-
+          this.progressRef.start();
+          
           var req = {
             IdDistribuciones: this.ticket.Id,
             Aprobar: true,
             IdProveedor: this.datosDistribucion.sol.proveedor.Id,
             IdUnidadOrganizativa: this.datosDistribucion.sol.centrocosto.Id
           };
-
-
-          return this.distribucionesService.aprobarRechazar(req).then((res) => {
-            if (res.TipoResultado == 1)
+          return this.distribucionesService.aprobarRechazar(req).then(async (res) => {
+            
+            if (res.TipoResultado == 1){
               this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
+              this.contentLoaded=false;
+              await this.obtenerTicketId(this.ticket.Id);
+              this.contentLoaded=true;
+            }              
             else this.bootstrapNotifyBarService.notifyWarning(res.Mensaje);
+            this.progressRef.complete();
           });
         }
       });
@@ -732,16 +737,21 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: any) => {
         if (confirmado.respuesta) {
-
+          this.progressRef.start();
           const req = {
             IdDistribuciones: this.ticket.Id,
             Aprobar: false,
             MotivoRechazo: confirmado.txtComentarioRechazo
           };
-          return this.distribucionesService.aprobarRechazar(req).then((res) => {
-            if (res.TipoResultado == 1)
+          return this.distribucionesService.aprobarRechazar(req).then(async (res) => {
+            if (res.TipoResultado == 1){
               this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
+              this.contentLoaded=false;
+              await this.obtenerTicketId(this.ticket.Id);
+              this.contentLoaded=true;
+            }              
             else this.bootstrapNotifyBarService.notifyWarning(res.Mensaje);
+            this.progressRef.complete();
           });
         }
       });
@@ -762,18 +772,18 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(async (confirmado: Boolean) => {
         if (confirmado) {
-
+          this.progressRef.start();
           var req = {
             IdDistribuciones: this.ticketId
           };
-          return this.distribucionesService.anularDistribucion(req).then((res) => {
+          return this.distribucionesService.anularDistribucion(req).then(async (res) => {
             if (res.TipoResultado == 1) {
               this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
-              this.distribucionesService.obtenerTicketId(this.ticketId).then((res) => {
-                this.ticket = res.data;
-                this.permisos = res.permisos;
-              });
+              this.contentLoaded=false;
+              await this.obtenerTicketId(this.ticket.Id);
+              this.contentLoaded=true;              
             } else this.bootstrapNotifyBarService.notifyWarning(res.Mensaje);
+            this.progressRef.complete();
           });
         }
 
@@ -791,7 +801,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
 
     this.canvasOrdenesKilos = this.pieCanvasOrdenesKilos.nativeElement;
     this.ctxOrdenesKilos = this.canvasOrdenesKilos.getContext('2d');
-    if (this.pieChartOrdenesKilos != null) {
+    if (this.pieChartOrdenesKilos != null || this.pieChartOrdenesKilos !== undefined) {
       this.pieChartOrdenesKilos.destroy();
     }
     this.pieChartOrdenesKilos = new Chart(this.ctxOrdenesKilos, {
@@ -821,8 +831,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   async obtenerTicketId(valor: number) {
     var respuestaTicket = await this.distribucionesService.obtenerTicketId(valor);
     if (respuestaTicket.TipoResultado == 1) {
-
-
       var respuestaProveedor = await this.distribucionesService.obtenerProveedoresDistribucion(62);
       this.listProveedor = respuestaProveedor;
 
@@ -847,7 +855,8 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
 
       this.datosDistribucion.sol.origen.Id = this.ticket.IdTipoOrigen;
       this.datosDistribucion.sol.destino.Id = this.ticket.IdTipoDestino;
-      this.datosDistribucion.sol.proveedor.Id = this.ticket.IdProveedor;
+      
+      this.datosDistribucion.sol.proveedor.Id = this.ticket.IdProveedor==null?0: this.ticket.IdProveedor;
       this.origen_list = respuestaTicket.ListOrdenes.map((x: any) => {
         return {
           Codigo: x.Codigo,
@@ -878,7 +887,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       var entregados = respuestaTicket.ListOrdenes.filter((x: any) => { return x.IdEstado == 357 });
       this.porcentaje_val = ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2);
       this.porcentaje_txt = 'Porcentaje de ' + ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2) + ' %';
-      this.calculoSla(entregados);
+      if (entregados.length > 0) this.calculoSla(entregados);
     }
 
 
@@ -899,22 +908,20 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     this.progressRef.state.subscribe((state: any) => {
       this.value = state.value;
     });
+
     this.datosBasicosItemFormGroup = this._formBuilder.group({
       descripcionCtrl: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(20)]],
       cantidadCtrl: ["", Validators.required],
       unidadMedidaCtrl: ["", Validators.required],
     });
-
-    console.log(this.ticket);
-    let valor: any = this.route.snapshot.paramMap.get('id');
-    if (parseInt(valor) != 0) {
-      this.obtenerTicketId(parseInt(valor));
-    }
+    debugger;
 
     var respuestavalidarCalificacion = await this.distribucionesService.validarCalificacion();
+    debugger;
     if (respuestavalidarCalificacion.TipoResultado === 1) {
       if (respuestavalidarCalificacion.Mensaje) this.bootstrapNotifyBarService.notifySuccess('Info Edi!' + respuestavalidarCalificacion.Mensaje);
     } else {
+      debugger;
       if (this.ticket == undefined) {
         this.bloquearTodo = false;
         this.mensajeBloqueo = respuestavalidarCalificacion.Mensaje;
@@ -922,18 +929,29 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       }
     }
 
-
+   
+    console.log(this.ticket);
+    let valor: any = this.route.snapshot.paramMap.get('id');
+    if (parseInt(valor) != 0) {
+      await this.getInit();
+      await this.obtenerTicketId(parseInt(valor));
+      this.contentLoaded = true;
+    }else{
+      await this.getInit();
+      this.contentLoaded = true;
+    }
+  }
+  async getInit(){
+    
     var respuestaTipoServicio = await this.listavaloresService.getListaValores({ idlista: 180, idcliente: "" });
     if (respuestaTipoServicio.TipoResultado == 1)
       this.listTipoServicio = respuestaTipoServicio.ListaEntidadComun;
 
     var respuestaTipoOrigen = await this.listavaloresService.getListaValores({ idlista: 181, idcliente: "" });
     if (respuestaTipoOrigen.TipoResultado == 1) {
-      this.listOrigen = respuestaTipoOrigen.ListaEntidadComun;
-      this.listDestino = respuestaTipoOrigen.ListaEntidadComun;
+      this.listOrigen = _.cloneDeep(respuestaTipoOrigen.ListaEntidadComun); // Array.of(...respuestaTipoOrigen.ListaEntidadComun) ;//[...respuestaTipoOrigen.ListaEntidadComun] ;
+      this.listDestino = _.cloneDeep(respuestaTipoOrigen.ListaEntidadComun); //Array.of(...respuestaTipoOrigen.ListaEntidadComun) ;//[...respuestaTipoOrigen.ListaEntidadComun];
     }
-
-
     var respuestaPrioridad = await this.listavaloresService.getListaValores({ idlista: 182, idcliente: "" });
     if (respuestaPrioridad.TipoResultado == 1)
       this.listPrioridad = respuestaPrioridad.ListaEntidadComun;
@@ -942,7 +960,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     if (respuestaTipoPaquete.TipoResultado == 1)
       this.listTipoPaquete = respuestaTipoPaquete.ListaEntidadComun;
 
-
     var respuestaUnidadMedida = await this.listavaloresService.getListaValores({ idlista: 187, idcliente: "" });
     if (respuestaUnidadMedida.TipoResultado == 1) {
       this.listUnidadMedida = respuestaUnidadMedida.ListaEntidadComun;
@@ -950,9 +967,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       //     return a.Nombre > b.Nombre;
       // });
     }
-
-
-
   }
 
   FinalizarRegistroSolicitud() {

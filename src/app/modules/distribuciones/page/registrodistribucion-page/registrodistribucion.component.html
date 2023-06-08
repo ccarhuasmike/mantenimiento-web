@@ -43,7 +43,7 @@
                     </mat-expansion-panel-header>
                     <h5 *ngIf="!bloquearTodo" style="color: red">{{mensajeBloqueo}}</h5>
                     <div class="row" *ngIf="bloquearTodo">
-                      <div class="col-md-12">
+                      <div class="col-md-12" *ngIf="contentLoaded">
                         <button class="btn btn-warning" mat-raised-button (click)="Cancelar()">
                           <mat-icon>block</mat-icon>
                           Cancelar
@@ -56,32 +56,33 @@
                           <mat-icon>cloud_upload</mat-icon>
                           CARGAR MASIVA OTROS
                         </button>
-                        <button (click)="btnGrabar()" *ngIf="ticket==undefined" class="btn btn-primary" mat-raised-button>
+                        <button (click)="btnGrabar()" [disabled]="value==0?false:true" *ngIf="ticket==undefined" class="btn btn-primary" mat-raised-button>
                           <mat-icon>send</mat-icon>
                           ENVIAR
                         </button>
-                        <button (click)="aprobar()" *ngIf="permisos.AprobarRechazar" class="btn btn-success" mat-raised-button>                          
+                        <!-- 
+                        <button (click)="aprobar()" [disabled]="value==0?false:true" *ngIf="permisos.AprobarRechazar" class="btn btn-success" mat-raised-button>                          
                           APROBAR
                         </button> 
-                      <button (click)="rechazar()" *ngIf="permisos.AprobarRechazar" class="btn btn-warning" mat-raised-button>                          
+                      <button (click)="rechazar()" [disabled]="value==0?false:true" *ngIf="permisos.AprobarRechazar" class="btn btn-warning" mat-raised-button>                          
                           RECHAZAR
                         </button>
-                        <button (click)="anular()" *ngIf="permisos.PermiteAnularTicket" class="btn btn-danger" mat-raised-button>                          
+                        <button (click)="anular()" [disabled]="value==0?false:true" *ngIf="permisos.PermiteAnularTicket" class="btn btn-danger" mat-raised-button>                          
                           ANULAR
                         </button>
-                     
-                        <!-- <button (click)="aprobar()"  class="btn btn-success" mat-raised-button>                          
+                      -->
+                      <button (click)="aprobar()" [disabled]="value==0?false:true"  class="btn btn-success" mat-raised-button>                          
                           APROBAR
                         </button>
-                        <button (click)="rechazar()"  class="btn btn-warning" mat-raised-button>                          
+                        <button (click)="rechazar()"  [disabled]="value==0?false:true" class="btn btn-warning" mat-raised-button>                          
                           RECHAZAR
                         </button>
-                        <button (click)="anular()"  class="btn btn-danger" mat-raised-button>                          
+                        <button (click)="anular()"  [disabled]="value==0?false:true" class="btn btn-danger" mat-raised-button>                          
                           ANULAR
-                        </button> -->
+                        </button> 
                         
                       </div>
-                      <div class="col-md-12">
+                      <div class="col-md-12" *ngIf="contentLoaded">
                         <br />
                         <div class="row">
                           <div class="col-md-6">
@@ -140,6 +141,18 @@
                           </div>
                         </div>                        
                       </div>
+                      <ngx-skeleton-loader class="col-md-12" *ngIf="!contentLoaded" count="1" appearance="line"
+                      animation="progress" [theme]="{                                          
+                      height: '40px',
+                      'border-radius': 2
+                      }">
+                    </ngx-skeleton-loader>
+                    <ngx-skeleton-loader class="col-md-12" *ngIf="!contentLoaded" count="1" appearance="line"
+                      animation="progress" [theme]="{                                          
+                      height: '70px',
+                      'border-radius': 2
+                      }">
+                    </ngx-skeleton-loader>
                     </div>
                   </mat-expansion-panel>
 
@@ -156,11 +169,18 @@
                           <legend class="w-auto px-2">DATOS GENERALES</legend>
                           <div class="row">
                             <div class="col-md-6">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Descripción de Items</mat-label>
                                 <input matInput placeholder="Ingrese Descripción de Items"
                                   [(ngModel)]="datosDistribucion.sol.descripcion" [readonly]="ticket ? true : false" >
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
+
                             </div>                                                               
                             <div class="col-md-2" *ngIf="(datosDistribucion.sol.origen.Id === 345 && datosDistribucion.sol.destino.Id === 347) || (datosDistribucion.sol.origen.Id === 347 && datosDistribucion.sol.destino.Id === 345)">
                               <mat-form-field appearance="outline">
@@ -186,7 +206,7 @@
                           </div>                          
                           <div class="row" *ngIf="ticket!==undefined">
                             <div class="col-md-3" >
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Proveedor</mat-label>
                                 <mat-select  [(ngModel)]="datosDistribucion.sol.proveedor.Id">
                                   <mat-option *ngFor="let proveedor of listProveedor" [value]="proveedor.Id">
@@ -194,11 +214,17 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-md-3">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Tipo de Servicio</mat-label>
                                 <mat-select   [disabled]="ticket ? true : false" (selectionChange)="seleccionarTipoServicio($event.value)"
                                   [(ngModel)]="datosDistribucion.sol.tiposervicio.Id">
@@ -207,9 +233,15 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
                             </div>
                             <div class="col-md-3">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Prioridad</mat-label>
                                 <mat-select #cboPrioidad [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.prioridad.Id">
                                   <mat-option *ngFor="let prioridad of listPrioridad" [value]="prioridad.Id">
@@ -217,10 +249,16 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
                             </div>
                             
                             <div class="col-md-6" *ngIf="ticket!==undefined">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Centro de Costo</mat-label>
                                 <mat-select [(ngModel)]="datosDistribucion.sol.centrocosto.Id">
                                   <mat-option *ngFor="let centrocosto of listCentroCosto" [value]="centrocosto.Id">
@@ -228,6 +266,13 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
+                              
                             </div>
                           </div>
                           <div class="row">
@@ -236,9 +281,9 @@
                                 <legend class="w-auto px-2">Origen</legend>
                                 <div class="row" *ngIf="ticket==null">
                                   <div class="col-md-6">
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                       <mat-label>Tipo Origen</mat-label>
-                                      <mat-select (selectionChange)="seleccionarOrigen($event.value)"
+                                      <mat-select (selectionChange)="seleccionarOrigen($event.value)" [disabled]="datosDistribucion.sol.tiposervicio.Id==0 ? true : false"
                                         [(ngModel)]="datosDistribucion.sol.origen.Id">
                                         <mat-option *ngFor="let tipoOrigen of listOrigen" [value]="tipoOrigen.Id"
                                           [disabled]="tipoOrigen.Disabled">
@@ -246,11 +291,18 @@
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
                                   <div class="col-md-6" *ngIf="datosDistribucion.sol.origen.Id !== 347">
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                       <mat-label>Agencia Origen</mat-label>
                                       <mat-select #cbosedeOrigen [(ngModel)]="datosDistribucion.sol.sedeOrigen.Id"
+                                        [disabled]="listAgenciaOrigen.length==0 ? true : false"
                                         (selectionChange)="seleccionarSedeOrigen($event.value)">
                                         <mat-option *ngFor="let agenciaOrigen of listAgenciaOrigen"
                                           [value]="agenciaOrigen.Id">
@@ -258,6 +310,12 @@
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
                                   <div class="col-md-6"
                                     *ngIf="(datosDistribucion.sol.tiposervicio.Id === 343 || datosDistribucion.sol.tiposervicio.Id === 344)  && datosDistribucion.sol.origen.Id === 347">
@@ -279,22 +337,29 @@
                                 </div>
                                 <div class="row" *ngIf="ticketId==0">
                                   <div class="col-md-12">
-                                    <mat-form-field appearance="outline" [style.fontSize.px]=12>
+                                    <mat-form-field *ngIf="contentLoaded" appearance="outline" [style.fontSize.px]=12>
                                       <mat-label>Dirección Origen</mat-label>
                                       <!-- formControlName="descripcionDetalladaCtrl" -->
                                       <textarea matInput disabled="disabled" required
                                         [(ngModel)]="datosDistribucion.sol.direccion_origen"></textarea>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
                                 </div>
 
                                 <div slimscroll="{height:'150px'}" *ngIf="ticketId!=0">
-                                  <div class="well" *ngFor="let x of origen_list">
+                                  <div class="well" *ngFor="let x of origen_list" >
                                     {{x.Origen}} <br /> {{x.DireccionOrigen}} <br
                                       ng-show="x.DireccionMapaOrigen !=='' " />
                                     {{x.DireccionMapaOrigen}}<br /> {{x.UbigeoOrigen}}
                                   </div>
                                 </div>
+                                
                               </fieldset>
                             </div>
                             <div class="col-md-6">
@@ -302,21 +367,29 @@
                                 <legend class="w-auto px-2">Destino</legend>
                                 <div class="row" *ngIf="ticket==null">
                                   <div class="col-md-6" >
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                       <mat-label>Tipo Destino</mat-label>
                                       <mat-select (selectionChange)="seleccionarDestino($event.value)"
-                                        [disabled]="!datosDistribucion.sol.origen"
+                                        [disabled]="datosDistribucion.sol.origen.Id==0?true:false"
                                         [(ngModel)]="datosDistribucion.sol.destino.Id">
                                         <mat-option *ngFor="let tipoDestino of listDestino" [value]="tipoDestino.Id">
                                           {{tipoDestino.Nombre}}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
                                   <div class="col-md-6" *ngIf="datosDistribucion.sol.destino.Id !== 347">
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                       <mat-label>Agencia Destino</mat-label>
-                                      <mat-select #cbosedeDestino (selectionChange)="seleccionarSedeDestino($event.value)"
+                                      <mat-select #cbosedeDestino 
+                                        (selectionChange)="seleccionarSedeDestino($event.value)"
+                                        [disabled]="listAgenciaDestino.length==0 ? true : false"
                                         [(ngModel)]="datosDistribucion.sol.sedeDestino.Id">
                                         <mat-option *ngFor="let agenciaDestino of listAgenciaDestino"
                                           [value]="agenciaDestino.Id">
@@ -324,16 +397,28 @@
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
 
                                 </div>
                                 <div class="row" *ngIf="ticketId==0">
                                   <div class="col-md-12">
-                                    <mat-form-field appearance="outline" [style.fontSize.px]=12>
+                                    <mat-form-field *ngIf="contentLoaded" appearance="outline" [style.fontSize.px]=12>
                                       <mat-label>Dirección Destino</mat-label>                                      
                                       <textarea matInput [disabled]="datosDistribucion.sol.destino.Id !== 347"
                                         [(ngModel)]="datosDistribucion.sol.direccion_destino"></textarea>
                                     </mat-form-field>
+                                    <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                    appearance="line" animation="progress" [theme]="{                                          
+                                      height: '50px',
+                                      'border-radius': 2
+                                      }">
+                                  </ngx-skeleton-loader>
                                   </div>
                                 </div>
                                  <div slimscroll="{height:'150px'}" *ngIf="ticketId!=0">
@@ -349,7 +434,7 @@
                           <br>
                           <div class=" row">
                             <div class="col-md-6">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Tipo de Paquete</mat-label>
                                 <mat-select #cboTipoPaquete [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.tipopaquete.Id">
                                   <mat-option *ngFor="let tipoPaquete of listTipoPaquete" [value]="tipoPaquete.Id">
@@ -357,9 +442,15 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
                             </div>
                             <div class="col-md-6">
-                              <mat-form-field appearance="outline">
+                              <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                 <mat-label>Usuario Destino</mat-label>
                                 <mat-select [disabled]="ticket ? true : false" [(ngModel)]="datosDistribucion.sol.usuario_destino.Id">
                                   <mat-option *ngFor="let usuario of UsuarioDestino" [value]="usuario.Id">
@@ -367,6 +458,12 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                              appearance="line" animation="progress" [theme]="{                                          
+                                height: '50px',
+                                'border-radius': 2
+                                }">
+                            </ngx-skeleton-loader>
                             </div>
                           </div>
                         </fieldset>
@@ -374,7 +471,7 @@
                       <mat-tab label="ITEMS" *ngIf="ticket==undefined">
                         <br />
                         <div class=" row">
-                          <div class="col-md-8">                            
+                          <div class="col-md-8" *ngIf="contentLoaded">                            
                             <table mat-table #tableItem [dataSource]="dataSourceItems" class="mat-elevation-z8">
                               <ng-container matColumnDef="Destino">
                                 <mat-header-cell class="table-column-130 text-justify-content" *matHeaderCellDef
@@ -428,12 +525,18 @@
                               </tr>
                             </table>
                           </div>
+                          <ngx-skeleton-loader  class="col-md-8" *ngIf="!contentLoaded" count="1"
+                          appearance="line" animation="progress" [theme]="{                                          
+                            height: '80px',
+                            'border-radius': 2
+                            }">
+                        </ngx-skeleton-loader>
                           <div class="col-md-4">
                             <form [formGroup]="datosBasicosItemFormGroup" class="form-horizontal"
                               (ngSubmit)='btnAgregarItem()'>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <mat-form-field appearance="outline">
+                                  <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                     <mat-label>Descripción</mat-label>
                                     <input matInput placeholder="Ingrese Descripción" formControlName="descripcionCtrl">
                                     <mat-error
@@ -441,11 +544,17 @@
                                       Es necesario la descripción!
                                     </mat-error>
                                   </mat-form-field>
+                                  <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                  appearance="line" animation="progress" [theme]="{                                          
+                                    height: '50px',
+                                    'border-radius': 2
+                                    }">
+                                </ngx-skeleton-loader>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <mat-form-field appearance="outline">
+                                  <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                     <mat-label>Cantidad</mat-label>
                                     <input matInput type="number" placeholder="Ingrese Descripción de Cantidad"
                                       formControlName="cantidadCtrl">
@@ -454,11 +563,17 @@
                                       Es necesario la cantidad!
                                     </mat-error>
                                   </mat-form-field>
+                                  <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                  appearance="line" animation="progress" [theme]="{                                          
+                                    height: '50px',
+                                    'border-radius': 2
+                                    }">
+                                </ngx-skeleton-loader>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <mat-form-field appearance="outline">
+                                  <mat-form-field appearance="outline" *ngIf="contentLoaded">
                                     <mat-label>Und.Med.</mat-label>
                                     <mat-select formControlName="unidadMedidaCtrl">
                                       <mat-option *ngFor="let item of listUnidadMedida" [value]="item">
@@ -470,14 +585,26 @@
                                       Es necesario la unidad de medida!
                                     </mat-error>
                                   </mat-form-field>
+                                  <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                  appearance="line" animation="progress" [theme]="{                                          
+                                    height: '50px',
+                                    'border-radius': 2
+                                    }">
+                                </ngx-skeleton-loader>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <button mat-raised-button class="btn btn-primary pull-right">
+                                  <button *ngIf="contentLoaded" mat-raised-button class="btn btn-primary pull-right">
                                     <mat-icon>add</mat-icon>
                                     Agregar
                                   </button>
+                                  <ngx-skeleton-loader  *ngIf="!contentLoaded" count="1"
+                                  appearance="line" animation="progress" [theme]="{                                          
+                                    height: '50px',
+                                    'border-radius': 2
+                                    }">
+                                </ngx-skeleton-loader>
                                 </div>
                               </div>
                             </form>
