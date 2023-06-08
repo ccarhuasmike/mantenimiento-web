@@ -86,6 +86,21 @@ export class AdministracionService {
     });
   }
 
+  async Calificar(data: any): Promise<any> {
+    data = await this.utilsService.encriptarBody(data);
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.apiEdiUrl}/ADM/Calificacion/RealizarCalificacion`, data)
+        .subscribe({
+          next: (data:any) =>{
+            return resolve(data)
+          } ,
+          error: (err) => reject(err),
+        });
+    });
+  }
+
+
   async DescargarArchivoAdjunto(nombreInterno:string): Promise<any> {
     var pnombreInterno = await this.utilsService.encriptar(nombreInterno);
     return new Promise((resolve, reject) => {

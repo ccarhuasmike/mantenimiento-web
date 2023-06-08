@@ -218,7 +218,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
   listCentroCosto: any[] = [];
   listUnidadMedida: any[] = [];
   UsuarioDestino: any[] = [];
-  bloquearTodo: boolean = false;
+  bloquearTodo: boolean = true;
   mensajeBloqueo: string = "";
   // $scope.SedeOrigen = [];
   // $scope.SedeDestino = [];
@@ -245,17 +245,13 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     /*Cada vez que existe un cambio  en el objeto cartEvent se suscribira para que realizo un accion */
     clienteService.cartEvent$.subscribe((value) => {
       console.log(value);
-      this.clienteMaster = value.Id;
-      /*this.cookieService.delete('objetoClientePorUsuario');
-      this.cookieService.set('objetoClientePorUsuario', JSON.stringify(value));*/
+      this.clienteMaster = value.Id;      
       this.ngOnInit();
     });
   }
-
   Cancelar() {
     this.router.navigate(['/distribucion/consultasolicitudes']);
   }
-
   btnCargaMasivaDistribucion() {
     this.dialogo.open(DialogoCargaMasivaDistribucionComponent, {
       maxWidth: '50vw',
@@ -332,16 +328,6 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
       this.cboTipoPaquete.focus();
       return;
     }
-
-    // if ($scope.sol.CelularPersonaContacto === undefined || $scope.sol.CelularPersonaContacto === "") { //Si es Recojo
-    //     toast.info('Info Edi!', 'Debe ingresar celular de contacto.');
-    //     return;
-    // }
-    // if ($scope.sol.NombrePersonaContacto === undefined || $scope.sol.NombrePersonaContacto === "") { //Si es Recojo
-    //     toast.info('Info Edi!', 'Debe ingresar nombre de contacto.');
-    //     return;
-    // }
-
     if (this.datosDistribucion.sol.CorreoPersonaContacto !== undefined) { //Si es Recojo
       if (this.datosDistribucion.sol.CorreoPersonaContacto !== "") {
         if (/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(this.datosDistribucion.sol.CorreoPersonaContacto))
@@ -352,7 +338,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         }
       }
     }
-    debugger;
+    
     if ((this.datosDistribucion.sol.tiposervicio.Id === 343 || this.datosDistribucion.sol.tiposervicio.Id === 344) && this.datosDistribucion.sol.origen.Id === 347 && (this.datosDistribucion.sol.origen.DireccionMapaOrigen === "")) { //Si es Recojo
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar ubicacion origen.');
       return;
@@ -498,6 +484,12 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
               this.distribucionesService.grabarDistribucion(req).then((res) => {
                 if (res.TipoResultado === 1) {
                   this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
+
+                  // this.distribucionesService.obtenerTicketId(this.ticketId).then((res) => {
+                  //   this.ticket = res.data;
+                  //   this.permisos = res.permisos;
+                  // });
+
                   // DISTRIBUCION.obtenerTicketId(res.Id).then((res) => {
                   //     if (res.TipoResultado === 1) {
                   //         $scope.ticket = res.data;

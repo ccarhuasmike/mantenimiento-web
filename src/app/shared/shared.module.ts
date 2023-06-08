@@ -159,9 +159,11 @@ import { DiaglogoCargaMasivaComponent } from './components/diaglogo-carga-masiva
 import {DialogoCargaMasivaDistribucionComponent} from "@shared/components/dialogo-cargamasivadistribucion/dialogo-cargamasivadistribucion.component";
 import {DialogoCargaMasivaDistribucionOtrosComponent} from "@shared/components/dialogo-cargamasivadistribucionotro/dialogo-cargamasivadistribucionotro.component";
 import {DialogoRechazarDistribucionComponent} from "@shared/components/dialogo-rechazardistribucion/dialogo-rechazardistribucion.component";
+import {DialogoCalificacionDistribucionComponent} from "@shared/components/dialogo-calificaciondistribucion/dialogo-calificaciondistribucion.component";
 
 @NgModule({
   declarations: [
+    DialogoCalificacionDistribucionComponent,
     DialogoRechazarDistribucionComponent,
     DialogoCargaMasivaDistribucionComponent,
     DialogoCargaMasivaDistribucionOtrosComponent,
@@ -273,6 +275,7 @@ import {DialogoRechazarDistribucionComponent} from "@shared/components/dialogo-r
    
   ],
   exports: [
+    DialogoCalificacionDistribucionComponent,
     DialogoRechazarDistribucionComponent,
     DialogoCargaMasivaDistribucionComponent,
     DialogoCargaMasivaDistribucionOtrosComponent,

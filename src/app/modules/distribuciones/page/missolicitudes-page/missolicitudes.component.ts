@@ -16,9 +16,7 @@ export interface Fruit {
 }
 import { CookieService } from 'ngx-cookie-service';
 import { BootstrapNotifyBarService } from '@shared/services/bootstrap-notify.service';
-import { DialogoAnularSolicitudComponent } from '@shared/components/dialogo-anularsolicitud/dialogo-anularsolicitud.component';
-import { DialogoRestaurarSolicitudComponent } from "@shared/components/dialogo-restaurarsolicitud/dialogo-restaurarsolicitud.component";
-import { DialogoCambiarTipoSolicitudComponent } from "@shared/components/dialogo-cambiartiposolicitud/dialogo-cambiartiposolicitud.component";
+import { DialogoCalificacionDistribucionComponent } from "@shared/components/dialogo-calificaciondistribucion/dialogo-calificaciondistribucion.component";
 import { SelectionModel } from '@angular/cdk/collections';
 import { ListavaloresService } from '@shared/services/listavalores.service';
 import { FormControl } from '@angular/forms';
@@ -35,9 +33,9 @@ export interface Acciones {
   styleUrls: ['./missolicitudes.component.css'],
   providers: [CookieService]
 })
-export class MisSolicitudesComponent implements OnInit, OnDestroy {    
+export class MisSolicitudesComponent implements OnInit, OnDestroy {
   listaEstado: any;
-  
+
   matexpansionpanelfiltro: boolean = false;
   isLoading = false;
   public itemsPerPage: number = 10;
@@ -47,19 +45,19 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
   listSolicitanteSeteado: any = [];
   public dataSource: any;
   selection = new SelectionModel<any>(true, []);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | undefined;  
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | undefined;
   _filtroLocalStoreage: any = {};
   _filtro: any = {
     IdsSolicitante: [],
     Codigo: '',
-    AgenciaOrigen: '',    
-    IdEstado : 0,
-    MostrarAnulados: false,    
+    AgenciaOrigen: '',
+    IdEstado: 0,
+    MostrarAnulados: false,
     FechaRegDesde: this.sumarDias(new Date(), -7),
     FechaRegHasta: new Date()
   };
   visible = true;
-  selectable = true;  
+  selectable = true;
   addOnBlur = true;
   datosEdi: any = {};
   displayedColumns: string[] =
@@ -93,6 +91,8 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
       this.ngOnInit();
     });
   }
+
+
   /**Si el número de elementos seleccionados coincide con el número total de filas. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -103,9 +103,43 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
   masterToggle() {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.forEach((row: any) => this.selection.select(row));
   }
+  btnCalificacion() {
+    if (this.selection.selected.length === 0) {
+      this.bootstrapNotifyBarService.notifyWarning("Seleccione por lo menos un registro");
+      return;
+    }
+    if (this.selection.selected.length > 1) {
+      this.bootstrapNotifyBarService.notifyWarning("Seleccione solo una solicitud para restaurar su estado");
+      return;
+    }
+    console.log();
+    if (this.selection.selected[0].Estado === "ENTREGADO" && this.selection.selected[0].Calificacion === null) {
+      this.dialogo.open(DialogoCalificacionDistribucionComponent, {
+        maxWidth: '50vw',
+        maxHeight: 'auto',
+        height: 'auto',
+        width: '50%',
+        disableClose: true,
+        data: {
+          titulo: `GESTIÓN DE DISTRIBUCIÓN`,
+          Codigo: this.selection.selected[0].Codigo,
+          IdDistribucion: this.selection.selected[0].Id,
+          IdUsuario: this.datosEdi.Id,
+        }
+      })
+        .afterClosed()
+        .subscribe(async (confirmado: any) => {
+          // if (confirmado.respuesta) {
+          //   this.datosBasicosFormGroup.patchValue({
+          //     aprobadoresSolicitudCtrl: confirmado.aprobadoresSeleccionado.length === 0 ? [] : confirmado.aprobadoresSeleccionado.map((x: any) => { return x.Id })
+          //   });
+          // }
+        });
+    }    
+    
+  }
 
 
- 
   sumarDias(fecha: Date, dias: number) {
     fecha.setDate(fecha.getDate() + dias);
     return fecha;
@@ -117,18 +151,18 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
   recibiRespuestaSolicitante(event: any): void {
     this._filtro.IdsSolicitante = event.map((x: any) => { return x.Id });
   }
-  LimpiarControles() {    
+  LimpiarControles() {
     this._filtro.IdsSolicitante = [];
     this._filtro.IdEstado = "";
-    this._filtro.Codigo = '';   
-    this._filtro.AgenciaOrigen  = '';      
-    this._filtro.MostrarAnulados = false;    
-    this._filtro.FechaRegDesde= this.sumarDias(new Date(), -7),
-    this._filtro.FechaRegHasta= new Date()    
+    this._filtro.Codigo = '';
+    this._filtro.AgenciaOrigen = '';
+    this._filtro.MostrarAnulados = false;
+    this._filtro.FechaRegDesde = this.sumarDias(new Date(), -7),
+      this._filtro.FechaRegHasta = new Date()
   }
   //#region Deserializer get encriptado
   loadDatos(): void {
-    
+
     if (!moment.isDate(this._filtro.FechaRegHasta)) {
       this.bootstrapNotifyBarService.notifyWarning("Fecha fin incorrecto.");
       return;
@@ -148,13 +182,13 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
           Codigo: this._filtro.Codigo,
           IdSolicitante: 3647,
           IdEstado: this._filtro.IdEstado,//$scope.filtro.estado ? $scope.filtro.estado.Id : undefined,          
-          FechaDesde: this._filtro.FechaRegDesde === "" ? "" :this._filtro.FechaRegDesde.toJSON(),
-          FechaHasta: this._filtro.FechaRegHasta === "" ? "" :this._filtro.FechaRegHasta.toJSON()
+          FechaDesde: this._filtro.FechaRegDesde === "" ? "" : this._filtro.FechaRegDesde.toJSON(),
+          FechaHasta: this._filtro.FechaRegHasta === "" ? "" : this._filtro.FechaRegHasta.toJSON()
         },
         draw: 1,
         length: this.itemsPerPage,
         start: this.currentPage
-      }    
+      }
     }
     this.isLoading = true;
     this.dataSource = [];
@@ -177,7 +211,7 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: any): void {
-    
+
     this.currentPage = event.pageIndex;
     this.itemsPerPage = event.pageSize;
     this.loadDatos();
@@ -189,6 +223,7 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.datosEdi = JSON.parse(this._authService.accessEdi);
     var respuesta = await this.listavaloresService.getListaValores({
       idlista: 184,
       idcliente: ""
@@ -198,15 +233,15 @@ export class MisSolicitudesComponent implements OnInit, OnDestroy {
       this.listaEstado = respuesta.ListaEntidadComun;
     }
 
-    this.datosEdi = JSON.parse(this._authService.accessEdi);
 
 
-    var objetoClientePorUsuario = JSON.parse(this.cookieService.get('objetoClientePorUsuario'));
-    if (objetoClientePorUsuario != null) {
-      this.listClienteSeteado = [];
-      this.listClienteSeteado.push(objetoClientePorUsuario);
-    }
-    this._filtro.IdsCliente = this.listClienteSeteado.map((x: any) => { return x.Id });
+
+    // var objetoClientePorUsuario = JSON.parse(this.cookieService.get('objetoClientePorUsuario'));
+    // if (objetoClientePorUsuario != null) {
+    //   this.listClienteSeteado = [];
+    //   this.listClienteSeteado.push(objetoClientePorUsuario);
+    // }
+    // this._filtro.IdsCliente = this.listClienteSeteado.map((x: any) => { return x.Id });
     this.listSolicitanteSeteado = [];
     this.listSolicitanteSeteado.push({
       Id: this.datosEdi.Id,

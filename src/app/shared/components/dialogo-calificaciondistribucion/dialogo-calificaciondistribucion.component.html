@@ -1,0 +1,83 @@
+<h4 mat-dialog-title class="dialog-headline">
+  <mat-toolbar role="toolbar" class="dialog-header">
+    <span> {{data.titulo + ' ' + data.Codigo}}</span>
+    <span class="fx-spacer"></span>
+    <button mat-icon-button (click)="cerrarDialogo()">
+      <mat-icon mat-list-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+</h4>
+<div mat-dialog-content>
+  <br>
+  <div class="container-fluid">
+    <form [formGroup]="datosBasicosFormGroup" class="form-horizontal" (ngSubmit)='confirmado()'>
+
+      <div class="row">
+        <div class="col-md-5">
+          <img width="100%" src="./assets/img/mibanco/chica.png" alt="">
+        </div>
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h4 style="font-weight: 600;text-align: justify;">Con la finalidad de mejorar el servicio de Courier, por favor califica tu
+                satisfacción en base al servicio recibido sobre la Orden de Entrega {{data.Codigo}} referente a 'Distribucion
+                Masiva'.</h4>
+    
+              <p style="text-align: justify;">Háganos saber acerca de su experiencia sobre el nivel satisfacción!.</p>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="rating">
+                <input type="radio" name="star" id="star4" (click)="updateSetting(3)">
+                <label for="star4">
+                  <img src="./assets/img/emoji/muybueno.png" alt="">
+                  <h4> Muy Bueno</h4>
+                </label>
+                <input type="radio" name="star" id="star3" (click)="updateSetting(2)">
+                <label for="star3">
+                  <img src="./assets/img/emoji/bueno.png" alt="">
+                  <h4> Bueno</h4>
+                </label>
+                <input type="radio" name="star" id="star2" (click)="updateSetting(1)">
+                <label for="star2">
+                  <img src="./assets/img/emoji/malo.png" alt="">
+                  <h4> Malo</h4>
+                </label>
+                <input type="radio" name="star" id="star1" (click)="updateSetting(0)">
+                <label for="star1">
+                  <img src="./assets/img/emoji/muymalo.png" alt="">
+                  <h4> Muy Malo</h4>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <p style="text-align: justify;">Si lo deseas, ingresa un comentario que nos ayude a seguir mejorando.</p>
+            </div>
+          </div>                    
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label> Envianos tu comentario</mat-label>
+                <textarea matInput placeholder="Envianos tu comentario" formControlName="comentariosCtrl"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button class="btn-personalizado" mat-raised-button color="accent">
+            <mat-icon>send</mat-icon>
+            Enviar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>
