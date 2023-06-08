@@ -17,6 +17,8 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
+                <mat-progress-bar *ngIf="value==0?false:true" [value]="value" color="primary" class="progressbar"
+                [class.active]="progressRef.isStarted"></mat-progress-bar>
                 <mat-accordion class="example-headers-align" multi>
                   <mat-expansion-panel [expanded]="true">
                     <mat-expansion-panel-header>

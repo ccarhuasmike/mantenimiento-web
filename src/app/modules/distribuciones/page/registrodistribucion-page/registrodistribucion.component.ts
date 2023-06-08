@@ -245,7 +245,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     /*Cada vez que existe un cambio  en el objeto cartEvent se suscribira para que realizo un accion */
     clienteService.cartEvent$.subscribe((value) => {
       console.log(value);
-      this.clienteMaster = value.Id;      
+      this.clienteMaster = value.Id;
       this.ngOnInit();
     });
   }
@@ -338,7 +338,7 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         }
       }
     }
-    
+
     if ((this.datosDistribucion.sol.tiposervicio.Id === 343 || this.datosDistribucion.sol.tiposervicio.Id === 344) && this.datosDistribucion.sol.origen.Id === 347 && (this.datosDistribucion.sol.origen.DireccionMapaOrigen === "")) { //Si es Recojo
       this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe seleccionar ubicacion origen.');
       return;
@@ -480,35 +480,21 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
           .afterClosed()
           .subscribe(async (confirmado: Boolean) => {
             if (confirmado) {
-              console.log(JSON.stringify(req));
+              this.progressRef.start();
               this.distribucionesService.grabarDistribucion(req).then((res) => {
+                debugger;
                 if (res.TipoResultado === 1) {
                   this.bootstrapNotifyBarService.notifySuccess(res.Mensaje);
-
-                  // this.distribucionesService.obtenerTicketId(this.ticketId).then((res) => {
-                  //   this.ticket = res.data;
-                  //   this.permisos = res.permisos;
-                  // });
-
-                  // DISTRIBUCION.obtenerTicketId(res.Id).then((res) => {
-                  //     if (res.TipoResultado === 1) {
-                  //         $scope.ticket = res.data;
-                  //         $scope.permisos = res.permisos;
-                  //         $scope.dataDistribucion = res.ListOrdenes;
-                  //         $scope.ticketId = $scope.ticket.Id;
-                  //     } else Swal.insertQueueStep(res.Mensaje);
-                  // });
+                  this.obtenerTicketId(res.Id);
                 } else this.bootstrapNotifyBarService.notifyDanger(res.Mensaje);
+                this.progressRef.complete();
               });
             }
-
           });
-        //}
       }
 
     } else {
-      this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de agregar items para el envio.');
-      //toast.info('Info Edi!', 'Debe de agregar items para el envio.');
+      this.bootstrapNotifyBarService.notifyWarning('Info Edi! ' + 'Debe de agregar items para el envio.');      
     }
   }
   seleccionarTipoServicio(val: any) {
@@ -831,12 +817,88 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+  async obtenerTicketId(valor: number) {
+    var respuestaTicket = await this.distribucionesService.obtenerTicketId(valor);
+    if (respuestaTicket.TipoResultado == 1) {
 
 
+      var respuestaProveedor = await this.distribucionesService.obtenerProveedoresDistribucion(62);
+      this.listProveedor = respuestaProveedor;
+
+      console.log(respuestaTicket.data);
+      this.ticket = respuestaTicket.data;
+      this.permisos = respuestaTicket.permisos;
+      console.log(this.permisos);
+      //this.dataDistribucion = respuestaTicket.ListOrdenes;
+      this.ordenesMatTableDataSource.data = respuestaTicket.ListOrdenes;
+
+      //console.log(this.dataDistribucion);
+      this.ticketId = this.ticket.Id;
+      this.datosDistribucion.sol.CelularPersonaContacto = this.ticket.CelularPersonaContacto;
+      this.datosDistribucion.sol.NombrePersonaContacto = this.ticket.NombrePersonaContacto;
+      this.datosDistribucion.sol.CorreoPersonaContacto = this.ticket.CorreoPersonaContacto;
+      this.datosDistribucion.sol.descripcion = this.ticket.DescripcionItem;
+      this.datosDistribucion.sol.disponibilidad = this.ticket.FechaDisponibilidad;
+      this.datosDistribucion.sol.tiposervicio.Id = this.ticket.IdTipoServicio;
+      this.datosDistribucion.sol.prioridad.Id = this.ticket.IdPrioridad;
+      this.datosDistribucion.sol.tipopaquete.Id = this.ticket.IdTipoPaquete;
+      this.datosDistribucion.sol.centrocosto.Id = this.ticket?.IdUnidadOrganizativa;
+
+      this.datosDistribucion.sol.origen.Id = this.ticket.IdTipoOrigen;
+      this.datosDistribucion.sol.destino.Id = this.ticket.IdTipoDestino;
+      this.datosDistribucion.sol.proveedor.Id = this.ticket.IdProveedor;
+      this.origen_list = respuestaTicket.ListOrdenes.map((x: any) => {
+        return {
+          Codigo: x.Codigo,
+          Estado: x.Estado,
+          Origen: x.Origen,
+          DireccionOrigen: x.DireccionOrigen,
+          LatitudOrigen: x.LatitudOrigen,
+          LongitudOrigen: x.LongitudOrigen,
+          ReferenciaOrigen: x.ReferenciaOrigen,
+          DireccionMapaOrigen: x.DireccionMapaOrigen
+        }
+      });
+      //					['Destino', 'DireccionDestino', 'UbigeoDestino', 'LatitudDestino', 'LongitudDestino', 'ReferenciaDestino', 'DireccionMapaDestino']));
+      this.destino_list = respuestaTicket.ListOrdenes.map((x: any) => {
+        return {
+          Codigo: x.Codigo,
+          Estado: x.Estado,
+          Destino: x.Destino,
+          DireccionDestino: x.DireccionDestino,
+          UbigeoDestino: x.UbigeoDestino,
+          LatitudDestino: x.LatitudDestino,
+          LongitudDestino: x.LongitudDestino,
+          ReferenciaDestino: x.ReferenciaDestino,
+          DireccionMapaDestino: x.DireccionMapaDestino
+        }
+      });
+      var total = respuestaTicket.ListOrdenes.length;
+      var entregados = respuestaTicket.ListOrdenes.filter((x: any) => { return x.IdEstado == 357 });
+      this.porcentaje_val = ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2);
+      this.porcentaje_txt = 'Porcentaje de ' + ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2) + ' %';
+      this.calculoSla(entregados);
+    }
+
+
+    var respuestaLog = await this.distribucionesService.obtenerLogAcciones({
+      tabla: 1008,
+      entidad: this.ticketId
+    });
+    this.listLogs = respuestaLog;
+    console.log(this.listLogs);
+
+    var respuestaCentroCosto = await this.distribucionesService.obtenerCentroCosto(62);
+    this.listCentroCosto = respuestaCentroCosto;
   }
   async ngOnInit() {
     this.matexpansionpaneldatosgenerales = true;
     this.datosEdi = JSON.parse(this._authService.accessEdi);
+    this.progressRef = this.ngProgress.ref();
+    this.progressRef.state.subscribe((state: any) => {
+      this.value = state.value;
+    });
     this.datosBasicosItemFormGroup = this._formBuilder.group({
       descripcionCtrl: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(20)]],
       cantidadCtrl: ["", Validators.required],
@@ -846,86 +908,14 @@ export class RegistroDistribucionComponent implements OnInit, OnDestroy {
     console.log(this.ticket);
     let valor: any = this.route.snapshot.paramMap.get('id');
     if (parseInt(valor) != 0) {
-      var respuestaTicket = await this.distribucionesService.obtenerTicketId(parseInt(valor));
-      if (respuestaTicket.TipoResultado == 1) {
-
-
-        var respuestaProveedor = await this.distribucionesService.obtenerProveedoresDistribucion(62);
-        this.listProveedor = respuestaProveedor;
-
-        console.log(respuestaTicket.data);
-        this.ticket = respuestaTicket.data;
-        this.permisos = respuestaTicket.permisos;
-        console.log(this.permisos);
-        //this.dataDistribucion = respuestaTicket.ListOrdenes;
-        this.ordenesMatTableDataSource.data = respuestaTicket.ListOrdenes;
-
-        //console.log(this.dataDistribucion);
-        this.ticketId = this.ticket.Id;
-        this.datosDistribucion.sol.CelularPersonaContacto = this.ticket.CelularPersonaContacto;
-        this.datosDistribucion.sol.NombrePersonaContacto = this.ticket.NombrePersonaContacto;
-        this.datosDistribucion.sol.CorreoPersonaContacto = this.ticket.CorreoPersonaContacto;
-        this.datosDistribucion.sol.descripcion = this.ticket.DescripcionItem;
-        this.datosDistribucion.sol.disponibilidad = this.ticket.FechaDisponibilidad;
-        this.datosDistribucion.sol.tiposervicio.Id = this.ticket.IdTipoServicio;
-        this.datosDistribucion.sol.prioridad.Id = this.ticket.IdPrioridad;
-        this.datosDistribucion.sol.tipopaquete.Id = this.ticket.IdTipoPaquete;
-        this.datosDistribucion.sol.centrocosto.Id = this.ticket?.IdUnidadOrganizativa;
-
-        this.datosDistribucion.sol.origen.Id = this.ticket.IdTipoOrigen;
-        this.datosDistribucion.sol.destino.Id = this.ticket.IdTipoDestino;
-        this.datosDistribucion.sol.proveedor.Id = this.ticket.IdProveedor;
-        this.origen_list = respuestaTicket.ListOrdenes.map((x: any) => {
-          return {
-            Codigo: x.Codigo,
-            Estado: x.Estado,
-            Origen: x.Origen,
-            DireccionOrigen: x.DireccionOrigen,
-            LatitudOrigen: x.LatitudOrigen,
-            LongitudOrigen: x.LongitudOrigen,
-            ReferenciaOrigen: x.ReferenciaOrigen,
-            DireccionMapaOrigen: x.DireccionMapaOrigen
-          }
-        });
-        //					['Destino', 'DireccionDestino', 'UbigeoDestino', 'LatitudDestino', 'LongitudDestino', 'ReferenciaDestino', 'DireccionMapaDestino']));
-        this.destino_list = respuestaTicket.ListOrdenes.map((x: any) => {
-          return {
-            Codigo: x.Codigo,
-            Estado: x.Estado,
-            Destino: x.Destino,
-            DireccionDestino: x.DireccionDestino,
-            UbigeoDestino: x.UbigeoDestino,
-            LatitudDestino: x.LatitudDestino,
-            LongitudDestino: x.LongitudDestino,
-            ReferenciaDestino: x.ReferenciaDestino,
-            DireccionMapaDestino: x.DireccionMapaDestino
-          }
-        });
-        var total = respuestaTicket.ListOrdenes.length;
-        var entregados = respuestaTicket.ListOrdenes.filter((x: any) => { return x.IdEstado == 357 });
-        this.porcentaje_val = ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2);
-        this.porcentaje_txt = 'Porcentaje de ' + ((parseFloat(entregados.length) / parseFloat(total)) * 100).toFixed(2) + ' %';
-        this.calculoSla(entregados);
-      }
-
-
-      var respuestaLog = await this.distribucionesService.obtenerLogAcciones({
-        tabla: 1008,
-        entidad: this.ticketId
-      });
-      this.listLogs = respuestaLog;
-      console.log(this.listLogs);
-
-      var respuestaCentroCosto = await this.distribucionesService.obtenerCentroCosto(62);
-      this.listCentroCosto = respuestaCentroCosto;
-
+      this.obtenerTicketId(parseInt(valor));
     }
 
     var respuestavalidarCalificacion = await this.distribucionesService.validarCalificacion();
     if (respuestavalidarCalificacion.TipoResultado === 1) {
       if (respuestavalidarCalificacion.Mensaje) this.bootstrapNotifyBarService.notifySuccess('Info Edi!' + respuestavalidarCalificacion.Mensaje);
-    } else {      
-      if (this.ticket==undefined) {
+    } else {
+      if (this.ticket == undefined) {
         this.bloquearTodo = false;
         this.mensajeBloqueo = respuestavalidarCalificacion.Mensaje;
         this.bootstrapNotifyBarService.notifySuccess('Info Edi! ' + respuestavalidarCalificacion.Mensaje);
